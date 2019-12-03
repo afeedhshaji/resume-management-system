@@ -9,9 +9,9 @@ router.post('/register', async (req, res) => {
   }
 
   const user = new User({
+    date: req.body.date,
     name: req.body.name,
     email: req.body.email,
-    date: req.body.date,
     position: req.body.position,
     yearsOfService: req.body.yearsOfService,
     qualification: req.body.qualification,
