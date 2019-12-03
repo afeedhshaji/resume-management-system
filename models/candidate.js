@@ -2,6 +2,11 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema(
   {
+    date: {
+      type: Date,
+      required: true,
+      default: Date.now
+    },
     name: {
       type: String,
       required: true,
@@ -10,7 +15,6 @@ const userSchema = new mongoose.Schema(
     },
     email: {
       type: String,
-      required: true,
       max: 255,
       min: 6,
       match: [
@@ -18,36 +22,25 @@ const userSchema = new mongoose.Schema(
         'Please fill a valid email address'
       ]
     },
-    date: {
-      type: Date,
-      required: true,
-      default: Date.now
-    },
     position: {
       type: String,
-      required: true,
       max: 255,
       min: 6
     },
     yearsOfService: {
-      type: Number,
-      required: true
+      type: Number
     },
     qualification: {
-      type: String,
-      required: true
+      type: String
     },
     candidateRating: {
-      type: Number,
-      required: true
+      type: Number
     },
     salary: {
-      type: Number,
-      required: true
+      type: Number
     },
     phone: {
       type: String,
-      required: true,
       validate: {
         validator: function(v) {
           return /^\d{10}$/.test(v);
@@ -56,8 +49,7 @@ const userSchema = new mongoose.Schema(
       }
     },
     companiesWorked: {
-      type: [String],
-      required: true
+      type: [String]
     },
     skills: {
       type: [String]
@@ -66,7 +58,8 @@ const userSchema = new mongoose.Schema(
       type: [String]
     },
     resumeURL: {
-      type: String
+      type: [String],
+      required: true
     }
   },
   { versionKey: false }
