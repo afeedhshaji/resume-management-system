@@ -9,8 +9,8 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 After sending the post request, the database can be viewed in mongodb using command line or mongodb GUI(Compass app).
 
-Sample json
-'''json
+Sample Json
+```
 {
 	"name": "John Doe",
 	"email": "john.do1e@gmail.com",
@@ -25,7 +25,7 @@ Sample json
 	"interviewFeedback": "Good communication skill and hard working",
 	"resumeURL" : "https: //lycaeum-static.s3.amazonaws.com/media/B170282CS_resume"
 }
-'''
+```
 
 ### To view the mongodb database:
 
