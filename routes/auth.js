@@ -1,19 +1,19 @@
 const router = require('express').Router();
-const User = require('../models/candidate');
+const Candidate = require('../models/candidate');
 
 router.post('/register', async (req, res) => {
-  // Checking if the user exits in DB
-  const emailExist = await User.findOne({ email: req.body.email });
+  // Checking if the candidate exits in DB
+  const emailExist = await Candidate.findOne({ email: req.body.email });
   if (emailExist) {
     return res.status(400).send('Email already exits');
   }
 
-  const user = new User({
+  const candidate = new Candidate({
     date: req.body.date,
     name: req.body.name,
     email: req.body.email,
     position: req.body.position,
-    yearsOfService: req.body.yearsOfService,
+    experience: req.body.experience,
     qualification: req.body.qualification,
     candidateRating: req.body.candidateRating,
     salary: req.body.salary,
@@ -24,9 +24,9 @@ router.post('/register', async (req, res) => {
     resumeURL: req.body.resumeURL
   });
 
-  await user
+  await candidate
     .save()
-    .then(() => res.json(user))
+    .then(() => res.json(candidate))
     .catch(err => res.status(400).json(`Error:${err}`));
 });
 

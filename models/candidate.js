@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema(
+const candidateSchema = new mongoose.Schema(
   {
     date: {
       type: Date,
@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema(
       max: 255,
       min: 6
     },
-    yearsOfService: {
+    experience: {
       type: Number
     },
     qualification: {
@@ -65,4 +65,4 @@ const userSchema = new mongoose.Schema(
   { versionKey: false }
 );
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('Candidate', candidateSchema);

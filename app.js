@@ -30,7 +30,7 @@ app.get('/', function(req, res) {
 // middleware
 app.use(express.json());
 
-const authUser = require('./routes/auth');
-app.use('/api/user', authUser);
+const authCandidate = require('./routes/auth');
+app.use('/api/candidate', authCandidate);
 
 app.listen(5000, () => console.log('Server up and running'));
