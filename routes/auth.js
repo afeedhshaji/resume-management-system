@@ -20,7 +20,8 @@ router.post('/register', async (req, res) => {
     phone: req.body.phone,
     companiesWorked: req.body.companiesWorked,
     skills: req.body.skills,
-    interviewFeedback: req.body.interviewFeedback
+    interviewFeedback: req.body.interviewFeedback,
+    resumeURL: req.body.resumeURL
   });
 
   await user
