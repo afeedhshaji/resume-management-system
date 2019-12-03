@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const Candidate = require('../models/candidate');
+const Postition = require('../models/position');
 
 router.post('/register', async (req, res) => {
   // Checking if the candidate exits in DB
@@ -26,7 +27,21 @@ router.post('/register', async (req, res) => {
 
   await candidate
     .save()
-    .then(() => res.json(candidate))
+    .then(async function(){
+
+      //Checking and inserting into position collection
+      var position = candidate['position'];
+      positionExist = await Postition.findOne({position : position});
+      console.log(positionExist)
+      if (!positionExist) {
+        const pos = new Postition({
+          position : position
+        });
+        pos.save();
+      }
+
+      res.json(candidate)
+      })
     .catch(err => res.status(400).json(`Error:${err}`));
 });
 
