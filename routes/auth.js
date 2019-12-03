@@ -32,7 +32,6 @@ router.post('/register', async (req, res) => {
       //Checking and inserting into position collection
       var position = candidate['position'];
       positionExist = await Postition.findOne({position : position});
-      console.log(positionExist)
       if (!positionExist) {
         const pos = new Postition({
           position : position
