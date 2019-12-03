@@ -9,9 +9,9 @@ router.post('/register', async (req, res) => {
   }
 
   const user = new User({
+    date: req.body.date,
     name: req.body.name,
     email: req.body.email,
-    date: req.body.date,
     position: req.body.position,
     yearsOfService: req.body.yearsOfService,
     qualification: req.body.qualification,
@@ -20,7 +20,8 @@ router.post('/register', async (req, res) => {
     phone: req.body.phone,
     companiesWorked: req.body.companiesWorked,
     skills: req.body.skills,
-    interviewFeedback: req.body.interviewFeedback
+    interviewFeedback: req.body.interviewFeedback,
+    resumeURL: req.body.resumeURL,
   });
   try {
     const savedUser = await user.save();
