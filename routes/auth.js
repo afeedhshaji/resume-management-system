@@ -2,7 +2,7 @@ const router = require('express').Router();
 const User = require('../models/candidate');
 
 router.post('/register', async (req, res) => {
-  // Checing if the user exits in DB
+  // Checking if the user exits in DB
   const emailExist = await User.findOne({ email: req.body.email });
   if (emailExist) {
     return res.status(400).send('Email already exits');

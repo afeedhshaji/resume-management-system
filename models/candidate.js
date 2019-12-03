@@ -12,11 +12,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
       max: 255,
-      min: 6
-      // match: [
-      //   /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-      //   'Please fill a valid email address'
-      // ]
+      min: 6,
+      match: [
+        /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+        'Please fill a valid email address'
+      ]
     },
     date: {
       type: Date,
@@ -47,13 +47,13 @@ const userSchema = new mongoose.Schema(
     },
     phone: {
       type: String,
-      required: true
-      // validate: {
-      //   validator: function(v) {
-      //     return /^\d{10}$/.test(v);
-      //   },
-      //   message: 'Provided phone number is not a valid phone number!'
-      // }
+      required: true,
+      validate: {
+        validator: function(v) {
+          return /^\d{10}$/.test(v);
+        },
+        message: 'Provided phone number is not a valid phone number!'
+      }
     },
     companiesWorked: {
       type: [String],
