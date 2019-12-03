@@ -31,11 +31,11 @@ router.post('/register', async (req, res) => {
 });
 
 router.get('/autocomplete/', function(req, res, next) {
-  // const regex = new RegExp(req.query['term'], 'i');
+  const regex = new RegExp(req.query['term'], 'i');
   console.log('entered');
   const userFilter = Candidate.find({ email: 'aba' }, { name: 1 }).limit(20);
   userFilter.exec(function(err, data) {
-    console.data();
+    console.log(data);
     const result = [];
     if (!err) {
       if (data && data.length && data.length > 0) {
