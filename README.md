@@ -12,7 +12,7 @@ After sending the post request, the database can be viewed in mongodb using comm
 ### To view the mongodb database:
 
 #### Bash (Commandline):
-`$mongo`<br />
-`$use resume-system`<br />
-`$show tables`<br />
+$`mongo`<br />
+$`use resume-system`<br />
+$`show tables`<br />
 
