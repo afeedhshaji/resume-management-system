@@ -22,12 +22,11 @@ router.post('/register', async (req, res) => {
     skills: req.body.skills,
     interviewFeedback: req.body.interviewFeedback
   });
-  try {
-    const savedUser = await user.save();
-    res.send(savedUser);
-  } catch (err) {
-    res.status(400).send(err);
-  }
+
+  await user
+    .save()
+    .then(() => res.json(user))
+    .catch(err => res.status(400).json(`Error:${err}`));
 });
 
 module.exports = router;

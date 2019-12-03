@@ -64,6 +64,9 @@ const userSchema = new mongoose.Schema(
     },
     interviewFeedback: {
       type: [String]
+    },
+    resumeURL: {
+      type: String
     }
   },
   { versionKey: false }
