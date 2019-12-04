@@ -2,7 +2,7 @@
 - `npm install`
 - `npm start` to run dev server
 
-Open [http://localhost:5000](http://localhost:5000) to view it in the browser.
+Open [http://localhost:8000](http://localhost:8000) to view it in the browser.
 
 ### Postman
 - Post `localhost:5000/api/candidate/register` a sample json data in Postman
