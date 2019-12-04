@@ -1,7 +1,7 @@
 {
   "server": {
     "host": "localhost",
-    "port": 3036
+    "port": 3035
   },
   "db": {
     "driver": "file",
