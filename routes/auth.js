@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Candidate = require('../models/candidate');
 const Postition = require('../models/position');
+const { registerValidation } = require('../validation/validation');
 
 // index page
 router.get('/', (req, res) => {
@@ -9,6 +10,19 @@ router.get('/', (req, res) => {
 
 router.post('/register', async (req, res) => {
   console.log('entered');
+  const { error } = registerValidation(req.body);
+  if (error) {
+    if (error.details[0].message.includes('phone')) {
+      return res.render('insert_users', {
+        success: '',
+        error: 'Phone number is invalid'
+      });
+    }
+    return res.render('insert_users', {
+      success: '',
+      error: 'error.details[0].message'
+    });
+  }
   // Checking if the candidate exits in DB
   const emailExist = await Candidate.findOne({ email: req.body.email });
   if (emailExist) {
