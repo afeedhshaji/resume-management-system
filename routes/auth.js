@@ -2,12 +2,32 @@ const router = require('express').Router();
 const Candidate = require('../models/candidate');
 const Postition = require('../models/position');
 
+// index page
+router.get('/', (req, res) => {
+  res.render('insert_users', { success: '' });
+});
+
 router.post('/register', async (req, res) => {
+  console.log('entered');
   // Checking if the candidate exits in DB
   const emailExist = await Candidate.findOne({ email: req.body.email });
   if (emailExist) {
     return res.status(400).send('Email already exits');
   }
+
+  // console.log(req.body.date);
+  // console.log(req.body.name);
+  // console.log(req.body.email);
+  // console.log(req.body.position);
+  // console.log(req.body.experience);
+  // console.log(req.body.qualification);
+  // console.log(req.body.candidateRating);
+  // console.log(req.body.salary);
+  // console.log(req.body.phone);
+  // console.log(req.body.companiesWorked);
+  // console.log(req.body.skills);
+  // console.log(req.body.interviewFeedback);
+  // console.log(req.body.resumeURL);
 
   const candidate = new Candidate({
     date: req.body.date,
@@ -37,32 +57,13 @@ router.post('/register', async (req, res) => {
         });
         pos.save();
       }
-      res.json(candidate);
+      // res.json(candidate);
+      // res.render('index');
+      return res.render('insert_users', {
+        success: 'Record inserted successfully'
+      });
     })
     .catch(err => res.status(400).json(`Error:${err}`));
-});
-
-router.get('/autocomplete/', function(req, res, next) {
-  const regex = new RegExp(req.query['term'], 'i');
-  console.log('entered');
-  const userFilter = Candidate.find({ email: regex }, { email: 1 }).limit(20);
-  userFilter.exec(function(err, data) {
-    console.log(data);
-    const result = [];
-    if (!err) {
-      if (data && data.length && data.length > 0) {
-        data.forEach(user => {
-          const obj = {
-            id: user._id,
-            label: user.email
-          };
-          result.push(obj);
-        });
-      }
-      console.log(result);
-      res.jsonp(result);
-    }
-  });
 });
 
 router.get('/list', function(req, res) {

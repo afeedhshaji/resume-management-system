@@ -23,17 +23,17 @@ mongoose
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
-
-// index page
-app.get('/', function(req, res) {
-  res.render('index');
-});
+app.use(express.static(path.join(__dirname, 'public')));
 
 // middleware
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 const authCandidate = require('./routes/auth');
 app.use('/api/candidate', authCandidate);
+
+const autocomplete = require('./routes/autocomplete');
+app.use('/api', autocomplete);
 
 // Start server to listen to the port
 app.listen(config.get('server.port'), () => {
