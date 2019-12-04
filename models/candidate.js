@@ -25,7 +25,8 @@ const candidateSchema = new mongoose.Schema(
     position: {
       type: String,
       max: 255,
-      min: 6
+      min: 6,
+      lowercase: true
     },
     experience: {
       type: Number
