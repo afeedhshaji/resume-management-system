@@ -1,8 +1,14 @@
-### Setup:
-- `npm install`
-- `npm start` to run dev server
+### Step 1 - Node Modules
 
-Open [http://localhost:8000](http://localhost:8000) to view it in the browser.
+The first thing you need to do to get this app working is to install the Node modules with the following command:
+
+    npm install
+
+### Step 2 - Running the App
+
+    npm start
+
+it will start the Node back end server at http://localhost:3035, with Nodemon, so that updates happen automatically on save. 
 
 ### Postman
 - Post `localhost:5000/api/candidate/register` a sample json data in Postman
