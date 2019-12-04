@@ -12,6 +12,8 @@
     "class-methods-use-this": "off",
     "consistent-return": "warn",
     "no-underscore-dangle": "off",
-    "dot-notation": "off"
+    "dot-notation": "off",
+    "camelcase": "warn",
+    "no-restricted-syntax": "off"
   }
 }

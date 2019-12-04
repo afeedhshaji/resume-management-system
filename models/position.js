@@ -5,6 +5,7 @@ const positionSchema = new mongoose.Schema(
     position: {
       type: String,
       required: true,
+      lowercase : true,
       max: 255,
       index: true
     }

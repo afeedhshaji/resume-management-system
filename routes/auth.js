@@ -1,15 +1,18 @@
 const router = require('express').Router();
 const Candidate = require('../models/candidate');
-const Postition = require('../models/position');
+const Position = require('../models/position');
+const Skills = require('../models/skills');
 const { registerValidation } = require('../validation/validation');
 
 // index page
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   res.render('insert_users', { success: '', error: '' });
 });
 
 router.post('/register', async (req, res) => {
   console.log('entered');
+
+  // Check validation of phone, email
   const { error } = registerValidation(req.body);
   if (error) {
     if (error.details[0].message.includes('phone')) {
@@ -52,16 +55,30 @@ router.post('/register', async (req, res) => {
     .save()
     .then(async function() {
       // Checking and inserting into position collection
-      const Position = candidate['position'];
-      const positionExist = await Postition.findOne({ position: Position });
+      const candidate_position = candidate['position'].toLowerCase();
+      const positionExist = await Position.findOne({
+        position: candidate_position
+      });
       if (!positionExist) {
-        const pos = new Postition({
-          position: Position
+        const pos = new Position({
+          position: candidate_position
         });
         pos.save();
       }
-      // res.json(candidate);
-      // res.render('index');
+
+      const candidate_skills = candidate['skills'];
+      let skill;
+      for (skill of candidate_skills) {
+        const skill_to_insert = skill.toLowerCase();
+        const skillsExist = Skills.findOne({ skill: skill_to_insert });
+        if (!skillsExist) {
+          const new_skill = new Skills({
+            skill: skill_to_insert
+          });
+          new_skill.save();
+        }
+      }
+
       return res.render('insert_users', {
         success: 'Record inserted successfully',
         error: ''
