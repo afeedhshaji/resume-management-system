@@ -14,6 +14,11 @@ It will start the Node back end server at http://localhost:3035, with Nodemon, s
 
     http://localhost:3035/api/candidate/
     
+### Other api end points
+
+To view all the users : 
+
+    http://localhost:3035/api/candidate/list [GET]
 
 ### Mongodb (Bash):
 `mongo`<br />
