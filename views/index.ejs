@@ -28,15 +28,6 @@
       crossorigin="anonymous"
     ></script>
 
-    <style>
-      /* .main {
-        width: 500px;
-        display: flex;
-        align-items: center !important;
-        justify-content: center !important;
-      } */
-    </style>
-
     <title>Index Page</title>
   </head>
   <body>
@@ -79,7 +70,7 @@
               type: 'GET',
               data: req,
               success: function(data) {
-                console.log(data);
+                res(data);
               },
               error: function(err) {
                 console.log(err.status);

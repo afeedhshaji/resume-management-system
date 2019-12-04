@@ -27,20 +27,18 @@ router.post('/register', async (req, res) => {
 
   await candidate
     .save()
-    .then(async function(){
-
-      //Checking and inserting into position collection
-      var position = candidate['position'];
-      positionExist = await Postition.findOne({position : position});
+    .then(async function() {
+      // Checking and inserting into position collection
+      const Position = candidate['position'];
+      const positionExist = await Postition.findOne({ position: Position });
       if (!positionExist) {
         const pos = new Postition({
-          position : position
+          position: Position
         });
         pos.save();
       }
-
-      res.json(candidate)
-      })
+      res.json(candidate);
+    })
     .catch(err => res.status(400).json(`Error:${err}`));
 });
 
@@ -68,8 +66,6 @@ router.get('/autocomplete/', function(req, res, next) {
 });
 
 router.get('/list', function(req, res) {
-  const regex = new RegExp('s', 'i');
-
   const userFilter = Candidate.find({}).limit(20);
   userFilter.exec(function(err, data) {
     console.log(data.length);
