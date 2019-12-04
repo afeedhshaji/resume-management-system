@@ -8,7 +8,7 @@ The first thing you need to do to get this app working is to install the Node mo
 
     npm start
 
-it will start the Node back end server at http://localhost:3035, with Nodemon, so that updates happen automatically on save. 
+It will start the Node back end server at http://localhost:3035, with Nodemon, so that updates happen automatically on save. 
 
 ### Postman
 - Post `localhost:5000/api/candidate/register` a sample json data in Postman
