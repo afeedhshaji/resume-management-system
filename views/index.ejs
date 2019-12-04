@@ -41,7 +41,7 @@
   </head>
   <body>
     <main class="main col-md-4 centered ">
-      <form action="/search/" method="post">
+      <form>
         <div class="form-group ">
           <label for="exampleInputEmail1">Resume Skills</label>
           <input
@@ -74,7 +74,7 @@
         $('#search-skills').autocomplete({
           source: function(req, res) {
             $.ajax({
-              url: 'autocomplete/',
+              url: 'api/candidate/autocomplete/',
               dataType: 'jsonp',
               type: 'GET',
               data: req,
