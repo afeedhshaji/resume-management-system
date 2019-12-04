@@ -9,7 +9,6 @@ router.get('/', (req, res) => {
 });
 
 router.post('/register', async (req, res) => {
-  console.log('entered');
   // Checking if the candidate exits in DB
   const emailExist = await Candidate.findOne({ email: req.body.email });
   if (emailExist) {
@@ -39,7 +38,7 @@ router.post('/register', async (req, res) => {
     .save()
     .then(async function() {
       // Checking and inserting into position collection
-      const candidate_position = candidate['position'];
+      const candidate_position = candidate['position'].toLowerCase();
       const positionExist = await Position.findOne({ position: candidate_position });
       if (!positionExist) {
         const pos = new Position({
@@ -49,17 +48,19 @@ router.post('/register', async (req, res) => {
       }
 
       const candidate_skills = candidate['skills'];
+      var skill;
       for (skill of candidate_skills){
-        
+        var skill_to_insert = skill.toLowerCase();
+        const skillsExist = await Skills.findOne({ skill: skill_to_insert});
+        if (!skillsExist) {
+
+          const new_skill = new Skills({
+            skill: skill_to_insert
+          });
+          new_skill.save();
+        }
       }
 
-      const skillsExist = await Skills.findOne({ skill: candidate_position });
-      if (!positionExist) {
-        const pos = new Position({
-          position: candidate_position
-        });
-        pos.save();
-      }
       // res.json(candidate);
       // res.render('index');
       return res.render('insert_users', {
