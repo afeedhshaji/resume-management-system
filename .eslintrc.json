@@ -11,6 +11,7 @@
     "object-shorthand": "off",
     "class-methods-use-this": "off",
     "consistent-return": "warn",
-    "no-underscore-dangle": "off"
+    "no-underscore-dangle": "off",
+    "dot-notation": "off"
   }
 }
