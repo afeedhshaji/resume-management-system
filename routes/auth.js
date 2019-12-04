@@ -47,6 +47,7 @@ router.get('/autocomplete/', function(req, res, next) {
           result.push(obj);
         });
       }
+      console.log(result);
       res.jsonp(result);
     }
   });

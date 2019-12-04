@@ -78,7 +78,9 @@
               dataType: 'jsonp',
               type: 'GET',
               data: req,
-              success: function(data) {},
+              success: function(data) {
+                console.log(data);
+              },
               error: function(err) {
                 console.log(err.status);
               }
