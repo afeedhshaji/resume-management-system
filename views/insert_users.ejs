@@ -27,7 +27,7 @@
 <body>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-sm-12 col-md-8 col-lg-4">
+            <div class="col-sm-12 col-md-8 col-lg-6">
                 <div class="col-sm-12 form-legend">
                     <h2>Register new candidate</h2>
                 </div>
@@ -36,6 +36,12 @@
                         <% if(success !=''){%>
                         <div class="alert alert-success">
                             <strong>Success!</strong> <%= success %>
+                        </div>
+                        <% } %>
+
+                        <% if(error !=''){%>
+                        <div class="alert alert-danger">
+                            <strong>Error!</strong> <%= error %>
                         </div>
                         <% } %>
 
