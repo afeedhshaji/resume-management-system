@@ -23,7 +23,7 @@ router.post('/register', async (req, res) => {
     }
     return res.render('insert_users', {
       success: '',
-      error: 'error.details[0].message'
+      error: error.details[0].message
     });
   }
   // Checking if the candidate exits in DB
@@ -66,11 +66,12 @@ router.post('/register', async (req, res) => {
         pos.save();
       }
 
+      // Checking and inserting into skills collection
       const candidate_skills = candidate['skills'];
-      let skill;
+      var skill;
       for (skill of candidate_skills) {
         const skill_to_insert = skill.toLowerCase();
-        const skillsExist = Skills.findOne({ skill: skill_to_insert });
+        const skillsExist = await Skills.findOne({ skill: skill_to_insert });
         if (!skillsExist) {
           const new_skill = new Skills({
             skill: skill_to_insert
