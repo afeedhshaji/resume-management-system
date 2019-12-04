@@ -12,7 +12,7 @@ It will start the Node back end server at http://localhost:3035, with Nodemon, s
 
 ### Candidate registration form
 
-    http://localhost:3036/api/candidate/
+    http://localhost:3035/api/candidate/
     
 
 #### Mongodb (Bash):
