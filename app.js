@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 
+const config = require('config');
+
 const path = require('path');
 
 const mongoose = require('mongoose');
@@ -18,10 +20,6 @@ mongoose
   .then(() => console.log('Now connected to MongoDB!'))
   .catch(err => console.error(`Something went wrong ${err}`));
 
-app.get('/', function(req, res) {
-  res.render('index', { title: 'Home Page' });
-});
-
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
@@ -37,4 +35,11 @@ app.use(express.json());
 const authCandidate = require('./routes/auth');
 app.use('/api/candidate', authCandidate);
 
-app.listen(8000, () => console.log('Server up and running'));
+// Start server to listen to the port
+app.listen(config.get('server.port'), () => {
+  console.log(
+    `[Server running on ${config.get('server.host')}:${config.get(
+      'server.port'
+    )}]`
+  );
+});
