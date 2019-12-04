@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const Candidate = require('../models/candidate');
-const Postition = require('../models/position');
+const Position = require('../models/position');
+const Skills = require('../models/skills');
 
 // index page
 router.get('/', (req, res) => {
@@ -49,11 +50,24 @@ router.post('/register', async (req, res) => {
     .save()
     .then(async function() {
       // Checking and inserting into position collection
-      const Position = candidate['position'];
-      const positionExist = await Postition.findOne({ position: Position });
+      const candidate_position = candidate['position'];
+      const positionExist = await Position.findOne({ position: candidate_position });
       if (!positionExist) {
-        const pos = new Postition({
-          position: Position
+        const pos = new Position({
+          position: candidate_position
+        });
+        pos.save();
+      }
+
+      const candidate_skills = candidate['skills'];
+      for (skill of candidate_skills){
+        
+      }
+
+      const skillsExist = await Skills.findOne({ skill: candidate_position });
+      if (!positionExist) {
+        const pos = new Position({
+          position: candidate_position
         });
         pos.save();
       }
