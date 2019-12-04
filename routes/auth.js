@@ -33,7 +33,7 @@ router.post('/register', async (req, res) => {
 router.get('/autocomplete/', function(req, res, next) {
   const regex = new RegExp(req.query['term'], 'i');
   console.log('entered');
-  const userFilter = Candidate.find({ email: regex }, { name: 1 }).limit(20);
+  const userFilter = Candidate.find({ email: regex }, { email: 1 }).limit(20);
   userFilter.exec(function(err, data) {
     console.log(data);
     const result = [];
@@ -42,7 +42,7 @@ router.get('/autocomplete/', function(req, res, next) {
         data.forEach(user => {
           const obj = {
             id: user._id,
-            label: user.name
+            label: user.email
           };
           result.push(obj);
         });
