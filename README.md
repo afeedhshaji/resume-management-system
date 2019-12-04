@@ -11,7 +11,7 @@ The first thing you need to do to get this app working is to install the Node mo
 It will start the Node back end server at http://localhost:3035, with Nodemon, so that updates happen automatically on save. 
 
 ### Postman
-- Post `localhost:5000/api/candidate/register` a sample json data in Postman
+- Post `localhost:3035/api/candidate/register` a sample json data in Postman
 
 After sending the post request, the database can be viewed in mongodb using command line or mongodb GUI(Compass app).
 
