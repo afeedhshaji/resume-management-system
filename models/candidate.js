@@ -53,7 +53,8 @@ const candidateSchema = new mongoose.Schema(
       type: [String]
     },
     skills: {
-      type: [String]
+      type: [String],
+      lowercase: true
     },
     interviewFeedback: {
       type: [String]

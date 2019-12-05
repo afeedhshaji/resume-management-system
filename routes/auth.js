@@ -39,14 +39,14 @@ router.post('/register', async (req, res) => {
     date: req.body.date,
     name: req.body.name,
     email: req.body.email,
-    position: req.body.position,
+    position: req.body.position.toLowerCase(),
     experience: req.body.experience,
     qualification: req.body.qualification,
     candidateRating: req.body.candidateRating,
     salary: req.body.salary,
     phone: req.body.phone,
     companiesWorked: req.body.companiesWorked,
-    skills: req.body.skills,
+    skills: req.body.skills.map(function(x){ return x.toLowerCase() }),
     interviewFeedback: req.body.interviewFeedback,
     resumeURL: req.body.resumeURL
   });
@@ -55,7 +55,7 @@ router.post('/register', async (req, res) => {
     .save()
     .then(async function() {
       // Checking and inserting into position collection
-      const candidate_position = candidate['position'].toLowerCase();
+      const candidate_position = candidate['position'];
       const positionExist = await Position.findOne({
         position: candidate_position
       });
@@ -70,11 +70,10 @@ router.post('/register', async (req, res) => {
       const candidate_skills = candidate['skills'];
       let skill;
       for (skill of candidate_skills) {
-        const skill_to_insert = skill.toLowerCase();
-        const skillsExist = await Skills.findOne({ skill: skill_to_insert });
+        const skillsExist = await Skills.findOne({ skill: skill });
         if (!skillsExist) {
           const new_skill = new Skills({
-            skill: skill_to_insert
+            skill: skill
           });
           new_skill.save();
         }
