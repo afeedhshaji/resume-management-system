@@ -11,8 +11,6 @@ router.get('/', async (req, res) => {
 
 // Register API
 router.post('/register', async (req, res) => {
-  console.log('entered');
-
   // Check validation of phone, email
   const { error } = registerValidation(req.body);
   if (error) {
@@ -36,12 +34,13 @@ router.post('/register', async (req, res) => {
     });
   }
 
-  // Convert skills to lower case
-  const skills = req.body.skills.split(',').map(item => {
+  // Convert skills to lower case after splitting string into array(delimiter - comma)
+  const skills_array = req.body.skills.split(',').map(item => {
     return item.trim().toLowerCase();
   });
-  console.log(skills);
-  req.body.skills = skills;
+
+  //Splitting companies worked string into array(delimiter - comma)
+  const companiesWorked_array = req.body.companiesWorked.split(',')
 
   const candidate = new Candidate({
     date: req.body.date,
@@ -53,8 +52,8 @@ router.post('/register', async (req, res) => {
     candidateRating: req.body.candidateRating,
     salary: req.body.salary,
     phone: req.body.phone,
-    companiesWorked: req.body.companiesWorked,
-    skills: req.body.skills,
+    companiesWorked: companiesWorked_array,
+    skills: skills_array,
     interviewFeedback: req.body.interviewFeedback,
     resumeURL: req.body.resumeURL
   });
@@ -123,79 +122,8 @@ router.get('/edit/:id', async (req, res) => {
   });
 });
 
-// Update API
-router.post('/update', async (req, res) => {
-  const update = Candidate.findByIdAndUpdate(req.body.id, {
-    date: req.body.date,
-    name: req.body.name,
-    email: req.body.email,
-    position: req.body.position.toLowerCase(),
-    experience: req.body.experience,
-    qualification: req.body.qualification,
-    candidateRating: req.body.candidateRating,
-    salary: req.body.salary,
-    phone: req.body.phone,
-    companiesWorked: req.body.companiesWorked,
-    skills: req.body.skills,
-    interviewFeedback: req.body.interviewFeedback,
-    resumeURL: req.body.resumeURL
-  });
-  update.exec((err, data) => {
-    if (err) throw err;
-    res.redirect('/api/candidate/list');
-  });
-});
 
-router.get('/list/autocomplete/position', function(req, res, next) {
-  console.log('entered');
-  const regex = new RegExp(req.query['term'], 'i');
-  console.log('entered');
-  const userFilter = Position.find({ position: regex }, { position: 1 }).limit(
-    20
-  );
-  userFilter.exec(function(err, data) {
-    console.log(data);
-    const result = [];
-    if (!err) {
-      if (data && data.length && data.length > 0) {
-        data.forEach(user => {
-          const obj = {
-            id: user._id,
-            label: user.position
-          };
-          result.push(obj);
-        });
-      }
-      console.log(result);
-      res.jsonp(result);
-    }
-  });
-});
-
-router.get('/list/autocomplete/skills', function(req, res, next) {
-  console.log('entered');
-  const regex = new RegExp(req.query['term'], 'i');
-  console.log('entered');
-  const userFilter = Skills.find({ skill: regex }, { skill: 1 }).limit(20);
-  userFilter.exec(function(err, data) {
-    console.log(data);
-    const result = [];
-    if (!err) {
-      if (data && data.length && data.length > 0) {
-        data.forEach(user => {
-          const obj = {
-            id: user._id,
-            label: user.skill
-          };
-          result.push(obj);
-        });
-      }
-      console.log(result);
-      res.jsonp(result);
-    }
-  });
-});
-
+//Search-Filter API
 router.post('/search', function(req, res, next) {
   const fltrPosition = req.body.fltrposition;
   const fltrSkill = req.body.fltrskill;

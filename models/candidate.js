@@ -47,10 +47,10 @@ const candidateSchema = new mongoose.Schema(
       lowercase: true
     },
     interviewFeedback: {
-      type: [String]
+      type: String
     },
     resumeURL: {
-      type: [String],
+      type: String,
       required: true
     }
   },
