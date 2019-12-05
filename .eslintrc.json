@@ -14,6 +14,7 @@
     "no-underscore-dangle": "off",
     "dot-notation": "off",
     "camelcase": "warn",
-    "no-restricted-syntax": "off"
+    "no-restricted-syntax": "off",
+    "no-await-in-loop": "warn"
   }
 }
