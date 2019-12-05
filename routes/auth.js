@@ -118,7 +118,7 @@ router.get('/edit/:id', async (req, res) => {
   const edit = Candidate.findById(id);
   edit.exec((err, data) => {
     if (err) throw err;
-    res.render('edit', { records: data });
+    res.render('edit', { records: data, success: '', error: ''});
   });
 });
 

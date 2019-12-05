@@ -8,8 +8,15 @@ const { registerValidation } = require('../validation/validation');
 //Update API
 router.post('/update', function (req, res) {
   Candidate.findById(req.body.candidate_id, async function(err, candidate) {
+    id = req.body.candidate_id;
+    let current_record = await Candidate.findById(id);
+
     if (err){
-      res.send(err);
+      return res.render('edit', {
+        records: current_record,
+        success: '',
+        error: err
+      });
     }
 
     // Check validation of phone, email
@@ -17,11 +24,13 @@ router.post('/update', function (req, res) {
     if (error) {
       if (error.details[0].message.includes('phone')) {
         return res.render('edit', {
+          records: current_record,
           success: '',
           error: 'Phone number is invalid'
         });
       }
       return res.render('edit', {
+        records: current_record,
         success: '',
         error: error.details[0].message
       });
@@ -30,6 +39,7 @@ router.post('/update', function (req, res) {
     if (req.body.name==""){
       //Issue : Error code ??
       return res.render('edit', {
+        records: current_record,
         success: '',
         error: 'Name cannot be blank'
       });
@@ -93,8 +103,13 @@ router.post('/update', function (req, res) {
 
     // save the candidate
     candidate.save(function(err) {
-      if (err) res.send(err);
-      // res.json({ message: 'Candidate updated!' });
+      if (err){
+        return res.render('edit', {
+          records: current_record,
+          success: '',
+          error: err.message
+        });
+      }
       res.redirect('/api/candidate/list');
     });
   });
