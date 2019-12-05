@@ -16,7 +16,7 @@ router.put('/update', function (req, res) {
     candidate.save(function(err){
       if (err)
         res.send(err);
-      res.json({ message: 'Bear updated!' });
+      res.json({ message: 'Candidate updated!' });
     });
   });
 });
