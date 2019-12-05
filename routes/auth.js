@@ -9,7 +9,7 @@ router.get('/', async (req, res) => {
   res.render('insert_users', { success: '', error: '' });
 });
 
-//Register API
+// Register API
 router.post('/register', async (req, res) => {
   console.log('entered');
 
@@ -36,6 +36,13 @@ router.post('/register', async (req, res) => {
     });
   }
 
+  // Convert skills to lower case
+  const skills = req.body.skills.split(',').map(item => {
+    return item.trim().toLowerCase();
+  });
+  console.log(skills);
+  req.body.skills = skills;
+
   const candidate = new Candidate({
     date: req.body.date,
     name: req.body.name,
@@ -47,7 +54,7 @@ router.post('/register', async (req, res) => {
     salary: req.body.salary,
     phone: req.body.phone,
     companiesWorked: req.body.companiesWorked,
-    skills: req.body.skills.map(function(x){ return x.toLowerCase() }),
+    skills: req.body.skills,
     interviewFeedback: req.body.interviewFeedback,
     resumeURL: req.body.resumeURL
   });
@@ -69,10 +76,7 @@ router.post('/register', async (req, res) => {
 
       // Checking and inserting into skills collection
       const candidate_skills = candidate['skills'];
-      const skills = candidate_skills[0].split(',').map(item => {
-        return item.trim();
-      });
-      skills.forEach(async skill => {
+      candidate_skills.forEach(async skill => {
         const skillsExist = await Skills.findOne({ skill: skill });
         if (!skillsExist) {
           const new_skill = new Skills({
@@ -90,7 +94,7 @@ router.post('/register', async (req, res) => {
     .catch(err => res.status(400).json(`Error:${err}`));
 });
 
-//View candidates
+// View candidates
 router.get('/list', (req, res) => {
   const userFilter = Candidate.find({});
   userFilter.exec((err, data) => {
@@ -99,8 +103,7 @@ router.get('/list', (req, res) => {
   });
 });
 
-
-//Delete API
+// Delete API
 router.get('/delete/:id', async (req, res) => {
   const { id } = req.params;
   const del = Candidate.findByIdAndDelete(id);
