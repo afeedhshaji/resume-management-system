@@ -125,24 +125,28 @@ router.get('/edit/:id', async (req, res) => {
 //Search-Filter API
 router.post('/search', function(req, res, next) {
   const fltrPosition = req.body.fltrposition;
-  const fltrSkill = req.body.fltrskill;
+
+  //Assuming skill is comma separated without space
+  const fltrSkill = req.body.fltrskill.split(',');
   let flterParameter;
 
   if (fltrPosition === '') {
     flterParameter = {
-      skill: fltrSkill
+      skills: { $all : fltrSkill }
     };
-  } else if (fltrSkill === '') {
+  } else if (fltrSkill[0] === '') {
+    //Issue : This works only if there are no preceding or trailing commas
     flterParameter = {
       position: fltrPosition
     };
   } else {
     flterParameter = {
-      skill: fltrSkill,
+      skills: { $all : fltrSkill },
       position: fltrPosition
     };
   }
 
+  console.log(flterParameter)
   const candidateFilter = Candidate.find(flterParameter);
   candidateFilter.exec(function(err, data) {
     if (err) throw err;
