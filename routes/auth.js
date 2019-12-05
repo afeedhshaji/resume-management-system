@@ -68,7 +68,7 @@ router.post('/register', async (req, res) => {
 
       // Checking and inserting into skills collection
       const candidate_skills = candidate['skills'];
-      var skill;
+      let skill;
       for (skill of candidate_skills) {
         const skill_to_insert = skill.toLowerCase();
         const skillsExist = await Skills.findOne({ skill: skill_to_insert });
