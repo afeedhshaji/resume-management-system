@@ -27,69 +27,74 @@
 
 <body>
     <div class="list col-md-12">
-        <div class="row row-list">
-            <table class="table table-striped" id="list-candidates">
-                <thead class="thead-dark">
-                    <tr>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Date</th>
-                        <th>Position</th>
-                        <th>Experience</th>
-                        <th>Qualification</th>
-                        <th>Candidate Rating</th>
-                        <th>Salary</th>
-                        <th>Phone</th>
-                        <th>Companies Worked</th>
-                        <th>Skills</th>
-                        <th>Interview Feedback</th>
-                        <th>Resume URL</th>
-                        <th>Edit/Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <%if (records.length >0){ %>
-                    <% records.forEach(function(row){ %>
-
-                    <tr>
-                        <td><%= row.name %></td>
-                        <td><%= row.email %></td>
-                        <td><%= row.date %></td>
-                        <td><%= row.position %></td>
-                        <td><%= row.experience %></td>
-                        <td><%= row.qualification %></td>
-                        <td><%= row.candidateRating %></td>
-                        <td><%= row.salary %></td>
-                        <td><%= row.phone %></td>
-                        <td><%= row.companiesWorked %></td>
-                        <td><%= row.skills %></td>
-                        <td><%= row.interviewFeedback %></td>
-                        <td><%= row.resumeURL %></td>
-                        <td><a class="btn btn-primary btn-sm" href="/api/candidate/edit/<%= row._id %>"><i
-                                    class="fa fa-edit"></i></a>
-                            <a class="btn btn-danger btn-sm" href="/api/candidate/delete/<%= row._id %>"><i
-                                    class="fa fa-trash"></i></a>
-                        </td>
-                    </tr>
-                    <% })}else{ %>
-                    <tr>
-                        <td colspan="6">No Record Found</td>
-
-                    </tr>
-                    <% } %>
-                </tbody>
-            </table>
+        <div class="row heading-row">
+            <h1>Candidate Details</h1>
         </div>
-    </div>
-    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#list-candidates').DataTable();
-        });
-    </script>
-    <script>
-    </script>
+        <div class="row row-list">
+            <div class="container">
+
+                <table class="table table-striped" id="list-candidates">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Date</th>
+                            <th>Position</th>
+                            <th>Experience</th>
+                            <th>Qualification</th>
+                            <th>Candidate Rating</th>
+                            <th>Salary</th>
+                            <th>Phone</th>
+                            <th>Companies Worked</th>
+                            <th>Skills</th>
+                            <th>Interview Feedback</th>
+                            <th>Resume URL</th>
+                            <th>Edit/Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%if (records.length >0){ %>
+                        <% records.forEach(function(row){ %>
+
+                        <tr>
+                            <td><%= row.name %></td>
+                            <td><%= row.email %></td>
+                            <td><%= row.date %></td>
+                            <td><%= row.position %></td>
+                            <td><%= row.experience %></td>
+                            <td><%= row.qualification %></td>
+                            <td><%= row.candidateRating %></td>
+                            <td><%= row.salary %></td>
+                            <td><%= row.phone %></td>
+                            <td><%= row.companiesWorked %></td>
+                            <td><%= row.skills %></td>
+                            <td><%= row.interviewFeedback %></td>
+                            <td><%= row.resumeURL %></td>
+                            <td><a class="btn btn-primary btn-sm" href="/api/candidate/edit/<%= row._id %>"><i
+                                        class="fa fa-edit"></i></a>
+                                <a class="btn btn-danger btn-sm" href="/api/candidate/delete/<%= row._id %>"><i
+                                        class="fa fa-trash"></i></a>
+                            </td>
+                        </tr>
+                        <% })}else{ %>
+                        <tr>
+                            <td colspan="6">No Record Found</td>
+
+                        </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+        <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                $('#list-candidates').DataTable();
+            });
+        </script>
+        <script>
+        </script>
 </body>
 
 </html>

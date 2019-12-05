@@ -31,16 +31,9 @@ a {
   display: flex !important;
   justify-content: flex-end !important;
 }
-.row {
-  /* width: 100%; */
+.heading-row {
   justify-content: center !important;
   padding-top: 20px;
-  padding-bottom: 20px;
-}
-
-.list {
-  /* width: 100% !important; */
-  /* padding: 20px !important; */
 }
 
 .row-list {
