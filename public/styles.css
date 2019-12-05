@@ -30,3 +30,8 @@ a {
 .row-list {
   width: auto !important;
 }
+
+.fa-edit,
+.fa-delete {
+  font-size: 15px !important;
+}
