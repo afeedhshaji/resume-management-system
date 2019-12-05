@@ -9,6 +9,7 @@ router.get('/', async (req, res) => {
   res.render('insert_users', { success: '', error: '' });
 });
 
+//Register API
 router.post('/register', async (req, res) => {
   console.log('entered');
 
@@ -89,6 +90,7 @@ router.post('/register', async (req, res) => {
     .catch(err => res.status(400).json(`Error:${err}`));
 });
 
+//View candidates
 router.get('/list', (req, res) => {
   const userFilter = Candidate.find({});
   userFilter.exec((err, data) => {
@@ -97,6 +99,8 @@ router.get('/list', (req, res) => {
   });
 });
 
+
+//Delete API
 router.get('/delete/:id', async (req, res) => {
   const { id } = req.params;
   const del = Candidate.findByIdAndDelete(id);

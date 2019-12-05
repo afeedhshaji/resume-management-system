@@ -3,6 +3,7 @@ const Candidate = require('../models/candidate');
 const Position = require('../models/position');
 const Skills = require('../models/skills');
 
+//Update API
 router.put('/update', function (req, res) {
   Candidate.findById(req.body.candidate_id, async function(err, candidate) {
     if (err){
@@ -20,7 +21,6 @@ router.put('/update', function (req, res) {
     let candidate_position_new = req.body.position.toLowerCase();
     if (candidate_position_new){
       if (candidate_position_present != candidate_position_new) {
-        console.log("inp")
         const positionExist = await Position.findOne({
           position: candidate_position_new
         });
@@ -42,7 +42,6 @@ router.put('/update', function (req, res) {
       let skill;
       for (skill of candidate_skills_new) {
         if (!candidate_skills_present.includes(skill)){
-          console.log("ins")
           const skillsExist = await Skills.findOne({ skill: skill });
           if (!skillsExist) {
             const new_skill = new Skills({
