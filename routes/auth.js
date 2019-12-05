@@ -68,7 +68,7 @@ router.post('/register', async (req, res) => {
 
       // Checking and inserting into skills collection
       const candidate_skills = candidate['skills'];
-      const skills = candidate_skills[0].split(',').map(function(item) {
+      const skills = candidate_skills[0].split(',').map(item => {
         return item.trim();
       });
       skills.forEach(async skill => {
