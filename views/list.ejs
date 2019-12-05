@@ -35,13 +35,14 @@
             <h1>Filter Candidate Details</h1>
 
             <div class="col-lg-12">
-                <form action="/search/" id="EmployeeForm" class="form-horizontal" method="post" role="form">
+                <form action="/api/candidate/search" id="EmployeeForm" class="form-horizontal" method="post"
+                    role="form">
 
                     <div class="col-lg-3">
                         <div class="form-group">
                             <label for="name" class="col-md-12 control-label">By Position</label>
                             <div class="col-md-12">
-                                <input type="text" id="search-position" class="form-control" name="fltrname"
+                                <input type="text" id="search-position" class="form-control" name="fltrposition"
                                     placeholder="Position">
                             </div>
                         </div>
@@ -50,7 +51,7 @@
                         <div class="form-group">
                             <label for="email" class="col-md-12 control-label">By Skill</label>
                             <div class="col-md-12">
-                                <input type="text" class="form-control" name="fltremail" id="search-skills"
+                                <input type="text" class="form-control" name="fltrskill" id="search-skills"
                                     placeholder="Enter Skill">
                             </div>
                         </div>

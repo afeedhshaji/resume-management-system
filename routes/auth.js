@@ -196,4 +196,31 @@ router.get('/list/autocomplete/skills', function(req, res, next) {
   });
 });
 
+router.post('/search/', function(req, res, next) {
+  const fltrPosition = req.body.fltrposition;
+  const fltrSkill = req.body.fltrskill;
+  let flterParameter;
+
+  if (fltrPosition === '') {
+    flterParameter = {
+      skill: fltrSkill
+    };
+  } else if (fltrSkill === '') {
+    flterParameter = {
+      position: fltrPosition
+    };
+  } else {
+    flterParameter = {
+      skill: fltrSkill,
+      position: fltrPosition
+    };
+  }
+
+  const candidateFilter = Candidate.find(flterParameter);
+  candidateFilter.exec(function(err, data) {
+    if (err) throw err;
+    res.render('list', { records: data });
+  });
+});
+
 module.exports = router;
