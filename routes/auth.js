@@ -99,4 +99,13 @@ router.get('/list', (req, res) => {
   });
 });
 
+router.get('/delete/:id', async (req, res) => {
+  const { id } = req.params;
+  const del = Candidate.findByIdAndDelete(id);
+  del.exec(err => {
+    if (err) throw err;
+    res.redirect('/api/candidate/list');
+  });
+});
+
 module.exports = router;
