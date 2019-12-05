@@ -54,7 +54,6 @@ router.put('/update', function (req, res) {
       }
     }
 
-
     //Update candidate info here except date, resume-url
     candidate.name = req.body.name;
     candidate.email = req.body.email;
@@ -69,9 +68,8 @@ router.put('/update', function (req, res) {
     candidate.interviewFeedback = req.body.interviewFeedback;
 
     // save the candidate
-    candidate.save(function(err){
-      if (err)
-        res.send(err);
+    candidate.save(function(err) {
+      if (err) res.send(err);
       res.json({ message: 'Candidate updated!' });
     });
   });

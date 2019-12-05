@@ -68,8 +68,10 @@ router.post('/register', async (req, res) => {
 
       // Checking and inserting into skills collection
       const candidate_skills = candidate['skills'];
-      let skill;
-      for (skill of candidate_skills) {
+      const skills = candidate_skills[0].split(',').map(item => {
+        return item.trim();
+      });
+      skills.forEach(async skill => {
         const skillsExist = await Skills.findOne({ skill: skill });
         if (!skillsExist) {
           const new_skill = new Skills({
@@ -77,7 +79,7 @@ router.post('/register', async (req, res) => {
           });
           new_skill.save();
         }
-      }
+      });
 
       return res.render('insert_users', {
         success: 'Record inserted successfully',
@@ -87,23 +89,11 @@ router.post('/register', async (req, res) => {
     .catch(err => res.status(400).json(`Error:${err}`));
 });
 
-router.get('/list', function(req, res) {
-  const userFilter = Candidate.find({}).limit(20);
-  userFilter.exec(function(err, data) {
-    console.log(data.length);
-    const result = [];
-    if (!err) {
-      if (data && data.length && data.length > 0) {
-        data.forEach(user => {
-          const obj = {
-            id: user._id,
-            label: user.email
-          };
-          result.push(obj);
-        });
-      }
-      res.json(result);
-    }
+router.get('/list', (req, res) => {
+  const userFilter = Candidate.find({});
+  userFilter.exec((err, data) => {
+    if (err) throw err;
+    res.render('list', { records: data });
   });
 });
 
