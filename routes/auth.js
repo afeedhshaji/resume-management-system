@@ -196,7 +196,7 @@ router.get('/list/autocomplete/skills', function(req, res, next) {
   });
 });
 
-router.post('/search/', function(req, res, next) {
+router.post('/search', function(req, res, next) {
   const fltrPosition = req.body.fltrposition;
   const fltrSkill = req.body.fltrskill;
   let flterParameter;
