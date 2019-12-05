@@ -17,20 +17,7 @@ a {
   justify-content: center;
   padding: 50px 0px 50px 0px;
 }
-#list-candidates_wrapper {
-  padding-left: 30px !important;
-  padding-right: 30px !important;
-  width: 90vw !important;
-}
 
-.dataTables_length {
-  display: flex !important;
-  justify-content: flex-start !important;
-}
-.dataTables_filter {
-  display: flex !important;
-  justify-content: flex-end !important;
-}
 .heading-row {
   justify-content: center !important;
   padding-top: 20px;
