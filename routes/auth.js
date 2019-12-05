@@ -43,7 +43,6 @@ router.post('/register', async (req, res) => {
   const companiesWorked_array = req.body.companiesWorked.split(',')
 
   const candidate = new Candidate({
-    date: req.body.date,
     name: req.body.name,
     email: req.body.email,
     position: req.body.position.toLowerCase(),
