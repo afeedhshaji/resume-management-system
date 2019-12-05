@@ -32,9 +32,6 @@ app.use(express.urlencoded({ extended: false }));
 const authCandidate = require('./routes/auth');
 app.use('/api/candidate', authCandidate);
 
-const autocomplete = require('./routes/autocomplete');
-app.use('/api', autocomplete);
-
 // Start server to listen to the port
 app.listen(config.get('server.port'), () => {
   console.log(

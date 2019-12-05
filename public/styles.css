@@ -35,3 +35,10 @@ a {
 .fa-delete {
   font-size: 15px !important;
 }
+
+.form-horizontal {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: center;
+  padding: 40px;
+}
