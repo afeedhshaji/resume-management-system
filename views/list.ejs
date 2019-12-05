@@ -26,9 +26,8 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="row">
-            <!-- <h1><%= title %></h1> -->
+    <div class="list">
+        <div class="row row-list">
             <table class="table table-striped table-primary">
                 <thead>
                     <tr>
@@ -64,8 +63,9 @@
                         <td><%= row.skills %></td>
                         <td><%= row.interviewFeedback %></td>
                         <td><%= row.resumeURL %></td>
-                        <td><a class="btn btn-primary btn-xs" href="/edit/<%= row._id %>"><i class="fa fa-edit"></i></a>
-                            <a class="btn btn-danger btn-xs" href="/delete/<%= row._id %>"><i
+                        <td><a class="btn btn-primary btn-xs" href="/api/candidate/edit/<%= row._id %>"><i
+                                    class="fa fa-edit"></i></a>
+                            <a class="btn btn-danger btn-xs" href="/api/candidate/delete/<%= row._id %>"><i
                                     class="fa fa-trash"></i></a>
                         </td>
                     </tr>
