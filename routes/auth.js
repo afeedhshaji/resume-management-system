@@ -113,4 +113,37 @@ router.get('/delete/:id', async (req, res) => {
   });
 });
 
+// Edit API
+router.get('/edit/:id', async (req, res) => {
+  const { id } = req.params;
+  const edit = Candidate.findById(id);
+  edit.exec((err, data) => {
+    if (err) throw err;
+    res.render('edit', { records: data });
+  });
+});
+
+// Update API
+router.post('/update', async (req, res) => {
+  const update = Candidate.findByIdAndUpdate(req.body.id, {
+    date: req.body.date,
+    name: req.body.name,
+    email: req.body.email,
+    position: req.body.position.toLowerCase(),
+    experience: req.body.experience,
+    qualification: req.body.qualification,
+    candidateRating: req.body.candidateRating,
+    salary: req.body.salary,
+    phone: req.body.phone,
+    companiesWorked: req.body.companiesWorked,
+    skills: req.body.skills,
+    interviewFeedback: req.body.interviewFeedback,
+    resumeURL: req.body.resumeURL
+  });
+  update.exec((err, data) => {
+    if (err) throw err;
+    res.redirect('/api/candidate/list');
+  });
+});
+
 module.exports = router;

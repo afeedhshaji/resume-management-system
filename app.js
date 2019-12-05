@@ -35,9 +35,6 @@ app.use('/api/candidate', authCandidate);
 const autocomplete = require('./routes/autocomplete');
 app.use('/api', autocomplete);
 
-const update = require('./routes/update');
-app.use('/api/candidate', update);
-
 // Start server to listen to the port
 app.listen(config.get('server.port'), () => {
   console.log(

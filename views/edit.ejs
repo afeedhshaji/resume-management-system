@@ -22,6 +22,7 @@
 
     <title>Regsiter</title>
 
+
 </head>
 
 <body>
@@ -29,76 +30,81 @@
         <div class="row justify-content-center form-row">
             <div class="col-sm-12 col-md-8 col-lg-6">
                 <div class="col-sm-12 form-legend">
-                    <h2>Register new candidate</h2>
+                    <h2>Edit Employee</h2>
                 </div>
                 <div class="col-sm-12 form-column">
-                    <form action="/api/candidate/register" id="reg_form" method="post">
-                        <% if(success !=''){%>
-                        <div class="alert alert-success">
-                            <strong>Success!</strong> <%= success %>
+                    <form action="/api/candidate/update" id="reg_form" method="post">
+                        <input type="hidden" name="id" value="<%= records._id %>">
+                        <div id="signupalert" style="display:none" class="alert alert-danger">
+                            <p>Error:</p>
+                            <span></span>
                         </div>
-                        <% } %>
-
-                        <% if(error !=''){%>
-                        <div class="alert alert-danger">
-                            <strong>Error!</strong> <%= error %>
-                        </div>
-                        <% } %>
 
                         <div class="form-group">
                             <label for="date">Date</label>
-                            <input type="text" id="date" name="date" class="form-control">
+                            <input type="text" id="date" name="date" class="form-control" value="<%= records.date %>">
                         </div>
 
                         <div class="form-group">
                             <label for="name">Name</label>
-                            <input type="text" id="name" name="name" class="form-control">
+                            <input type="text" id="name" name="name" class="form-control" value="<%= records.name %>">
                         </div>
 
                         <div class="form-group">
                             <label for="email">Email</label>
-                            <input type="text" id="email" name="email" class="form-control">
+                            <input type="text" id="email" name="email" class="form-control"
+                                value="<%= records.email %>">
                         </div>
 
                         <div class="form-group">
                             <label for="position">Position</label>
-                            <input type="text" id="position" name="position" class="form-control">
+                            <input type="text" id="position" name="position" class="form-control"
+                                value="<%= records.position %>">
                         </div>
                         <div class="form-group">
                             <label for="experience">Experience</label>
-                            <input type="text" id="experience" name="experience" class="form-control">
+                            <input type="text" id="experience" name="experience" class="form-control"
+                                value="<%= records.experience %>">
                         </div>
                         <div class="form-group">
                             <label for="qualification">Qualification</label>
-                            <input type="text" id="qualification" name="qualification" class="form-control">
+                            <input type="text" id="qualification" name="qualification" class="form-control"
+                                value="<%= records.qualification %>">
                         </div>
                         <div class="form-group">
                             <label for="candidateRating">Candidate Rating</label>
-                            <input type="text" id="candidateRating" name="candidateRating" class="form-control">
+                            <input type="text" id="candidateRating" name="candidateRating" class="form-control"
+                                value="<%= records.candidateRating %>">
                         </div>
                         <div class="form-group">
                             <label for="salarys">Salary</label>
-                            <input type="text" id="salary" name="salary" class="form-control">
+                            <input type="text" id="salary" name="salary" class="form-control"
+                                value="<%= records.salary %>">
                         </div>
                         <div class="form-group">
                             <label for="phone">Phone</label>
-                            <input type="text" id="phone" name="phone" class="form-control">
+                            <input type="text" id="phone" name="phone" class="form-control"
+                                value="<%= records.phone %>">
                         </div>
                         <div class="form-group">
                             <label for="companiesWorked">Companies Worked</label>
-                            <input type="text" id="companiesWorked" name="companiesWorked" class="form-control">
+                            <input type="text" id="companiesWorked" name="companiesWorked" class="form-control"
+                                value="<%= records.companiesWorked %>">
                         </div>
                         <div class="form-group">
                             <label for="skills">Skills</label>
-                            <input type="text" id="skills" name="skills" class="form-control">
+                            <input type="text" id="skills" name="skills" class="form-control"
+                                value="<%= records.skills %>">
                         </div>
                         <div class="form-group">
                             <label for="interviewFeedback">Interview Feedback</label>
-                            <input type="text" id="interviewFeedback" name="interviewFeedback" class="form-control">
+                            <input type="text" value="<%= records.interviewFeedback %>" id="interviewFeedback"
+                                name="interviewFeedback" class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="resumeURL">Resume URL</label>
-                            <input type="text" id="resumeURL" name="resumeURL" class="form-control">
+                            <input type="text" id="resumeURL" name="resumeURL" value="<%= records.resumeURL %>"
+                                class="form-control">
                         </div>
                         <input type="submit" value="Register" class="btn btn-primary">
                     </form>
