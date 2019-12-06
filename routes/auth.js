@@ -39,8 +39,12 @@ router.post('/register', async (req, res) => {
     return item.trim().toLowerCase();
   });
 
-  //Splitting companies worked string into array(delimiter - comma)
-  const companiesWorked_array = req.body.companiesWorked.split(',');
+  // Splitting companies worked string into array(delimiter - comma)
+  const companiesWorked_array = req.body.companiesWorked
+    .split(',')
+    .map(item => {
+      return item.trim();
+    });
 
   const candidate = new Candidate({
     name: req.body.name,
@@ -131,11 +135,14 @@ router.post('/search', function(req, res, next) {
   });
   let flterParameter;
 
-  if (fltrPosition === '') {
+  if (fltrPosition === '' && req.body.fltrskill === '') {
+    console.log('search all');
+    flterParameter = {};
+  } else if (fltrPosition === '' && req.body.fltrskill !== '') {
     flterParameter = {
       skills: { $all: fltrSkill }
     };
-  } else if (fltrSkill[0] === '') {
+  } else if (req.body.fltrskill === '' && fltrPosition !== '') {
     // Issue : This works only if there are no preceding or trailing commas
     flterParameter = {
       position: fltrPosition
@@ -151,7 +158,8 @@ router.post('/search', function(req, res, next) {
   const candidateFilter = Candidate.find(flterParameter);
   candidateFilter.exec(function(err, data) {
     if (err) throw err;
-    res.render('list', { records: data });
+    if (data.length > 0) res.render('list', { records: data });
+    // else res.redirect('list');
   });
 });
 

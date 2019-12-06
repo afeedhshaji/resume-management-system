@@ -147,7 +147,7 @@
             $('#search-position').autocomplete({
                 source: function (req, res) {
                     $.ajax({
-                        url: 'list/autocomplete/position',
+                        url: '/api/candidate/list/autocomplete/position',
                         dataType: 'jsonp',
                         type: 'GET',
                         data: req,
@@ -172,7 +172,7 @@
             $('#search-skills').autocomplete({
                 source: function (req, res) {
                     $.ajax({
-                        url: 'list/autocomplete/skills',
+                        url: '/api/candidate/list/autocomplete/position',
                         dataType: 'jsonp',
                         type: 'GET',
                         data: req,
