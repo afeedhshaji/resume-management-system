@@ -35,7 +35,7 @@ router.post('/register', async (req, res) => {
   }
 
   // Convert skills to lower case after splitting string into array(delimiter - comma)
-  const skills_array = req.body.skills.split(',').map(item => {
+  const skills_array = req.body.skills.map(item => {
     return item.trim().toLowerCase();
   });
 

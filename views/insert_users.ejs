@@ -9,6 +9,7 @@
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
         integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
 
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -83,9 +84,15 @@
                             <label for="companiesWorked">Companies Worked</label>
                             <input type="text" id="companiesWorked" name="companiesWorked" class="form-control">
                         </div>
-                        <div class="form-group">
+                        <div class="skills-form-group form-group">
                             <label for="skills">Skills</label>
-                            <input type="text" id="skills" name="skills" class="form-control">
+
+                            <div class="skills-entry"> <input class="form-control" name="skills" type="text" />
+                                <span class="input-group-btn">
+                                    <button class="btn btn-success btn-add" type="button">
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                    </button>
+                                </span></div>
                         </div>
                         <div class="form-group">
                             <label for="interviewFeedback">Interview Feedback</label>
@@ -100,6 +107,28 @@
                 </div>
             </div>
         </div>
+        <script>
+            $(document).ready(function () {
+                $(document).on('click', '.btn-add', function (e) {
+                    e.preventDefault();
+
+                    var controlForm = $('.skills-form-group:first'),
+                        currentEntry = $(this).parents('.skills-entry:first'),
+                        newEntry = $(currentEntry.clone()).appendTo(controlForm);
+
+                    newEntry.find('input').val('');
+                    controlForm.find('.skills-entry:not(:last) .btn-add')
+                        .removeClass('btn-add').addClass('btn-remove')
+                        .removeClass('btn-success').addClass('btn-danger')
+                        .html('<i class="fa fa-minus" aria-hidden="true"></i>');
+                }).on('click', '.btn-remove', function (e) {
+                    $(this).parents('.skills-entry:first').remove();
+
+                    e.preventDefault();
+                    return false;
+                });
+            });
+        </script>
 </body>
 
 </html>

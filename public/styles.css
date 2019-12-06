@@ -41,3 +41,16 @@ a {
   justify-content: center;
   padding: 40px;
 }
+
+.skills-entry {
+  display: flex;
+  flex-direction: row;
+}
+
+.btn-add {
+  margin-left: 5px;
+}
+
+.skills-entry {
+  margin-top: 10px;
+}
