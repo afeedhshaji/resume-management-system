@@ -35,6 +35,13 @@
             <h1>Filter Candidate Details</h1>
 
             <div class="col-lg-12">
+                <div class="col-lg-6 mx-auto">
+                    <% if(error !=''){%>
+                    <div class="alert alert-danger">
+                        <strong>Error!</strong> <%= error %>
+                    </div>
+                    <% } %>
+                </div>
                 <form action="/api/candidate/search" id="EmployeeForm" class="form-horizontal" method="post"
                     role="form">
 
@@ -147,7 +154,7 @@
             $('#search-position').autocomplete({
                 source: function (req, res) {
                     $.ajax({
-                        url: 'list/autocomplete/position',
+                        url: '/api/candidate/list/autocomplete/position',
                         dataType: 'jsonp',
                         type: 'GET',
                         data: req,
@@ -172,7 +179,7 @@
             $('#search-skills').autocomplete({
                 source: function (req, res) {
                     $.ajax({
-                        url: 'list/autocomplete/skills',
+                        url: '/api/candidate/list/autocomplete/skills',
                         dataType: 'jsonp',
                         type: 'GET',
                         data: req,
