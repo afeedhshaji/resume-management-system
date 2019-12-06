@@ -48,8 +48,9 @@ router.post('/update', function (req, res) {
 
     //Checking and inserting into positions collection --  only if old position is modified
     let candidate_position_present = candidate.position;
-    let candidate_position_new = req.body.position.toLowerCase();
+    let candidate_position_new = req.body.position;
     if (candidate_position_new){
+      candidate_position_new = candidate_position_new.toLowerCase();
       if (candidate_position_present != candidate_position_new) {
         const positionExist = await Position.findOne({
           position: candidate_position_new
@@ -65,17 +66,16 @@ router.post('/update', function (req, res) {
 
     // Checking and inserting into skills collection --only if skills array has been modified
     let candidate_skills_present = candidate.skills;
-    let candidate_skills_new;
+    let candidate_skills_new = req.body.skills;
 
-    if (typeof req.body.skills === 'object') {
-      candidate_skills_new = req.body.skills.map(item => {
-        return item.trim().toLowerCase();
-      });
-    } else {
-      candidate_skills_new = [req.body.skills.trim().toLowerCase()];
-    }
-
-    if (candidate_skills_new){
+    if(candidate_skills_new){
+      if (typeof candidate_skills_new === 'object') {
+        candidate_skills_new = candidate_skills_new.map(item => {
+          return item.trim().toLowerCase();
+        }).filter(Boolean);
+      } else {
+        candidate_skills_new = [candidate_skills_new.trim().toLowerCase()].filter(Boolean);
+      }
       let skill;
       for (skill of candidate_skills_new) {
         if (!candidate_skills_present.includes(skill)){
@@ -92,15 +92,17 @@ router.post('/update', function (req, res) {
 
 
     //Processing companiesWorkedArray
-    let companiesWorkedArray;
-    if (typeof req.body.companiesWorked === 'object') {
-      companiesWorkedArray = req.body.companiesWorked.map(item => {
-        return item.trim();
-      });
-    } else {
-      companiesWorkedArray = req.body.companiesWorked.trim();
-    }
+    let companiesWorkedArray = req.body.companiesWorked;
+    if (companiesWorkedArray){
+      if (typeof companiesWorkedArray === 'object') {
+        companiesWorkedArray = companiesWorkedArray.map(item => {
+          return item.trim();
+        });
+      } else {
+        companiesWorkedArray = companiesWorkedArray.trim();
+      }
 
+    }
 
     //Update candidate info here except date, resume-url
     candidate.name = req.body.name;
