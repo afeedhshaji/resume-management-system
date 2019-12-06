@@ -72,7 +72,7 @@ router.post('/update', function (req, res) {
         return item.trim().toLowerCase();
       });
     } else {
-      candidate_skills_new = req.body.skills.trim().toLowerCase();
+      candidate_skills_new = [req.body.skills.trim().toLowerCase()];
     }
 
     if (candidate_skills_new){
