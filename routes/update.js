@@ -97,9 +97,9 @@ router.post('/update', function (req, res) {
       if (typeof companiesWorkedArray === 'object') {
         companiesWorkedArray = companiesWorkedArray.map(item => {
           return item.trim();
-        });
+        }).filter(Boolean);
       } else {
-        companiesWorkedArray = companiesWorkedArray.trim();
+        companiesWorkedArray = companiesWorkedArray.trim().filter(Boolean);
       }
     }
 

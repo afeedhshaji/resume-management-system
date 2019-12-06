@@ -58,9 +58,9 @@ router.post('/register', async (req, res) => {
     if (typeof req.body.companiesWorked === 'object') {
       companiesWorkedArray = req.body.companiesWorked.map(item => {
         return item.trim();
-      });
+      }).filter(Boolean);
     } else {
-      companiesWorkedArray = req.body.companiesWorked.trim();
+      companiesWorkedArray = req.body.companiesWorked.trim().filter(Boolean);
     }
   }
 
