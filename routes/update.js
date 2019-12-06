@@ -65,13 +65,17 @@ router.post('/update', function (req, res) {
 
     // Checking and inserting into skills collection --only if skills array has been modified
     let candidate_skills_present = candidate.skills;
-    let candidate_skills_new = req.body.skills;
+    let candidate_skills_new;
 
-    if (candidate_skills_new){
-      //Splitting skills string from request body into array(delimiter - comma)
-      candidate_skills_new = candidate_skills_new.split(',').map(item => {
+    if (typeof req.body.skills === 'object') {
+      candidate_skills_new = req.body.skills.map(item => {
         return item.trim().toLowerCase();
       });
+    } else {
+      candidate_skills_new = req.body.skills.trim().toLowerCase();
+    }
+
+    if (candidate_skills_new){
       let skill;
       for (skill of candidate_skills_new) {
         if (!candidate_skills_present.includes(skill)){
@@ -86,6 +90,18 @@ router.post('/update', function (req, res) {
       }
     }
 
+
+    //Processing companiesWorkedArray
+    let companiesWorkedArray;
+    if (typeof req.body.companiesWorked === 'object') {
+      companiesWorkedArray = req.body.companiesWorked.map(item => {
+        return item.trim();
+      });
+    } else {
+      companiesWorkedArray = req.body.companiesWorked.trim();
+    }
+
+
     //Update candidate info here except date, resume-url
     candidate.name = req.body.name;
     candidate.email = req.body.email;
@@ -95,7 +111,7 @@ router.post('/update', function (req, res) {
     candidate.candidateRating = req.body.candidateRating;
     candidate.salary = req.body.salary;
     candidate.phone = req.body.phone;
-    candidate.companiesWorked = req.body.companiesWorked.split(',');
+    candidate.companiesWorked = companiesWorkedArray;
     candidate.skills = candidate_skills_new;
     candidate.interviewFeedback = req.body.interviewFeedback;
 
