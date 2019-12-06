@@ -35,11 +35,13 @@
             <h1>Filter Candidate Details</h1>
 
             <div class="col-lg-12">
-                <% if(error !=''){%>
-                <div class="alert alert-danger">
-                    <strong>Error!</strong> <%= error %>
+                <div class="col-lg-6 mx-auto">
+                    <% if(error !=''){%>
+                    <div class="alert alert-danger">
+                        <strong>Error!</strong> <%= error %>
+                    </div>
+                    <% } %>
                 </div>
-                <% } %>
                 <form action="/api/candidate/search" id="EmployeeForm" class="form-horizontal" method="post"
                     role="form">
 
