@@ -48,8 +48,9 @@ router.post('/update', function (req, res) {
 
     //Checking and inserting into positions collection --  only if old position is modified
     let candidate_position_present = candidate.position;
-    let candidate_position_new = req.body.position.toLowerCase();
+    let candidate_position_new = req.body.position;
     if (candidate_position_new){
+      candidate_position_new = candidate_position_new.toLowerCase();
       if (candidate_position_present != candidate_position_new) {
         const positionExist = await Position.findOne({
           position: candidate_position_new
@@ -67,11 +68,14 @@ router.post('/update', function (req, res) {
     let candidate_skills_present = candidate.skills;
     let candidate_skills_new = req.body.skills;
 
-    if (candidate_skills_new){
-      //Splitting skills string from request body into array(delimiter - comma)
-      candidate_skills_new = candidate_skills_new.split(',').map(item => {
-        return item.trim().toLowerCase();
-      });
+    if(candidate_skills_new){
+      if (typeof candidate_skills_new === 'object') {
+        candidate_skills_new = candidate_skills_new.map(item => {
+          return item.trim().toLowerCase();
+        }).filter(Boolean);
+      } else {
+        candidate_skills_new = [candidate_skills_new.trim().toLowerCase()].filter(Boolean);
+      }
       let skill;
       for (skill of candidate_skills_new) {
         if (!candidate_skills_present.includes(skill)){
@@ -86,6 +90,19 @@ router.post('/update', function (req, res) {
       }
     }
 
+
+    //Processing companiesWorkedArray
+    let companiesWorkedArray = req.body.companiesWorked;
+    if (companiesWorkedArray){
+      if (typeof companiesWorkedArray === 'object') {
+        companiesWorkedArray = companiesWorkedArray.map(item => {
+          return item.trim();
+        }).filter(Boolean);
+      } else {
+        companiesWorkedArray = companiesWorkedArray.trim().filter(Boolean);
+      }
+    }
+
     //Update candidate info here except date, resume-url
     candidate.name = req.body.name;
     candidate.email = req.body.email;
@@ -95,7 +112,7 @@ router.post('/update', function (req, res) {
     candidate.candidateRating = req.body.candidateRating;
     candidate.salary = req.body.salary;
     candidate.phone = req.body.phone;
-    candidate.companiesWorked = req.body.companiesWorked.split(',');
+    candidate.companiesWorked = companiesWorkedArray;
     candidate.skills = candidate_skills_new;
     candidate.interviewFeedback = req.body.interviewFeedback;
 

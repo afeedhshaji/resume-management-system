@@ -34,29 +34,52 @@ router.post('/register', async (req, res) => {
     });
   }
 
-  // Convert skills to lower case after splitting string into array(delimiter - comma)
-  const skills_array = req.body.skills.split(',').map(item => {
-    return item.trim().toLowerCase();
-  });
+  /* One thing to note here is the request we get from input html form maybe array/string (for skills and companies worked).
+  If multiple inputs of the same name send request it will be an array, if only one input
+  with the name send request, it will be a string. Hence the if-else conditions below for
+  "multiple-input-cased" inputs */
 
-  // Splitting companies worked string into array(delimiter - comma)
-  const companiesWorked_array = req.body.companiesWorked
-    .split(',')
-    .map(item => {
-      return item.trim();
-    });
+  let companiesWorkedArray = req.body.companiesWorked;
+  let skillsArray = req.body.skills;
+
+  // For skills
+  if (skillsArray){
+    if (typeof skillsArray === 'object') {
+      skillsArray = skillsArray.map(item => {
+        return item.trim().toLowerCase();
+      }).filter(Boolean);
+    } else {
+      skillsArray = skillsArray.trim().toLowerCase().filter(Boolean);
+    }
+  }
+
+  // For companies worked
+  if (companiesWorkedArray){
+    if (typeof req.body.companiesWorked === 'object') {
+      companiesWorkedArray = req.body.companiesWorked.map(item => {
+        return item.trim();
+      }).filter(Boolean);
+    } else {
+      companiesWorkedArray = req.body.companiesWorked.trim().filter(Boolean);
+    }
+  }
+
+  //For position
+  let position = req.body.position;
+  if(position)
+    position = position.toLowerCase();
 
   const candidate = new Candidate({
     name: req.body.name,
     email: req.body.email,
-    position: req.body.position.toLowerCase(),
+    position: position,
     experience: req.body.experience,
     qualification: req.body.qualification,
     candidateRating: req.body.candidateRating,
     salary: req.body.salary,
     phone: req.body.phone,
-    companiesWorked: companiesWorked_array,
-    skills: skills_array,
+    companiesWorked: companiesWorkedArray,
+    skills: skillsArray,
     interviewFeedback: req.body.interviewFeedback,
     resumeURL: req.body.resumeURL
   });
@@ -66,27 +89,31 @@ router.post('/register', async (req, res) => {
     .then(async function() {
       // Checking and inserting into position collection
       const candidate_position = candidate['position'];
-      const positionExist = await Position.findOne({
-        position: candidate_position
-      });
-      if (!positionExist) {
-        const pos = new Position({
+      if (candidate_position){
+        const positionExist = await Position.findOne({
           position: candidate_position
         });
-        pos.save();
+        if (!positionExist) {
+          const pos = new Position({
+            position: candidate_position
+          });
+          pos.save();
+        }
       }
 
       // Checking and inserting into skills collection
       const candidate_skills = candidate['skills'];
-      candidate_skills.forEach(async skill => {
-        const skillsExist = await Skills.findOne({ skill: skill });
-        if (!skillsExist) {
-          const new_skill = new Skills({
-            skill: skill
-          });
-          new_skill.save();
-        }
-      });
+      if (candidate_skills){
+        candidate_skills.forEach(async skill => {
+          const skillsExist = await Skills.findOne({ skill: skill });
+          if (!skillsExist) {
+            const new_skill = new Skills({
+              skill: skill
+            });
+            new_skill.save();
+          }
+        });
+      }
 
       return res.render('insert_users', {
         success: 'Record inserted successfully',
