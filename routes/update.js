@@ -101,7 +101,6 @@ router.post('/update', function (req, res) {
       } else {
         companiesWorkedArray = companiesWorkedArray.trim();
       }
-
     }
 
     //Update candidate info here except date, resume-url
