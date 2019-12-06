@@ -149,7 +149,7 @@ router.post('/search', function(req, res, next) {
   const candidateFilter = Candidate.find(flterParameter);
   candidateFilter.exec(function(err, data) {
     if (err) throw err;
-    res.redirect('/api/candidate/list');
+    res.render('list', { records: data });
   });
 });
 
