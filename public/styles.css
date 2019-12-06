@@ -42,15 +42,16 @@ a {
   padding: 40px;
 }
 
-.skills-entry {
-  display: flex;
-  flex-direction: row;
-}
-
-.btn-add {
+.add_skills_button,
+.remove_skills,
+.add_companies_button,
+.remove_companies {
   margin-left: 5px;
 }
 
-.skills-entry {
+.skills-entry,
+.companies-entry {
   margin-top: 10px;
+  display: flex;
+  flex-direction: row;
 }

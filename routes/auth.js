@@ -34,17 +34,32 @@ router.post('/register', async (req, res) => {
     });
   }
 
-  // Convert skills to lower case after splitting string into array(delimiter - comma)
-  const skills_array = req.body.skills.map(item => {
-    return item.trim().toLowerCase();
-  });
+  /* One thing to note here is the request we get from input html form maybe array/string (for skills and companies worked). 
+  If multiple inputs of the same name send request it will be an array, if only one input 
+  with the name send request, it will be a string. Hence the if-else conditions below for 
+  "multiple-input-cased" inputs */
 
-  // Splitting companies worked string into array(delimiter - comma)
-  const companiesWorked_array = req.body.companiesWorked
-    .split(',')
-    .map(item => {
+  let companiesWorkedArray;
+  let skillsArray;
+
+  // For skills
+  if (typeof req.body.skills === 'object') {
+    skillsArray = req.body.skills.map(item => {
+      return item.trim().toLowerCase();
+    });
+  } else {
+    skillsArray = req.body.skills.trim().toLowerCase();
+  }
+
+  // For companies worked
+
+  if (typeof req.body.companiesWorked === 'object') {
+    companiesWorkedArray = req.body.companiesWorked.map(item => {
       return item.trim();
     });
+  } else {
+    companiesWorkedArray = req.body.companiesWorked.trim();
+  }
 
   const candidate = new Candidate({
     name: req.body.name,
@@ -55,8 +70,8 @@ router.post('/register', async (req, res) => {
     candidateRating: req.body.candidateRating,
     salary: req.body.salary,
     phone: req.body.phone,
-    companiesWorked: companiesWorked_array,
-    skills: skills_array,
+    companiesWorked: companiesWorkedArray,
+    skills: skillsArray,
     interviewFeedback: req.body.interviewFeedback,
     resumeURL: req.body.resumeURL
   });
