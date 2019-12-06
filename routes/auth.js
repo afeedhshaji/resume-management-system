@@ -101,7 +101,7 @@ router.get('/list', (req, res) => {
   const userFilter = Candidate.find({});
   userFilter.exec((err, data) => {
     if (err) throw err;
-    res.render('list', { records: data });
+    res.render('list', { records: data, error: '' });
   });
 });
 
@@ -158,8 +158,17 @@ router.post('/search', function(req, res, next) {
   const candidateFilter = Candidate.find(flterParameter);
   candidateFilter.exec(function(err, data) {
     if (err) throw err;
-    if (data.length > 0) res.render('list', { records: data });
-    // else res.redirect('list');
+    if (data.length > 0) {
+      res.render('list', { records: data, error: '' });
+      console.log('Printing all list');
+    } else {
+      console.log('Data is empty');
+      const newCandidateFilter = Candidate.find();
+      newCandidateFilter.exec(function(error, result) {
+        if (error) throw error;
+        res.render('list', { records: result, error: 'No records were found' });
+      });
+    }
   });
 });
 
