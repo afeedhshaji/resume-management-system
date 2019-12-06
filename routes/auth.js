@@ -133,26 +133,10 @@ router.post('/search', function(req, res, next) {
   const fltrSkill = req.body.fltrskill.split(',').map(item => {
     return item.trim();
   });
-  let flterParameter;
+  const flterParameter = {};
 
-  if (fltrPosition === '' && req.body.fltrskill === '') {
-    console.log('search all');
-    flterParameter = {};
-  } else if (fltrPosition === '' && req.body.fltrskill !== '') {
-    flterParameter = {
-      skills: { $all: fltrSkill }
-    };
-  } else if (req.body.fltrskill === '' && fltrPosition !== '') {
-    // Issue : This works only if there are no preceding or trailing commas
-    flterParameter = {
-      position: fltrPosition
-    };
-  } else {
-    flterParameter = {
-      skills: { $all: fltrSkill },
-      position: fltrPosition
-    };
-  }
+  if (fltrPosition !== '') flterParameter.position = fltrPosition;
+  if (req.body.fltrskill !== '') flterParameter.skills = { $all: fltrSkill };
 
   console.log(flterParameter);
   const candidateFilter = Candidate.find(flterParameter);
