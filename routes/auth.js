@@ -40,7 +40,7 @@ router.post('/register', async (req, res) => {
   });
 
   //Splitting companies worked string into array(delimiter - comma)
-  const companiesWorked_array = req.body.companiesWorked.split(',')
+  const companiesWorked_array = req.body.companiesWorked.split(',');
 
   const candidate = new Candidate({
     name: req.body.name,
@@ -117,40 +117,39 @@ router.get('/edit/:id', async (req, res) => {
   const edit = Candidate.findById(id);
   edit.exec((err, data) => {
     if (err) throw err;
-    res.render('edit', { records: data, success: '', error: ''});
+    res.render('edit', { records: data, success: '', error: '' });
   });
 });
 
-
-//Search-Filter API
+// Search-Filter API
 router.post('/search', function(req, res, next) {
   const fltrPosition = req.body.fltrposition;
 
-  //Assuming skill is comma separated without space
-  const fltrSkill = req.body.fltrskill.split(',');
+  // Assuming skill is comma separated without space
+  const fltrSkill = req.body.fltrskill.split(',').trim();
   let flterParameter;
 
   if (fltrPosition === '') {
     flterParameter = {
-      skills: { $all : fltrSkill }
+      skills: { $all: fltrSkill }
     };
   } else if (fltrSkill[0] === '') {
-    //Issue : This works only if there are no preceding or trailing commas
+    // Issue : This works only if there are no preceding or trailing commas
     flterParameter = {
       position: fltrPosition
     };
   } else {
     flterParameter = {
-      skills: { $all : fltrSkill },
+      skills: { $all: fltrSkill },
       position: fltrPosition
     };
   }
 
-  console.log(flterParameter)
+  console.log(flterParameter);
   const candidateFilter = Candidate.find(flterParameter);
   candidateFilter.exec(function(err, data) {
     if (err) throw err;
-    res.render('list', { records: data });
+    res.redirect('/api/candidate/list');
   });
 });
 
