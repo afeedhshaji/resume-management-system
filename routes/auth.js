@@ -126,7 +126,9 @@ router.post('/search', function(req, res, next) {
   const fltrPosition = req.body.fltrposition;
 
   // Assuming skill is comma separated without space
-  const fltrSkill = req.body.fltrskill.split(',').trim();
+  const fltrSkill = req.body.fltrskill.split(',').map(item => {
+    return item.trim();
+  });
   let flterParameter;
 
   if (fltrPosition === '') {
