@@ -162,12 +162,19 @@ router.get('/edit/:id', async (req, res) => {
 
 // Search-Filter API
 router.post('/search', function(req, res, next) {
-  const fltrPosition = req.body.fltrposition;
+  let fltrPosition = req.body.fltrposition;
 
-  // Assuming skill is comma separated without space
-  const fltrSkill = req.body.fltrskill.split(',').map(item => {
-    return item.trim();
-  });
+  // Taking skill as array
+  let fltrSkill = req.body.fltrskill;
+  if (typeof fltrSkill === 'object') {
+    fltrSkill = fltrSkill.map(item => {
+      return item.trim().toLowerCase();
+    }).filter(Boolean);
+  } else {
+    fltrSkill = [fltrSkill.trim().toLowerCase()];
+  }
+
+
   const flterParameter = {};
 
   if (fltrPosition !== '') flterParameter.position = fltrPosition;
