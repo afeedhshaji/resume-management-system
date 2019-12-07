@@ -55,13 +55,14 @@
                         </div>
                     </div>
                     <div class="col-lg-3">
-                        <div class="form-group skills_input_fields_wrap">
+                        <div class="form-group skills_input_fields_wrap ">
                             <label for="skills" class="col-md-12 control-label">By Skill</label>
                             <div class="skills-entry col-md-12">
-                              <input type="text" name="fltrskill" class="form-control" id="search-skills" placeholder="Enter Skill">
-                                  <button class="add_skills_button btn btn-success">
-                                      <i class="fa fa-plus"></i>
-                                  </button>
+                                <input type="text" name="fltrskill" class="form-control" id="search-skills"
+                                    placeholder="Enter Skill">
+                                <button class="add_skills_button btn btn-success">
+                                    <i class="fa fa-plus"></i>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -128,29 +129,34 @@
                             <td><%= row.resumeURL %></td>
                             <td><a class="btn btn-primary btn-sm" href="/api/candidate/edit/<%= row._id %>"><i
                                         class="fa fa-edit"></i></a>
-                                <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirmModal<%= row._id %>"><i
-                                        class="fa fa-trash"></i></a>
-                                        <!-- Confirm Delete Modal, id  is made with row_id -->
-                                        <div class="modal fade" id="confirmModal<%= row._id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                          <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                              <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel"><strong>Confirm Deletion</strong></h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                  <span aria-hidden="true">&times;</span>
+                                <a class="btn btn-danger btn-sm" data-toggle="modal"
+                                    data-target="#confirmModal<%= row._id %>"><i class="fa fa-trash"></i></a>
+                                <!-- Confirm Delete Modal, id  is made with row_id -->
+                                <div class="modal fade" id="confirmModal<%= row._id %>" tabindex="-1" role="dialog"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel"><strong>Confirm
+                                                        Deletion</strong></h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
                                                 </button>
-                                              </div>
-                                              <div class="modal-body">
-                                                Delete candidate entry from database.
-                                              </div>
-                                              <div class="modal-footer">
-                                                <a type="button" class="btn btn-secondary" data-dismiss="modal">Close</a>
-                                                <a type="button" class="btn btn-danger" href="/api/candidate/delete/<%= row._id %>">Confirm</a>
-                                              </div>
                                             </div>
-                                          </div>
+                                            <div class="modal-body">
+                                                Delete candidate entry from database.
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</a>
+                                                <a type="button" class="btn btn-danger"
+                                                    href="/api/candidate/delete/<%= row._id %>">Confirm</a>
+                                            </div>
                                         </div>
-                                        <!-- End Confirm Delete Modal -->
+                                    </div>
+                                </div>
+                                <!-- End Confirm Delete Modal -->
                             </td>
                         </tr>
                         <% })}else{ %>
@@ -180,7 +186,7 @@
                     e.preventDefault();
                     if (x < skills_max_fields) { //max input box allowed
                         x++; //text box increment
-                        $(skills_wrapper).append('<div class="skills-entry"><input type="text" name="fltrskill" class="form-control" id="search-skills" placeholder="Enter Skill"/><button class="remove_skills btn btn-danger"><i class="fa fa-minus"></i></button></div>');
+                        $(skills_wrapper).append('<div class="skills-entry col-md-12"><input type="text" name="fltrskill" class="form-control" id="search-skills" placeholder="Enter Skill"/><button class="remove_skills btn btn-danger"><i class="fa fa-minus"></i></button></div>');
 
                         $(skills_wrapper).find('input[type=text]:last').autocomplete({
                             source: function (req, res) {
