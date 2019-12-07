@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const positionSchema = new mongoose.Schema(
+const qualificationSchema = new mongoose.Schema(
   {
-    position: {
+    qualification: {
       type: String,
       required: true,
       lowercase: true,
@@ -13,4 +13,4 @@ const positionSchema = new mongoose.Schema(
   { versionKey: false }
 );
 
-module.exports = mongoose.model('Position', positionSchema);
+module.exports = mongoose.model('Qualification', qualificationSchema);

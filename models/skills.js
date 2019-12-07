@@ -5,7 +5,7 @@ const skillsSchema = new mongoose.Schema(
     skill: {
       type: String,
       required: true,
-      lowercase : true,
+      lowercase: true,
       max: 255,
       index: true
     }
