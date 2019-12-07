@@ -49,8 +49,12 @@ router.post('/register', async (req, res) => {
         return item.trim().toLowerCase();
       }).filter(Boolean);
     } else {
-      skillsArray = skillsArray.trim().toLowerCase().filter(Boolean);
+      skillsArray = [skillsArray.trim().toLowerCase()];
     }
+  }
+  else{
+    //For empty input
+    skillsArray = []
   }
 
   // For companies worked
@@ -60,8 +64,12 @@ router.post('/register', async (req, res) => {
         return item.trim();
       }).filter(Boolean);
     } else {
-      companiesWorkedArray = req.body.companiesWorked.trim().filter(Boolean);
+      companiesWorkedArray = [req.body.companiesWorked.trim()];
     }
+  }
+  else{
+    //For empty input
+    companiesWorkedArray = []
   }
 
   //For position

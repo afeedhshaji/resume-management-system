@@ -74,7 +74,7 @@ router.post('/update', function (req, res) {
           return item.trim().toLowerCase();
         }).filter(Boolean);
       } else {
-        candidate_skills_new = [candidate_skills_new.trim().toLowerCase()].filter(Boolean);
+        candidate_skills_new = [candidate_skills_new.trim().toLowerCase()];
       }
       let skill;
       for (skill of candidate_skills_new) {
@@ -89,6 +89,10 @@ router.post('/update', function (req, res) {
         }
       }
     }
+    else{
+      //For empty input
+      candidate_skills_new = []
+    }
 
 
     //Processing companiesWorkedArray
@@ -99,8 +103,12 @@ router.post('/update', function (req, res) {
           return item.trim();
         }).filter(Boolean);
       } else {
-        companiesWorkedArray = companiesWorkedArray.trim().filter(Boolean);
+        companiesWorkedArray = [companiesWorkedArray.trim()];
       }
+    }
+    else{
+      //For empty input
+      companiesWorkedArray = []
     }
 
     //Update candidate info here except date, resume-url
