@@ -14,12 +14,6 @@ router.post('/register', async (req, res) => {
   // Check validation of phone, email
   const { error } = registerValidation(req.body);
   if (error) {
-    if (error.details[0].message.includes('phone')) {
-      return res.render('insert_users', {
-        success: '',
-        error: 'Phone number is invalid'
-      });
-    }
     return res.render('insert_users', {
       success: '',
       error: error.details[0].message

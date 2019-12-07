@@ -19,16 +19,9 @@ router.post('/update', function (req, res) {
       });
     }
 
-    // Check validation of phone, email
+    // Check validation of email
     const { error } = registerValidation(req.body);
     if (error) {
-      if (error.details[0].message.includes('phone')) {
-        return res.render('edit', {
-          records: current_record,
-          success: '',
-          error: 'Phone number is invalid'
-        });
-      }
       return res.render('edit', {
         records: current_record,
         success: '',
