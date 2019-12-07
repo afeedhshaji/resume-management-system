@@ -37,39 +37,40 @@ router.post('/register', async (req, res) => {
   let skillsArray = req.body.skills;
 
   // For skills
-  if (skillsArray){
+  if (skillsArray) {
     if (typeof skillsArray === 'object') {
-      skillsArray = skillsArray.map(item => {
-        return item.trim().toLowerCase();
-      }).filter(Boolean);
+      skillsArray = skillsArray
+        .map(item => {
+          return item.trim().toLowerCase();
+        })
+        .filter(Boolean);
     } else {
       skillsArray = [skillsArray.trim().toLowerCase()];
     }
-  }
-  else{
+  } else {
     //For empty input
-    skillsArray = []
+    skillsArray = [];
   }
 
   // For companies worked
-  if (companiesWorkedArray){
+  if (companiesWorkedArray) {
     if (typeof req.body.companiesWorked === 'object') {
-      companiesWorkedArray = req.body.companiesWorked.map(item => {
-        return item.trim();
-      }).filter(Boolean);
+      companiesWorkedArray = req.body.companiesWorked
+        .map(item => {
+          return item.trim();
+        })
+        .filter(Boolean);
     } else {
       companiesWorkedArray = [req.body.companiesWorked.trim()];
     }
-  }
-  else{
+  } else {
     //For empty input
-    companiesWorkedArray = []
+    companiesWorkedArray = [];
   }
 
   //For position
   let position = req.body.position;
-  if(position)
-    position = position.toLowerCase();
+  if (position) position = position.toLowerCase();
 
   const candidate = new Candidate({
     name: req.body.name,
@@ -91,7 +92,7 @@ router.post('/register', async (req, res) => {
     .then(async function() {
       // Checking and inserting into position collection
       const candidate_position = candidate['position'];
-      if (candidate_position){
+      if (candidate_position) {
         const positionExist = await Position.findOne({
           position: candidate_position
         });
@@ -105,7 +106,7 @@ router.post('/register', async (req, res) => {
 
       // Checking and inserting into skills collection
       const candidate_skills = candidate['skills'];
-      if (candidate_skills){
+      if (candidate_skills) {
         candidate_skills.forEach(async skill => {
           const skillsExist = await Skills.findOne({ skill: skill });
           if (!skillsExist) {
@@ -156,39 +157,65 @@ router.get('/edit/:id', async (req, res) => {
 
 // Search-Filter API
 router.post('/search', function(req, res, next) {
-  let filterPosition = req.body.filterposition;
+  // console.log(req.body.selectStatus);
+  const filterPosition = req.body.filterposition;
+  const filterName = new RegExp(req.body.filtername, 'i');
+  const filterQualification = new RegExp(req.body.filterqualification, 'i');
 
   // Taking skill as array
   let filterSkill = req.body.filterskill;
   if (typeof filterSkill === 'object') {
-    filterSkill = filterSkill.map(item => {
-      return item.trim().toLowerCase();
-    }).filter(Boolean);
+    filterSkill = filterSkill
+      .map(item => {
+        return item.trim().toLowerCase();
+      })
+      .filter(Boolean);
   } else {
     filterSkill = [filterSkill.trim().toLowerCase()];
   }
 
-  //Taking min and max exerience
-  let filterExp = {}
-  if(req.body.filterExpMin != null && req.body.filterExpMin!='' && req.body.filterExpMin != undefined)
-      filterExp.$gte = req.body.filterExpMin;
-  if(req.body.filterExpMax != null && req.body.filterExpMax!=''&& req.body.filterExpMax != undefined)
-      filterExp.$lte = req.body.filterExpMax;
+  // Taking min and max exerience
+  const filterExp = {};
+  if (
+    req.body.filterExpMin !== null &&
+    req.body.filterExpMin !== '' &&
+    req.body.filterExpMin !== undefined
+  )
+    filterExp.$gte = req.body.filterExpMin;
+  if (
+    req.body.filterExpMax !== null &&
+    req.body.filterExpMax !== '' &&
+    req.body.filterExpMax !== undefined
+  )
+    filterExp.$lte = req.body.filterExpMax;
 
-  //Taking min and max salay
-  let filterSal = {}
-  if(req.body.filterSalMin != null && req.body.filterSalMin!='' && req.body.filterSalMin != undefined)
-      filterSal.$gte = req.body.filterSalMin;
-  if(req.body.filterSalMax != null && req.body.filterSalMax!=''&& req.body.filterSalMax != undefined)
-      filterSal.$lte = req.body.filterSalMax;
-
+  // Taking min and max salay
+  const filterSal = {};
+  if (
+    req.body.filterSalMin !== null &&
+    req.body.filterSalMin !== '' &&
+    req.body.filterSalMin !== undefined
+  )
+    filterSal.$gte = req.body.filterSalMin;
+  if (
+    req.body.filterSalMax !== null &&
+    req.body.filterSalMax !== '' &&
+    req.body.filterSalMax !== undefined
+  )
+    filterSal.$lte = req.body.filterSalMax;
 
   const filterParameter = {};
 
-  if (filterPosition !== '') filterParameter.position = filterPosition;
-  if (req.body.filterskill !== '') filterParameter.skills = { $all: filterSkill };
-  if (Object.entries(filterExp).length !== 0) filterParameter.experience =  filterExp;
-  if (Object.entries(filterSal).length !== 0) filterParameter.salary =  filterSal;
+  if (req.body.filterposition !== '') filterParameter.position = filterPosition;
+  if (req.body.filterskill !== '')
+    filterParameter.skills = { $all: filterSkill };
+  if (Object.entries(filterExp).length !== 0)
+    filterParameter.experience = filterExp;
+  if (Object.entries(filterSal).length !== 0)
+    filterParameter.salary = filterSal;
+  if (req.body.filtername !== '') filterParameter.name = filterName;
+  if (req.body.filterqualification !== '')
+    filterParameter.qualification = filterQualification;
 
   console.log(filterParameter);
   const candidateFilter = Candidate.find(filterParameter);
