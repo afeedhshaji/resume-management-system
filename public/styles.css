@@ -62,5 +62,5 @@ td {
 
 .btn-secondary,
 .fa-trash {
-  color: white;
+  color: white !important;
 }
