@@ -59,3 +59,8 @@ a {
 td {
   word-break: break-all;
 }
+
+.btn-secondary,
+.fa-trash {
+  color: white;
+}
