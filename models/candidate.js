@@ -25,7 +25,8 @@ const candidateSchema = new mongoose.Schema(
       lowercase: true
     },
     experience: {
-      type: Number
+      type: Number,
+      default : 0
     },
     qualification: {
       type: String
@@ -34,7 +35,8 @@ const candidateSchema = new mongoose.Schema(
       type: Number
     },
     salary: {
-      type: Number
+      type: Number,
+      default:0
     },
     phone: {
       type: String
