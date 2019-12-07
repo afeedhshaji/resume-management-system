@@ -2,6 +2,7 @@ const router = require('express').Router();
 const Candidate = require('../models/candidate');
 const Position = require('../models/position');
 const Skills = require('../models/skills');
+const Qualification = require('../models/qualification');
 const { registerValidation } = require('../validation/validation');
 
 // index page
@@ -12,13 +13,13 @@ router.get('/', async (req, res) => {
 // Register API
 router.post('/register', async (req, res) => {
   // Check validation of phone, email
-  const { error } = registerValidation(req.body);
-  if (error) {
-    return res.render('insert_users', {
-      success: '',
-      error: error.details[0].message
-    });
-  }
+  // const { error } = registerValidation(req.body);
+  // if (error) {
+  //   return res.render('insert_users', {
+  //     success: '',
+  //     error: error.details[0].message
+  //   });
+  // }
   // Checking if the candidate exits in DB
   const emailExist = await Candidate.findOne({ email: req.body.email });
   if (emailExist) {
@@ -48,7 +49,7 @@ router.post('/register', async (req, res) => {
       skillsArray = [skillsArray.trim().toLowerCase()];
     }
   } else {
-    //For empty input
+    // For empty input
     skillsArray = [];
   }
 
@@ -64,20 +65,24 @@ router.post('/register', async (req, res) => {
       companiesWorkedArray = [req.body.companiesWorked.trim()];
     }
   } else {
-    //For empty input
+    // For empty input
     companiesWorkedArray = [];
   }
 
-  //For position
-  let position = req.body.position;
+  // For position
+  let { position } = req.body;
   if (position) position = position.toLowerCase();
+
+  // For Qualification
+  let { qualification } = req.body;
+  if (qualification) qualification = qualification.toLowerCase();
 
   const candidate = new Candidate({
     name: req.body.name,
     email: req.body.email,
     position: position,
     experience: req.body.experience,
-    qualification: req.body.qualification,
+    qualification: qualification,
     candidateRating: req.body.candidateRating,
     salary: req.body.salary,
     phone: req.body.phone,
@@ -91,23 +96,23 @@ router.post('/register', async (req, res) => {
     .save()
     .then(async function() {
       // Checking and inserting into position collection
-      const candidate_position = candidate['position'];
-      if (candidate_position) {
+      const candidatePosition = candidate['position'];
+      if (candidatePosition) {
         const positionExist = await Position.findOne({
-          position: candidate_position
+          position: candidatePosition
         });
         if (!positionExist) {
           const pos = new Position({
-            position: candidate_position
+            position: candidatePosition
           });
           pos.save();
         }
       }
 
       // Checking and inserting into skills collection
-      const candidate_skills = candidate['skills'];
-      if (candidate_skills) {
-        candidate_skills.forEach(async skill => {
+      const candidateSkills = candidate['skills'];
+      if (candidateSkills) {
+        candidateSkills.forEach(async skill => {
           const skillsExist = await Skills.findOne({ skill: skill });
           if (!skillsExist) {
             const new_skill = new Skills({
@@ -116,6 +121,20 @@ router.post('/register', async (req, res) => {
             new_skill.save();
           }
         });
+      }
+
+      // Checking and inserting into qualification collection
+      const candidate_qualification = candidate['qualification'];
+      if (candidate_qualification) {
+        const qualificationExist = await Qualification.findOne({
+          qualification: candidate_qualification
+        });
+        if (!qualificationExist) {
+          const new_qualification = new Qualification({
+            qualification: candidate_qualification
+          });
+          new_qualification.save();
+        }
       }
 
       return res.render('insert_users', {
