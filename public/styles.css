@@ -50,7 +50,9 @@ a {
 }
 
 .skills-entry,
-.companies-entry {
+.companies-entry,
+.sal-entry,
+.exp-entry {
   margin-top: 10px;
   display: flex;
   flex-direction: row;
