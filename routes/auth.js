@@ -162,26 +162,42 @@ router.get('/edit/:id', async (req, res) => {
 
 // Search-Filter API
 router.post('/search', function(req, res, next) {
-  let fltrPosition = req.body.fltrposition;
+  let filterPosition = req.body.filterposition;
 
   // Taking skill as array
-  let fltrSkill = req.body.fltrskill;
-  if (typeof fltrSkill === 'object') {
-    fltrSkill = fltrSkill.map(item => {
+  let filterSkill = req.body.filterskill;
+  if (typeof filterSkill === 'object') {
+    filterSkill = filterSkill.map(item => {
       return item.trim().toLowerCase();
     }).filter(Boolean);
   } else {
-    fltrSkill = [fltrSkill.trim().toLowerCase()];
+    filterSkill = [filterSkill.trim().toLowerCase()];
   }
 
+  //Taking min and max exerience
+  let filterExp = {}
+  if(req.body.filterExpMin != null && req.body.filterExpMin!='' && req.body.filterExpMin != undefined)
+      filterExp.$gte = req.body.filterExpMin;
+  if(req.body.filterExpMax != null && req.body.filterExpMax!=''&& req.body.filterExpMax != undefined)
+      filterExp.$lte = req.body.filterExpMax;
 
-  const flterParameter = {};
+  //Taking min and max salay
+  let filterSal = {}
+  if(req.body.filterSalMin != null && req.body.filterSalMin!='' && req.body.filterSalMin != undefined)
+      filterSal.$gte = req.body.filterSalMin;
+  if(req.body.filterSalMax != null && req.body.filterSalMax!=''&& req.body.filterSalMax != undefined)
+      filterSal.$lte = req.body.filterSalMax;
 
-  if (fltrPosition !== '') flterParameter.position = fltrPosition;
-  if (req.body.fltrskill !== '') flterParameter.skills = { $all: fltrSkill };
 
-  console.log(flterParameter);
-  const candidateFilter = Candidate.find(flterParameter);
+  const filterParameter = {};
+
+  if (filterPosition !== '') filterParameter.position = filterPosition;
+  if (req.body.filterskill !== '') filterParameter.skills = { $all: filterSkill };
+  if (Object.entries(filterExp).length !== 0) filterParameter.experience =  filterExp;
+  if (Object.entries(filterSal).length !== 0) filterParameter.salary =  filterSal;
+
+  console.log(filterParameter);
+  const candidateFilter = Candidate.find(filterParameter);
   candidateFilter.exec(function(err, data) {
     if (err) throw err;
     if (data.length > 0) {

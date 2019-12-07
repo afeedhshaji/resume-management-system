@@ -49,7 +49,7 @@
                         <div class="form-group">
                             <label for="name" class="col-md-12 control-label">By Position</label>
                             <div class="col-md-12">
-                                <input type="text" id="search-position" class="form-control" name="fltrposition"
+                                <input type="text" id="search-position" class="form-control" name="filterposition"
                                     placeholder="Position">
                             </div>
                         </div>
@@ -58,7 +58,7 @@
                         <div class="form-group skills_input_fields_wrap ">
                             <label for="skills" class="col-md-12 control-label">By Skill</label>
                             <div class="skills-entry col-md-12">
-                                <input type="text" name="fltrskill" class="form-control" id="search-skills"
+                                <input type="text" name="filterskill" class="form-control" id="search-skills"
                                     placeholder="Enter Skill">
                                 <button class="add_skills_button btn btn-success">
                                     <i class="fa fa-plus"></i>
@@ -186,7 +186,7 @@
                     e.preventDefault();
                     if (x < skills_max_fields) { //max input box allowed
                         x++; //text box increment
-                        $(skills_wrapper).append('<div class="skills-entry col-md-12"><input type="text" name="fltrskill" class="form-control" id="search-skills" placeholder="Enter Skill"/><button class="remove_skills btn btn-danger"><i class="fa fa-minus"></i></button></div>');
+                        $(skills_wrapper).append('<div class="skills-entry col-md-12"><input type="text" name="filterskill" class="form-control" id="search-skills" placeholder="Enter Skill"/><button class="remove_skills btn btn-danger"><i class="fa fa-minus"></i></button></div>');
 
                         $(skills_wrapper).find('input[type=text]:last').autocomplete({
                             source: function (req, res) {
