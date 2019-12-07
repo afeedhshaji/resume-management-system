@@ -110,4 +110,27 @@ $(document).ready(function() {
       }
     }
   });
+  $('#search-qualification').autocomplete({
+    source: function(req, res) {
+      $.ajax({
+        url: '/api/candidate/list/autocomplete/qualification',
+        dataType: 'jsonp',
+        type: 'GET',
+        data: req,
+        success: function(data) {
+          res(data);
+        },
+        error: function(err) {
+          console.log(err.status);
+        }
+      });
+    },
+
+    minLength: 1,
+    select: function(event, ui) {
+      if (ui.items) {
+        $('#search-qualification').text(ui.item.label);
+      }
+    }
+  });
 });
