@@ -126,12 +126,10 @@
                             <td><%= row.resumeURL %></td>
                             <td><a class="btn btn-primary btn-sm" href="/api/candidate/edit/<%= row._id %>"><i
                                         class="fa fa-edit"></i></a>
-                                <a class="btn btn-danger btn-sm" href="/api/candidate/delete/<%= row._id %>"><i
+                                <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirmModal<%= row._id %>"><i
                                         class="fa fa-trash"></i></a>
-                                <!-- <a class="btn btn-danger btn-sm" data-toggle="modal" data-target="#confirmModal"><i
-                                        class="fa fa-trash"></i></a> -->
-                                        <!-- Confirm Delete Modal
-                                        <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <!-- Confirm Delete Modal, id  is made with row_id -->
+                                        <div class="modal fade" id="confirmModal<%= row._id %>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                           <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                               <div class="modal-header">
@@ -150,7 +148,7 @@
                                             </div>
                                           </div>
                                         </div>
-                                        End Confirm Delete Modal -->
+                                        <!-- End Confirm Delete Modal -->
                             </td>
                         </tr>
                         <% })}else{ %>
