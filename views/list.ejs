@@ -144,7 +144,9 @@
                             <td><%= row.companiesWorked %></td>
                             <td><%= row.skills %></td>
                             <td><%= row.interviewFeedback %></td>
-                            <td><%= row.resumeURL %></td>
+                            <td><a class="btn btn-success btn-sm" href="<%= row.resumeURL %>">
+                              <i class="fa fa-file-pdf-o" aria-hidden="true"></i></a></td>
+
                             <td><a class="btn btn-primary btn-sm" href="/api/candidate/edit/<%= row._id %>"><i
                                         class="fa fa-edit"></i></a>
                                 <a class="btn btn-danger btn-sm" data-toggle="modal"
