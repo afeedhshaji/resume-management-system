@@ -58,9 +58,6 @@ $(document).ready(function() {
 
   skillsAddDynamic();
 
-  // Data Table
-  $('#list-candidates').DataTable();
-
   // Position Autocomplete
   $('#search-position').autocomplete({
     source: function(req, res) {
