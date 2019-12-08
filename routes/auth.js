@@ -147,7 +147,7 @@ router.post('/register', async (req, res) => {
 
 // View candidates
 router.get('/list', (req, res) => {
-  const userFilter = Candidate.find({});
+  const userFilter = Candidate.find({}).limit(20);
   userFilter.exec((err, data) => {
     if (err) throw err;
     res.render('list', { records: data, error: '' });
@@ -183,6 +183,7 @@ router.post('/search', function(req, res, next) {
 
   // Taking skill as array
   let filterSkill = req.body.filterskill;
+  console.log(typeof filterSkill)
   if (typeof filterSkill === 'object') {
     filterSkill = filterSkill
       .map(item => {
@@ -226,7 +227,7 @@ router.post('/search', function(req, res, next) {
   const filterParameter = {};
 
   if (req.body.filterposition !== '') filterParameter.position = filterPosition;
-  if (req.body.filterskill !== '')
+  if (req.body.filterskill !== '' && Object.entries(filterSkill).length !== 0)
     filterParameter.skills = { $all: filterSkill };
   if (Object.entries(filterExp).length !== 0)
     filterParameter.experience = filterExp;
@@ -237,7 +238,7 @@ router.post('/search', function(req, res, next) {
     filterParameter.qualification = filterQualification;
 
   console.log(filterParameter);
-  const candidateFilter = Candidate.find(filterParameter);
+  const candidateFilter = Candidate.find(filterParameter).limit(100);
   candidateFilter.exec(function(err, data) {
     if (err) throw err;
     if (data.length > 0) {
