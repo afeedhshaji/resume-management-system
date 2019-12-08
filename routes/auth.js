@@ -147,11 +147,43 @@ router.post('/register', async (req, res) => {
 
 // View candidates
 router.get('/list', (req, res) => {
-  const userFilter = Candidate.find({}).limit(20);
-  userFilter.exec((err, data) => {
-    if (err) throw err;
-    res.render('list', { records: data, error: '' });
-  });
+  const perPage = 3;
+  const page = req.params.page || 1;
+
+  Candidate.find({})
+    .skip(perPage * page - perPage)
+    .limit(perPage)
+    .exec(function(err, data) {
+      if (err) throw err;
+      Candidate.countDocuments({}).exec((err, count) => {
+        res.render('list', {
+          records: data,
+          error: '',
+          current: page,
+          pages: Math.ceil(count / perPage)
+        });
+      });
+    });
+});
+
+router.get('/list/:page', function(req, res, next) {
+  const perPage = 3;
+  const page = req.params.page || 1;
+
+  Candidate.find({})
+    .skip(perPage * page - perPage)
+    .limit(perPage)
+    .exec(function(err, data) {
+      if (err) throw err;
+      Candidate.countDocuments({}).exec((err, count) => {
+        res.render('list', {
+          records: data,
+          error: '',
+          current: page,
+          pages: Math.ceil(count / perPage)
+        });
+      });
+    });
 });
 
 // Delete API
@@ -183,7 +215,7 @@ router.post('/search', function(req, res, next) {
 
   // Taking skill as array
   let filterSkill = req.body.filterskill;
-  console.log(typeof filterSkill)
+  console.log(typeof filterSkill);
   if (typeof filterSkill === 'object') {
     filterSkill = filterSkill
       .map(item => {

@@ -143,9 +143,9 @@
             <h1>Candidate Details</h1>
         </div>
         <div class="row row-list mx-auto">
-            <div class="container table-responsive-sm col-lg-12">
+            <div class="container flex-column col-lg-12">
 
-                <table class="table table-striped mx-auto" id="list-candidates">
+                <table class="table table-responsive-sm table-striped mx-auto" id="list-candidates">
                     <thead class="thead-dark">
                         <tr>
                             <th>Name</th>
@@ -224,6 +224,34 @@
                         <% } %>
                     </tbody>
                 </table>
+                <% if (pages > 0) { %>
+                <ul class="pagination text-center">
+                    <% if (current == 1) { %>
+                    <li class="disabled"><a class="page-link">First</a></li>
+                    <% } else { %>
+                    <li><a class="page-link" href="/api/candidate/list/1">First</a></li>
+                    <% } %>
+                    <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                    <% if (i !== 1) { %>
+                    <li class="disabled"><a class="page-link">...</a></li>
+                    <% } %>
+                    <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                    <% if (i == current) { %>
+                    <li class="active"><a class="page-link"><%= i %></a></li>
+                    <% } else { %>
+                    <li><a class="page-link" href="/api/candidate/list/<%= i %>"><%= i %></a></li>
+                    <% } %>
+                    <% if (i == Number(current) + 4 && i < pages) { %>
+                    <li class="disabled"><a class="page-link">...</a></li>
+                    <% } %>
+                    <% } %>
+                    <% if (current == pages) { %>
+                    <li class="disabled"><a class="page-link">Last</a></li>
+                    <% } else { %>
+                    <li><a class="page-link" href="/api/candidate/list/<%= pages %>">Last</a></li>
+                    <% } %>
+                </ul>
+                <% } %>
             </div>
         </div>
     </div>
