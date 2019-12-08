@@ -270,18 +270,48 @@ router.post('/search', function(req, res, next) {
     filterParameter.qualification = filterQualification;
 
   console.log(filterParameter);
-  const candidateFilter = Candidate.find(filterParameter).limit(100);
+  const candidateFilter = Candidate.find(filterParameter).limit(5);
   candidateFilter.exec(function(err, data) {
     if (err) throw err;
     if (data.length > 0) {
-      res.render('list', { records: data, error: '' });
-      console.log('Printing all list');
+      const perPage = 3;
+      const page = req.params.page || 1;
+
+      Candidate.find(filterParameter)
+        .skip(perPage * page - perPage)
+        .limit(perPage)
+        .exec(function(err, data) {
+          if (err) throw err;
+          Candidate.countDocuments({}).exec((err, count) => {
+            res.render('list', {
+              records: data,
+              error: '',
+              current: page,
+              pages: Math.ceil(count / perPage)
+            });
+          });
+        });
     } else {
       console.log('Data is empty');
       const newCandidateFilter = Candidate.find();
       newCandidateFilter.exec(function(error, result) {
         if (error) throw error;
-        res.render('list', { records: result, error: 'No records were found' });
+        const perPage = 0;
+        const page = req.params.page || 1;
+        Candidate.find({ filterParameter })
+          .skip(perPage * page - perPage)
+          .limit(perPage)
+          .exec(function(err, data) {
+            if (err) throw err;
+            Candidate.countDocuments({}).exec((err, count) => {
+              res.render('list', {
+                records: data,
+                error: '',
+                current: page,
+                pages: 0
+              });
+            });
+          });
       });
     }
   });
