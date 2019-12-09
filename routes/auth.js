@@ -280,14 +280,15 @@ router.post('/search', function(req, res, next) {
   candidateFilter.exec(function(err, data) {
     if (err) throw err;
     if (data.length > 0) {
-      res.jsonp({ records: data, formData: formData, error: '', recordsTotal: 31000, recordsFiltered: perPage, draw: draw});
+      // data["edit"] =
+      res.jsonp({ data : data, formData: formData, error: '', recordsTotal: 31000, recordsFiltered: 50, draw: draw});
       console.log('Printing all list');
     } else {
       console.log('Data is empty');
       const newCandidateFilter = Candidate.find().skip(perPage * page - perPage).limit(perPage);
       newCandidateFilter.exec(function(error, result) {
         if (error) throw error;
-        res.jsonp({ records: result, formData: formData, error: 'No records were found'});
+        res.jsonp({ data: result, formData: formData, error: 'No records were found', recordsTotal: 31000, recordsFiltered: 50, draw: draw});
       });
     }
   });

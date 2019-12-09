@@ -14,7 +14,9 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" />
 
     <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" />
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+    <script src="/scripts/list.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
         integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
@@ -22,8 +24,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
-    <script src="/scripts/list.js"></script>
-
     <title>List</title>
 
 </head>
@@ -145,9 +145,10 @@
         <div class="row row-list mx-auto">
             <div class="container flex-column col-lg-12">
 
-                <table class="table table-responsive-sm table-striped mx-auto" id="list-candidates">
+                <table class="table display table-responsive-sm table-striped mx-auto" id="list-candidates">
                     <thead class="thead-dark">
                         <tr>
+                            <th>Id</th>
                             <th>Name</th>
                             <th>Email</th>
                             <th>Date</th>
@@ -161,11 +162,11 @@
                             <th>Skills</th>
                             <th>Interview Feedback</th>
                             <th>Resume URL</th>
-                            <th>Edit/Delete</th>
+                            <!-- <th>Edit/Delete</th> -->
                         </tr>
                     </thead>
-                    <tbody>
-                        <%if (records.length >0){ %>
+                    <tbody id="tbodyid">
+                        <!-- <%if (records.length >0){ %>
                         <% records.forEach(function(row){ %>
 
                         <tr>
@@ -188,7 +189,7 @@
                                         class="fa fa-edit"></i></a>
                                 <a class="btn btn-danger btn-sm" data-toggle="modal"
                                     data-target="#confirmModal<%= row._id %>"><i class="fa fa-trash"></i></a>
-                                <!-- Confirm Delete Modal, id  is made with row_id -->
+                                Confirm Delete Modal, id  is made with row_id
                                 <div class="modal fade" id="confirmModal<%= row._id %>" tabindex="-1" role="dialog"
                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -213,7 +214,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <!-- End Confirm Delete Modal -->
+                                End Confirm Delete Modal
                             </td>
                         </tr>
                         <% })}else{ %>
@@ -221,43 +222,107 @@
                             <td colspan="6">No Record Found</td>
 
                         </tr>
-                        <% } %>
+                        <% } %> -->
+                        <tr>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                        </tr>
                     </tbody>
                 </table>
-                <% if (pages > 0) { %>
-                <ul class="pagination text-center">
-                    <% if (current == 1) { %>
-                    <li class="disabled"><a class="page-link">First</a></li>
-                    <% } else { %>
-                    <li><a class="page-link" href="/api/candidate/list/1">First</a></li>
-                    <% } %>
-                    <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
-                    <% if (i !== 1) { %>
-                    <li class="disabled"><a class="page-link">...</a></li>
-                    <% } %>
-                    <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
-                    <% if (i == current) { %>
-                    <li class="active"><a class="page-link"><%= i %></a></li>
-                    <% } else { %>
-                    <li><a class="page-link" href="/api/candidate/list/<%= i %>"><%= i %></a></li>
-                    <% } %>
-                    <% if (i == Number(current) + 4 && i < pages) { %>
-                    <li class="disabled"><a class="page-link">...</a></li>
-                    <% } %>
-                    <% } %>
-                    <% if (current == pages) { %>
-                    <li class="disabled"><a class="page-link">Last</a></li>
-                    <% } else { %>
-                    <li><a class="page-link" href="/api/candidate/list/<%= pages %>">Last</a></li>
-                    <% } %>
-                </ul>
-                <% } %>
             </div>
         </div>
     </div>
-    <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
 
+
+    <script type="text/javascript">
+    var d_table = $('#list-candidates').DataTable({
+          paging: true,
+          serverSide: true,
+          dataType: "json",
+          ajax: {
+            url: '/api/candidate/search',
+            type: 'POST',
+            data : function(d){
+               var da = $("#EmployeeForm").serializeArray();
+               d.filterposition = da[0]['value']
+
+               //Extraccting skills into array
+               skill_arr = []
+               var i = 1;
+               while(1){
+                 if (da[i]['name']=='filterskill'){
+                   skill_arr.push(da[i]['value'])
+                   i = i + 1;
+                 }
+                 else
+                    break;
+               }
+               d.filterskill = skill_arr
+               d.filterExpMin = da[i]['value']
+               d.filterExpMax = da[i+1]['value']
+               d.filterSalMin = da[i+2]['value']
+               d.filterSalMax = da[i+3]['value']
+               d.filtername = da[i+4]['value']
+               d.filterqualification = da[i+5]['value']
+               d.selectStatus = da[i+6]['value']
+            },
+            // success: function(res){
+            //     console.log(res)
+            //   }
+          //   success : function(res){
+          //     console.log(res)
+          //     $("#tbodyid").empty();
+          //     if (res['error'] !=''){
+          //       $("#list-candidates").find('tbody').append('<tr><td colspan="6">No Record Found</td></tr>')
+          //     }
+          //     else{
+          //       for (record of res['data']) {
+          //         var markup = "<tr><td>" + record.name + "</td><td>" + record.email + "</td><td>" + record.date + "</td><td>" + record.position + "</td><td>" + record.experience + "</td></tr>";
+          //         $("table tbody").append(markup);
+          //     }
+          //   }
+          // }
+        },
+        columns: [
+        { "data": "_id", "visible" :false },
+        { "data": "name" },
+        { "data": "email" },
+        { "data": "date" },
+        { "data": "position" },
+        { "data": "experience" },
+        { "data": "qualification" },
+        { "data": "candidateRating" },
+        { "data": "salary" },
+        { "data": "phone" },
+        { "data": "companiesWorked" },
+        { "data": "skills" },
+        { "data": "interviewFeedback" },
+        { "data": "resumeURL",
+          "render": function ( data, type, row, meta ) {
+        html = '<a class="btn btn-success btn-sm" href="'+data+'"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>'
+        return html;
+        }}
+      ]
+      });
+
+
+      $('#EmployeeForm').submit( function(evt) {
+            evt.preventDefault();
+            d_table.ajax.reload();
+        });
+    </script>
 </body>
 
 </html>
