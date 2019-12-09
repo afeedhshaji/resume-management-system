@@ -6,6 +6,32 @@ const Qualification = require('../models/qualification');
 const { registerValidation } = require('../validation/validation');
 
 let filterParameter = {};
+let sortParameter = {};
+
+router.get('/sort/:x', function(req, res, next) {
+  sortParameter = {};
+  const { x } = req.params;
+  // console.log(x);
+  sortParameter[x] = 1;
+  console.log(sortParameter);
+  const perPage = 3;
+  const page = req.params.page || 1;
+  Candidate.find(filterParameter)
+    .skip(perPage * page - perPage)
+    .limit(perPage)
+    .sort(sortParameter)
+    .exec(function(err, data) {
+      if (err) throw err;
+      Candidate.countDocuments({}).exec((err, count) => {
+        res.render('list', {
+          records: data,
+          error: '',
+          current: page,
+          pages: Math.ceil(count / perPage)
+        });
+      });
+    });
+});
 
 // index page
 router.get('/', async (req, res) => {
@@ -150,12 +176,14 @@ router.post('/register', async (req, res) => {
 // View candidates
 router.get('/list', (req, res) => {
   filterParameter = {};
+  sortParameter = {};
   const perPage = 3;
   const page = req.params.page || 1;
 
   Candidate.find(filterParameter)
     .skip(perPage * page - perPage)
     .limit(perPage)
+    .sort(sortParameter)
     .exec(function(err, data) {
       if (err) throw err;
       Candidate.countDocuments({}).exec((err, count) => {
@@ -171,12 +199,16 @@ router.get('/list', (req, res) => {
 
 router.get('/list/:page', function(req, res, next) {
   console.log(filterParameter);
+  sortParameter = {};
+
   const perPage = 3;
   const page = req.params.page || 1;
 
   Candidate.find(filterParameter)
     .skip(perPage * page - perPage)
     .limit(perPage)
+    .sort(sortParameter)
+
     .exec(function(err, data) {
       if (err) throw err;
       Candidate.countDocuments(filterParameter).exec((err, count) => {
@@ -214,6 +246,7 @@ router.get('/edit/:id', async (req, res) => {
 // Search-Filter API
 router.post('/search', function(req, res, next) {
   filterParameter = {};
+  sortParameter = {};
   // console.log(req.body.selectStatus);
   const filterPosition = req.body.filterposition;
   const filterName = new RegExp(req.body.filtername, 'i');
@@ -284,6 +317,8 @@ router.post('/search', function(req, res, next) {
       Candidate.find(filterParameter)
         .skip(perPage * page - perPage)
         .limit(perPage)
+        .sort(sortParameter)
+
         .exec(function(err, data) {
           if (err) throw err;
           Candidate.countDocuments({}).exec((err, count) => {
