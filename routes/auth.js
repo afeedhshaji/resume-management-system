@@ -305,6 +305,11 @@ router.post('/search', function(req, res, next) {
   if (req.body.filtername !== '') filterParameter.name = filterName;
   if (req.body.filterqualification !== '')
     filterParameter.qualification = filterQualification;
+  if (
+    req.body.selectStatus === 'Verified' ||
+    req.body.selectStatus === 'Not Verified'
+  )
+    filterParameter.status = req.body.selectStatus === 'Verified' ? 1 : 0;
 
   console.log(filterParameter);
   const candidateFilter = Candidate.find(filterParameter).limit(5);

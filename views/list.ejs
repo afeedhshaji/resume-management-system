@@ -124,7 +124,7 @@
                                 <label for="sel1">Select status:</label>
                                 <div class="companies-entry col-md-8">
                                     <select class="form-control" id="sel1" name="selectStatus">
-                                        <option>Parsed</option>
+                                        <option disabled selected value> -- select an option -- </option>
                                         <option>Not Verified</option>
                                         <option>Verified</option>
                                     </select>
@@ -177,6 +177,7 @@
                             <th>Skills<a class="ml-5 sort-symbol" href="/api/candidate/sort/skills"><i
                                         class="fa fa-sort"></i></a>
                             </th>
+                            <th>Status</th>
                             <th>Interview Feedback<a class="ml-5 sort-symbol"
                                     href="/api/candidate/sort/interviewFeedback"><i class="fa fa-sort"></i></a></th>
                             <th>Resume URL<a class="ml-5 sort-symbol" href="/api/candidate/sort/resumeURL"><i
@@ -202,6 +203,8 @@
                             <td><%= row.phone %></td>
                             <td><%= row.companiesWorked %></td>
                             <td><%= row.skills %></td>
+                            <td><%= row.status %></td>
+
                             <td><%= row.interviewFeedback %></td>
                             <td><a class="btn btn-success btn-sm" href="<%= row.resumeURL %>">
                                     <i class="fa fa-file-pdf-o" aria-hidden="true"></i></a></td>

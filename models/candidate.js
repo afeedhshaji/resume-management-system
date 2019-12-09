@@ -26,7 +26,7 @@ const candidateSchema = new mongoose.Schema(
     },
     experience: {
       type: Number,
-      default : 0
+      default: 0
     },
     qualification: {
       type: String
@@ -36,7 +36,7 @@ const candidateSchema = new mongoose.Schema(
     },
     salary: {
       type: Number,
-      default:0
+      default: 0
     },
     phone: {
       type: String
@@ -54,6 +54,11 @@ const candidateSchema = new mongoose.Schema(
     resumeURL: {
       type: String,
       required: true
+    },
+    status: {
+      type: Number,
+      required: true,
+      default: 0
     }
   },
   { versionKey: false }
