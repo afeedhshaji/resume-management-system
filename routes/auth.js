@@ -280,7 +280,6 @@ router.post('/search', function(req, res, next) {
   candidateFilter.exec(function(err, data) {
     if (err) throw err;
     if (data.length > 0) {
-      // data["edit"] =
       res.jsonp({ data : data, formData: formData, error: '', recordsTotal: 31000, recordsFiltered: 50, draw: draw});
       console.log('Printing all list');
     } else {
