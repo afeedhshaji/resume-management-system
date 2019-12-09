@@ -176,7 +176,21 @@ router.get('/edit/:id', async (req, res) => {
 
 // Search-Filter API
 router.post('/search', function(req, res, next) {
-  // console.log(req.body.selectStatus);
+
+  const formData = {
+    filtername : req.body.filtername,
+    filterposition : req.body.filterposition,
+    filterskill : req.body.filterskill,
+    filterqualification : req.body.filterqualification,
+    filterExpMin : req.body.filterExpMin,
+    filterExpMax : req.body.filterExpMax,
+    filterSalMin : req.body.filterSalMin,
+    filterSalMax : req.body.filterSalMax,
+    selectStatus : req.body.selectStatus
+  }
+
+  console.log(req.body);
+  console.log(req.params)
   const filterPosition = req.body.filterposition;
   const filterName = new RegExp(req.body.filtername, 'i');
   const filterQualification = new RegExp(req.body.filterqualification, 'i');
@@ -242,14 +256,14 @@ router.post('/search', function(req, res, next) {
   candidateFilter.exec(function(err, data) {
     if (err) throw err;
     if (data.length > 0) {
-      res.render('list', { records: data, error: '' });
+      res.render('list', { records: data, formData: formData, error: '' });
       console.log('Printing all list');
     } else {
       console.log('Data is empty');
       const newCandidateFilter = Candidate.find();
       newCandidateFilter.exec(function(error, result) {
         if (error) throw error;
-        res.render('list', { records: result, error: 'No records were found' });
+        res.render('list', { records: result, formData: formData, error: 'No records were found' });
       });
     }
   });
