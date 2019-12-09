@@ -116,6 +116,7 @@ router.post('/update', function (req, res) {
     candidate.companiesWorked = companiesWorkedArray;
     candidate.skills = candidate_skills_new;
     candidate.interviewFeedback = req.body.interviewFeedback;
+    candidate.status = req.body.status;
 
     // save the candidate
     candidate.save(function(err) {

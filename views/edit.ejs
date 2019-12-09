@@ -147,24 +147,27 @@
                             </div>
                             <%}%>
 
-                </div>
-                <div class="form-group">
+                      </div>
+
+                      <div class="form-group">
                         <label for="sel1">Select status:</label>
-                            <select class="form-control" id="sel1" name="selectStatus">
+                            <select class="form-control" id="sel1" name="status">
                                 <% if(records.status == 0){ %>
-                            <option>Not Verified</option>
-                            <option> Verified</option>
+                            <option selected value="0">Not Verified</option>
+                            <option value="1"> Verified</option>
                             <%} else if(records.status == 1){%>
-                            <option>Verified</option>
-                            <option>Not Verified</option>
+                            <option selected value="1">Verified</option>
+                            <option value="0">Not Verified</option>
                             <% } %>
                             </select>
                         </div>
+
                         <div class="form-group">
                             <label for="interviewFeedback">Interview Feedback</label>
                             <input type="text" value="<%= records.interviewFeedback %>" id="interviewFeedback"
                                 name="interviewFeedback" class="form-control">
                         </div>
+
                         <input type="submit" value="Register" class="btn btn-primary">
                     </form>
                 </div>
