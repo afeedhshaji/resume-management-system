@@ -63,7 +63,9 @@ $(document).ready(function() {
 
 
   var d_table = $('#list-candidates').DataTable({
+        paging: true,
         serverSide: true,
+        dataType: "jsonp",
         ajax: {
           url: '/api/candidate/search',
           type: 'POST',
@@ -100,7 +102,6 @@ $(document).ready(function() {
             else{
               for (record of res['records']) {
                 var markup = "<tr><td>" + record.name + "</td><td>" + record.email + "</td><td>" + record.date + "</td><td>" + record.position + "</td><td>" + record.experience + "</td></tr>";
-                console.log(record)
                 $("table tbody").append(markup);
             }
           }

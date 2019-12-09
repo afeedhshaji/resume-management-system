@@ -257,18 +257,37 @@ router.post('/search', function(req, res, next) {
     filterParameter.qualification = filterQualification;
 
   console.log(filterParameter);
-  const candidateFilter = Candidate.find(filterParameter).limit(100);
+
+  //Calculating page
+  const perPage = Number(req.body.length);
+  var page = Number(req.body.start)/perPage ;
+  if (page==0)
+    page = 1;
+
+  const draw = req.body.draw
+  // var c;
+  // Candidate.countDocuments({}).exec((err, count) => {
+  //     if (err) {
+  //         res.send(err);
+  //         return;
+  //     }
+  //     c = count;
+  // });
+
+  // console.log(c)
+
+  const candidateFilter = Candidate.find(filterParameter).skip(perPage * page - perPage).limit(perPage);
   candidateFilter.exec(function(err, data) {
     if (err) throw err;
     if (data.length > 0) {
-      res.jsonp({ records: data, formData: formData, error: '' });
+      res.jsonp({ records: data, formData: formData, error: '', recordsTotal: 31000, recordsFiltered: perPage, draw: draw});
       console.log('Printing all list');
     } else {
       console.log('Data is empty');
-      const newCandidateFilter = Candidate.find();
+      const newCandidateFilter = Candidate.find().skip(perPage * page - perPage).limit(perPage);
       newCandidateFilter.exec(function(error, result) {
         if (error) throw error;
-        res.jsonp({ records: result, formData: formData, error: 'No records were found' });
+        res.jsonp({ records: result, formData: formData, error: 'No records were found'});
       });
     }
   });
