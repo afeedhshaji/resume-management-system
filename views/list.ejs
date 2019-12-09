@@ -43,8 +43,8 @@
                     </div>
                     <% } %>
                 </div>
-                <form action="/api/candidate/search" id="EmployeeForm" method="post" role="form">
-
+                <!-- <form action="/api/candidate/search" id="EmployeeForm" method="post" role="form"> -->
+                <form id="EmployeeForm" role="form">
                     <div class="row justify-content-center mx-auto mt-5">
                         <div class="col-lg-2">
                             <div class="form-group">
@@ -164,7 +164,8 @@
                             <th>Edit/Delete</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="tbodyid">
+                        <!-- <%  console.log(typeof records) %> -->
                         <%if (records.length >0){ %>
                         <% records.forEach(function(row){ %>
 

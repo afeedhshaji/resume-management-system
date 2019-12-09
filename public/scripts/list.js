@@ -58,8 +58,60 @@ $(document).ready(function() {
 
   skillsAddDynamic();
 
+  // var json = {ab:"nnn"}
   // Data Table
-  $('#list-candidates').DataTable();
+
+
+  var d_table = $('#list-candidates').DataTable({
+        serverSide: true,
+        ajax: {
+          url: '/api/candidate/search',
+          type: 'POST',
+          data : function(d){
+             var da = $("#EmployeeForm").serializeArray();
+             d.filterposition = da[0]['value']
+
+             //Extraccting skills into array
+             skill_arr = []
+             var i = 1;
+             while(1){
+               if (da[i]['name']=='filterskill'){
+                 skill_arr.push(da[i]['value'])
+                 i = i + 1;
+               }
+               else
+                  break;
+             }
+             d.filterskill = skill_arr
+             d.filterExpMin = da[i]['value']
+             d.filterExpMax = da[i+1]['value']
+             d.filterSalMin = da[i+2]['value']
+             d.filterSalMax = da[i+3]['value']
+             d.filtername = da[i+4]['value']
+             d.filterqualification = da[i+5]['value']
+             d.selectStatus = da[i+6]['value']
+          },
+          success : function(res){
+            console.log(res)
+            $("#tbodyid").empty();
+            if (res['error'] !=''){
+              $("#list-candidates").find('tbody').append('<tr><td colspan="6">No Record Found</td></tr>')
+            }
+            else{
+              for (record of res['records']) {
+                var markup = "<tr><td>" + record.name + "</td><td>" + record.email + "</td><td>" + record.date + "</td><td>" + record.position + "</td><td>" + record.experience + "</td></tr>";
+                console.log(record)
+                $("table tbody").append(markup);
+            }
+          }
+        }
+      }
+    });
+
+  $('#EmployeeForm').submit( function(evt) {
+        evt.preventDefault();
+        d_table.ajax.reload();
+    });
 
   // Position Autocomplete
   $('#search-position').autocomplete({

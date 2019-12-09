@@ -150,7 +150,7 @@ router.get('/list', (req, res) => {
   const userFilter = Candidate.find({}).limit(20);
   userFilter.exec((err, data) => {
     if (err) throw err;
-    res.render('list', { records: data, error: '' });
+    res.render('list', { records: data, formData: {}, error: '' });
   });
 });
 
@@ -177,10 +177,12 @@ router.get('/edit/:id', async (req, res) => {
 // Search-Filter API
 router.post('/search', function(req, res, next) {
 
+  console.log(req.data)
+
   const formData = {
     filtername : req.body.filtername,
     filterposition : req.body.filterposition,
-    filterskill : req.body.filterskill,
+    filterskill : req.body['filterskill[]'],
     filterqualification : req.body.filterqualification,
     filterExpMin : req.body.filterExpMin,
     filterExpMax : req.body.filterExpMax,
@@ -196,16 +198,19 @@ router.post('/search', function(req, res, next) {
   const filterQualification = new RegExp(req.body.filterqualification, 'i');
 
   // Taking skill as array
-  let filterSkill = req.body.filterskill;
+  let filterSkill = req.body['filterskill[]'];
   console.log(typeof filterSkill)
-  if (typeof filterSkill === 'object') {
-    filterSkill = filterSkill
-      .map(item => {
-        return item.trim().toLowerCase();
-      })
-      .filter(Boolean);
-  } else {
-    filterSkill = [filterSkill.trim().toLowerCase()];
+
+  if (req.body['filterskill[]'] !== null && req.body['filterskill[]'] !== '' && req.body['filterskill[]'] !== undefined){
+    if (typeof filterSkill === 'object') {
+      filterSkill = filterSkill
+        .map(item => {
+          return item.trim().toLowerCase();
+        })
+        .filter(Boolean);
+    } else {
+      filterSkill = [filterSkill.trim().toLowerCase()];
+    }
   }
 
   // Taking min and max exerience
@@ -240,8 +245,8 @@ router.post('/search', function(req, res, next) {
 
   const filterParameter = {};
 
-  if (req.body.filterposition !== '') filterParameter.position = filterPosition;
-  if (req.body.filterskill !== '' && Object.entries(filterSkill).length !== 0)
+  if (filterPosition !== '' && filterPosition !== null && filterPosition !== undefined) filterParameter.position = filterPosition;
+  if (req.body['filterskill[]'] !== null && req.body['filterskill[]'] !== '' && req.body['filterskill[]'] !== undefined && Object.entries(filterSkill).length !== 0)
     filterParameter.skills = { $all: filterSkill };
   if (Object.entries(filterExp).length !== 0)
     filterParameter.experience = filterExp;
@@ -256,14 +261,14 @@ router.post('/search', function(req, res, next) {
   candidateFilter.exec(function(err, data) {
     if (err) throw err;
     if (data.length > 0) {
-      res.render('list', { records: data, formData: formData, error: '' });
+      res.jsonp({ records: data, formData: formData, error: '' });
       console.log('Printing all list');
     } else {
       console.log('Data is empty');
       const newCandidateFilter = Candidate.find();
       newCandidateFilter.exec(function(error, result) {
         if (error) throw error;
-        res.render('list', { records: result, formData: formData, error: 'No records were found' });
+        res.jsonp({ records: result, formData: formData, error: 'No records were found' });
       });
     }
   });
