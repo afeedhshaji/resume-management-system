@@ -261,35 +261,39 @@ router.post('/search', function(req, res, next) {
   //Calculating page
   const perPage = Number(req.body.length);
   var page = Number(req.body.start)/perPage ;
-  if (page==0)
-    page = 1;
 
   const draw = req.body.draw
-  // var c;
-  // Candidate.countDocuments({}).exec((err, count) => {
-  //     if (err) {
-  //         res.send(err);
-  //         return;
-  //     }
-  //     c = count;
-  // });
 
-  // console.log(c)
-
-  const candidateFilter = Candidate.find(filterParameter).skip(perPage * page - perPage).limit(perPage);
-  candidateFilter.exec(function(err, data) {
-    if (err) throw err;
-    if (data.length > 0) {
-      res.jsonp({ data : data, formData: formData, error: '', recordsTotal: 31000, recordsFiltered: 50, draw: draw});
-      console.log('Printing all list');
-    } else {
-      console.log('Data is empty');
-      const newCandidateFilter = Candidate.find().skip(perPage * page - perPage).limit(perPage);
-      newCandidateFilter.exec(function(error, result) {
-        if (error) throw error;
-        res.jsonp({ data: result, formData: formData, error: 'No records were found', recordsTotal: 31000, recordsFiltered: 50, draw: draw});
-      });
+  Candidate.estimatedDocumentCount({}, function(err, count) {
+    if (err) {
+            res.send(err);
+            return;
     }
+    const candidateFilter = Candidate.find(filterParameter).skip(perPage * page).limit(perPage);
+    candidateFilter.exec(function(err, data) {
+      if (err) throw err;
+      if (data.length > 0) {
+        const candidateFilter_counter = Candidate.countDocuments(filterParameter)
+        candidateFilter_counter.exec(function(error, filter_count) {
+          if (error){
+            res.send(err);
+            return;
+          }
+          res.jsonp({ data : data, formData: formData, error: '', recordsTotal: count, recordsFiltered: filter_count, draw: draw});
+          console.log('Printing all list');
+        });
+      } else {
+        console.log('Data is empty');
+        const newCandidateFilter = Candidate.find().skip(perPage * page).limit(perPage);
+        newCandidateFilter.exec(function(error, result) {
+          if (error){
+            res.send(err);
+            return;
+          }
+          res.jsonp({ data: result, formData: formData, error: 'No records were found', recordsTotal: count, recordsFiltered: count, draw: draw});
+        });
+      }
+    });
   });
 });
 
