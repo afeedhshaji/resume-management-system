@@ -43,15 +43,15 @@
                     </div>
                     <% } %>
                 </div>
-                <!-- <form action="/api/candidate/search" id="EmployeeForm" method="post" role="form"> -->
-                <form id="EmployeeForm" role="form">
+                <form action="/api/candidate/search" id="EmployeeForm" method="post" role="form">
+
                     <div class="row justify-content-center mx-auto mt-5">
                         <div class="col-lg-2">
                             <div class="form-group">
                                 <label for="filterposition" class="col-md-12 control-label">By Position</label>
                                 <div class="companies-entry col-md-12">
                                     <input type="text" id="search-position" class="form-control" name="filterposition"
-                                        placeholder="Position" value="<%= formData.filterposition %>">
+                                        placeholder="Position">
                                 </div>
                             </div>
                         </div>
@@ -71,8 +71,8 @@
                             <div class="form-group">
                                 <label for="experience" class="col-md-12 control-label">By Experience</label>
                                 <div class="exp-entry col-md-12">
-                                    <input type="text" id="search-exp-min" name="filterExpMin" class="form-control" placeholder="Min" value="<%= formData.filterExpMin %>">
-                                    <input type="text" id="search-exp-max" name="filterExpMax" class="form-control ml-2" placeholder="Max" value="<%= formData.filterExpMax %>">
+                                    <input type="text" name="filterExpMin" class="form-control" placeholder="Min">
+                                    <input type="text" name="filterExpMax" class="form-control ml-2" placeholder="Max">
                                 </div>
                             </div>
                         </div>
@@ -80,8 +80,8 @@
                             <div class="form-group">
                                 <label for="salary" class="control-label">By Salary</label>
                                 <div class="sal-entry col-md-12">
-                                    <input type="text" id="search-sal-min" name="filterSalMin" class="form-control" placeholder="Min" value="<%= formData.filterSalMin %>">
-                                    <input type="text" id="search-sal-max" name="filterSalMax" class="form-control ml-2" placeholder="Max" value="<%= formData.filterSalMax %>">
+                                    <input type="text" name="filterSalMin" class="form-control" placeholder="Min">
+                                    <input type="text" name="filterSalMax" class="form-control ml-2" placeholder="Max">
                                 </div>
                             </div>
                         </div>
@@ -90,7 +90,7 @@
                                 <label for="email" class="col-lg-6 control-label">&nbsp;</label>
 
                                 <div class="companies-entry col-lg-6">
-                                    <input type="submit" id="search-submit" class="form-control btn btn-primary" name="submit"
+                                    <input type="submit" class="form-control btn btn-primary" name="submit"
                                         placeholder="Filter">
                                 </div>
                             </div>
@@ -102,7 +102,7 @@
                             <div class="form-group">
                                 <label for="search-name" class="col-md-12 control-label">By Name</label>
                                 <div class="companies-entry col-md-12">
-                                    <input type="text" id="search-name" class="form-control" name="filtername" value="<%= formData.filtername %>"
+                                    <input type="text" id="search-name" class="form-control" name="filtername"
                                         placeholder="Name">
                                 </div>
                             </div>
@@ -113,7 +113,7 @@
                                 <label for="search-qualification" class="col-md-12 control-label">By
                                     Qualification</label>
                                 <div class="companies-entry col-md-12">
-                                    <input type="text" id="search-qualification" class="form-control" value="<%= formData.filterqualification %>"
+                                    <input type="text" id="search-qualification" class="form-control"
                                         name="filterqualification" placeholder="Qualification">
                                 </div>
                             </div>
@@ -143,9 +143,9 @@
             <h1>Candidate Details</h1>
         </div>
         <div class="row row-list mx-auto">
-            <div class="container table-responsive-sm col-lg-12">
+            <div class="container flex-column col-lg-12">
 
-                <table class="table table-striped mx-auto" id="list-candidates">
+                <table class="table table-responsive-sm table-striped mx-auto" id="list-candidates">
                     <thead class="thead-dark">
                         <tr>
                             <th>Name</th>
@@ -164,8 +164,7 @@
                             <th>Edit/Delete</th>
                         </tr>
                     </thead>
-                    <tbody id="tbodyid">
-                        <!-- <%  console.log(typeof records) %> -->
+                    <tbody>
                         <%if (records.length >0){ %>
                         <% records.forEach(function(row){ %>
 
@@ -225,17 +224,40 @@
                         <% } %>
                     </tbody>
                 </table>
-                <ul class="pagination">
-                  <li class="page-link"></li>
+                <% if (pages > 0) { %>
+                <ul class="pagination text-center">
+                    <% if (current == 1) { %>
+                    <li class="disabled"><a class="page-link">First</a></li>
+                    <% } else { %>
+                    <li><a class="page-link" href="/api/candidate/list/1">First</a></li>
+                    <% } %>
+                    <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                    <% if (i !== 1) { %>
+                    <li class="disabled"><a class="page-link">...</a></li>
+                    <% } %>
+                    <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                    <% if (i == current) { %>
+                    <li class="active"><a class="page-link"><%= i %></a></li>
+                    <% } else { %>
+                    <li><a class="page-link" href="/api/candidate/list/<%= i %>"><%= i %></a></li>
+                    <% } %>
+                    <% if (i == Number(current) + 4 && i < pages) { %>
+                    <li class="disabled"><a class="page-link">...</a></li>
+                    <% } %>
+                    <% } %>
+                    <% if (current == pages) { %>
+                    <li class="disabled"><a class="page-link">Last</a></li>
+                    <% } else { %>
+                    <li><a class="page-link" href="/api/candidate/list/<%= pages %>">Last</a></li>
+                    <% } %>
                 </ul>
+                <% } %>
             </div>
         </div>
     </div>
     <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.20/js/dataTables.bootstrap4.min.js"></script>
-    <script type="text/javascript">
 
-    </script>
 </body>
 
 </html>
