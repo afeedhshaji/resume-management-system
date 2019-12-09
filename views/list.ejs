@@ -146,7 +146,7 @@
         <div class="row row-list mx-auto">
             <div class="container flex-column col-lg-12">
 
-                <table class="table table-responsive-sm table-striped mx-auto" id="list-candidates">
+                <table class="table table-responsive-sm mx-auto" id="list-candidates">
                     <thead class="thead-dark">
                         <tr>
                             <th>Name <a class="ml-5 sort-symbol" href="/api/candidate/sort/name"><i
@@ -191,7 +191,7 @@
                         <%if (records.length >0){ %>
                         <% records.forEach(function(row){ %>
                         <% if(row.status == 1){%>
-                        <tr class="bg-success">
+                        <tr style="background-color: #ccffcc">
                             <td><%= row.name %></td>
                             <td><%= row.email %></td>
                             <td><%= row.date %></td>
