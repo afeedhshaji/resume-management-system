@@ -5,6 +5,8 @@ const Skills = require('../models/skills');
 const Qualification = require('../models/qualification');
 const { registerValidation } = require('../validation/validation');
 
+let filterParameter = {};
+
 // index page
 router.get('/', async (req, res) => {
   res.render('insert_users', { success: '', error: '' });
@@ -13,13 +15,13 @@ router.get('/', async (req, res) => {
 // Register API
 router.post('/register', async (req, res) => {
   // Check validation of phone, email
-  // const { error } = registerValidation(req.body);
-  // if (error) {
-  //   return res.render('insert_users', {
-  //     success: '',
-  //     error: error.details[0].message
-  //   });
-  // }
+  const { error } = registerValidation(req.body);
+  if (error) {
+    return res.render('insert_users', {
+      success: '',
+      error: error.details[0].message
+    });
+  }
   // Checking if the candidate exits in DB
   const emailExist = await Candidate.findOne({ email: req.body.email });
   if (emailExist) {
@@ -147,10 +149,11 @@ router.post('/register', async (req, res) => {
 
 // View candidates
 router.get('/list', (req, res) => {
+  filterParameter = {};
   const perPage = 3;
   const page = req.params.page || 1;
 
-  Candidate.find({})
+  Candidate.find(filterParameter)
     .skip(perPage * page - perPage)
     .limit(perPage)
     .exec(function(err, data) {
@@ -167,15 +170,17 @@ router.get('/list', (req, res) => {
 });
 
 router.get('/list/:page', function(req, res, next) {
+  console.log(filterParameter);
   const perPage = 3;
   const page = req.params.page || 1;
 
-  Candidate.find({})
+  Candidate.find(filterParameter)
     .skip(perPage * page - perPage)
     .limit(perPage)
     .exec(function(err, data) {
       if (err) throw err;
-      Candidate.countDocuments({}).exec((err, count) => {
+      Candidate.countDocuments(filterParameter).exec((err, count) => {
+        // console.log(Math.ceil(count / perPage));
         res.render('list', {
           records: data,
           error: '',
@@ -208,6 +213,7 @@ router.get('/edit/:id', async (req, res) => {
 
 // Search-Filter API
 router.post('/search', function(req, res, next) {
+  filterParameter = {};
   // console.log(req.body.selectStatus);
   const filterPosition = req.body.filterposition;
   const filterName = new RegExp(req.body.filtername, 'i');
@@ -255,8 +261,6 @@ router.post('/search', function(req, res, next) {
     req.body.filterSalMax !== undefined
   )
     filterSal.$lte = req.body.filterSalMax;
-
-  const filterParameter = {};
 
   if (req.body.filterposition !== '') filterParameter.position = filterPosition;
   if (req.body.filterskill !== '' && Object.entries(filterSkill).length !== 0)
