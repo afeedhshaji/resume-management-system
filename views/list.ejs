@@ -205,7 +205,10 @@
                             <td><%= row.skills %></td>
                             <td><%= row.status %></td>
 
-                            <td><%= row.interviewFeedback %></td>
+                            <td width="15%">
+                                <button type="button" class="btn" data-toggle="collapse" data-target="#demo<%= row._id %>">Expand...</button>
+                                <div id="demo<%= row._id %>" class="collapse"><%= row.interviewFeedback %></div>
+                            </td>
                             <td><a class="btn btn-success btn-sm" href="<%= row.resumeURL %>">
                                     <i class="fa fa-file-pdf-o" aria-hidden="true"></i></a></td>
 
@@ -256,7 +259,10 @@
                             <td><%= row.skills %></td>
                             <td><%= row.status %></td>
 
-                            <td><%= row.interviewFeedback %></td>
+                            <td width="15%">
+                                <button type="button" class="btn" data-toggle="collapse" data-target="#demo<%= row._id %>">Expand...</button>
+                                <div id="demo<%= row._id %>" class="collapse"><%= row.interviewFeedback %></div>
+                            </td>
                             <td><a class="btn btn-success btn-sm" href="<%= row.resumeURL %>">
                                     <i class="fa fa-file-pdf-o" aria-hidden="true"></i></a></td>
 
