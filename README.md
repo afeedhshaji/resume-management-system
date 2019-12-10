@@ -28,9 +28,18 @@ To edit the user :
     http://localhost:3035/api/candidate/edit/:id [GET]
    
 ### Mongodb (Bash):
-`mongo`<br />
-`use resume-system`<br />
-`show tables`<br />
+
+```bash
+mongo
+```
+
+```bash
+use resume-system
+```
+
+```bash
+show tables
+```
 
 ### Docker Run
 
