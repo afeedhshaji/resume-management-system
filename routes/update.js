@@ -127,7 +127,7 @@ router.post('/update', function (req, res) {
           error: err.message
         });
       }
-      res.redirect('/api/candidate/list');
+      res.send("Succesfully updated");
     });
   });
 });

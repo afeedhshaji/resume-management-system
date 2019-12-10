@@ -333,14 +333,7 @@ router.post('/search', function(req, res, next) {
     .exec(function(err, data) {
       if (err) throw err;
       if (data.length!=0){
-        Candidate.countDocuments(filterParameter).exec((err, count) => {
-          res.render('list', {
-            records: data,
-            error: '',
-            current: page,
-            pages: Math.ceil(count / perPage)
-          });
-        });
+          res.redirect('../candidate/list/1');
       }
       else {
         console.log('Data is empty');
