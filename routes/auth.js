@@ -324,52 +324,33 @@ router.post('/search', function(req, res, next) {
     filterParameter.status = req.body.selectStatus;
 
   console.log(filterParameter);
-  const candidateFilter = Candidate.find(filterParameter).limit(5);
-  candidateFilter.exec(function(err, data) {
-    if (err) throw err;
-    if (data.length > 0) {
-      const perPage = 3;
-      const page = req.params.page || 1;
-
-      Candidate.find(filterParameter)
-        .skip(perPage * page - perPage)
-        .limit(perPage)
-        .sort(sortParameter)
-
-        .exec(function(err, data) {
-          if (err) throw err;
-          Candidate.estimatedDocumentCount({}).exec((err, count) => {
-            res.render('list', {
-              records: data,
-              error: '',
-              current: page,
-              pages: Math.ceil(count / perPage)
-            });
+  const perPage = 3;
+  const page = req.params.page || 1;
+  const candidateFilter = Candidate.find(filterParameter)
+    .skip(perPage * page - perPage)
+    .limit(perPage)
+    .sort(sortParameter)
+    .exec(function(err, data) {
+      if (err) throw err;
+      if (data.length!=0){
+        Candidate.estimatedDocumentCount({}).exec((err, count) => {
+          res.render('list', {
+            records: data,
+            error: '',
+            current: page,
+            pages: Math.ceil(count / perPage)
           });
         });
-    } else {
-      console.log('Data is empty');
-      const newCandidateFilter = Candidate.find();
-      newCandidateFilter.exec(function(error, result) {
-        if (error) throw error;
-        const perPage = 0;
-        const page = req.params.page || 1;
-        Candidate.find({ filterParameter })
-          .skip(perPage * page - perPage)
-          .limit(perPage)
-          .exec(function(err, data) {
-            if (err) throw err;
-            Candidate.estimatedDocumentCount({}).exec((err, count) => {
-              res.render('list', {
-                records: data,
-                error: '',
-                current: page,
-                pages: 0
-              });
-            });
-          });
-      });
-    }
+      }
+      else {
+        console.log('Data is empty');
+        res.render('list', {
+          records: [],
+          error: '',
+          current: 0,
+          pages: 0
+        });
+      }
   });
 });
 
