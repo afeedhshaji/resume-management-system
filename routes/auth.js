@@ -23,6 +23,12 @@ let sortParameter = {};
 let ascFlag = 0;
 let descFlag = 0;
 
+// Local Storage
+if (typeof localStorage === 'undefined' || localStorage === null) {
+  const { LocalStorage } = require('node-localstorage');
+  localStorage = new LocalStorage('./scratch');
+}
+
 router.post('/adminreg', async (req, res) => {
   const { error } = adminRegisterValidation(req.body);
   if (error) {
@@ -67,7 +73,23 @@ router.post('/adminlogin', async (req, res) => {
 
   // Create and assign a token
   const token = jwt.sign({ _id: admin._id }, process.env.TOKEN_SECRET);
-  res.header('auth-token', token).send(token);
+  localStorage.setItem('myToken', token);
+  res.send('Login Successfully');
+});
+
+function checkLogin(req, res, next) {
+  const myToken = localStorage.getItem('myToken');
+  try {
+    jwt.verify(myToken, process.env.TOKEN_SECRET);
+  } catch (err) {
+    res.send('you need login to access this page');
+  }
+  next();
+}
+
+router.get('/adminlogout', function(req, res, next) {
+  localStorage.removeItem('myToken');
+  res.send('Logout Successfully');
 });
 
 router.get('/sort/:x', function(req, res, next) {
@@ -111,12 +133,12 @@ router.get('/sort/:x', function(req, res, next) {
 });
 
 // index page
-router.get('/', async (req, res) => {
+router.get('/', checkLogin, async (req, res) => {
   res.render('insert_users', { success: '', error: '' });
 });
 
 // Register API
-router.post('/register', async (req, res) => {
+router.post('/register', checkLogin, async (req, res) => {
   // Check validation of phone, email
   const { error } = registerValidation(req.body);
   if (error) {
@@ -251,7 +273,7 @@ router.post('/register', async (req, res) => {
 });
 
 // View candidates
-router.get('/list', (req, res) => {
+router.get('/list', checkLogin, (req, res) => {
   filterParameter = {};
   sortParameter = {};
   const perPage = 3;
@@ -274,7 +296,7 @@ router.get('/list', (req, res) => {
     });
 });
 
-router.get('/list/:page', function(req, res, next) {
+router.get('/list/:page', checkLogin, function(req, res, next) {
   console.log(filterParameter);
 
   const perPage = 3;
@@ -299,7 +321,7 @@ router.get('/list/:page', function(req, res, next) {
 });
 
 // Delete API
-router.get('/delete/:id', async (req, res) => {
+router.get('/delete/:id', checkLogin, async (req, res) => {
   const { id } = req.params;
   const del = Candidate.findByIdAndDelete(id);
   del.exec(err => {
@@ -309,7 +331,7 @@ router.get('/delete/:id', async (req, res) => {
 });
 
 // Edit API
-router.get('/edit/:id', async (req, res) => {
+router.get('/edit/:id', checkLogin, async (req, res) => {
   const { id } = req.params;
   const edit = Candidate.findById(id);
   edit.exec((err, data) => {
@@ -319,7 +341,7 @@ router.get('/edit/:id', async (req, res) => {
 });
 
 // Search-Filter API
-router.post('/search', function(req, res, next) {
+router.post('/search', checkLogin, function(req, res, next) {
   filterParameter = {};
   sortParameter = {};
   const filterPosition = req.body.filterposition;
