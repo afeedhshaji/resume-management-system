@@ -31,6 +31,23 @@
 
 <body>
 
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Resume System</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+
+            </ul>
+            <form class="form-inline my-2 my-lg-0" action="/api/candidate/adminlogout">
+                <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Logout">
+            </form>
+        </div>
+    </nav>
+
     <!--CANDIDATE FILTER BOX-->
     <div class="list col-lg-12">
         <div class="row heading-row">
@@ -204,14 +221,15 @@
                             <td><%= row.skills %></td>
 
                             <td width="15%">
-                                <button type="button" class="btn" data-toggle="collapse" data-target="#demo<%= row._id %>">Expand...</button>
+                                <button type="button" class="btn" data-toggle="collapse"
+                                    data-target="#demo<%= row._id %>">Expand...</button>
                                 <div id="demo<%= row._id %>" class="collapse"><%= row.interviewFeedback %></div>
                             </td>
                             <td><a class="btn btn-success btn-sm" href="<%= row.resumeURL %>">
                                     <i class="fa fa-file-pdf-o" aria-hidden="true"></i></a></td>
 
-                            <td><a class="btn btn-primary btn-sm" href="/api/candidate/edit/<%= row._id %>" target="_blank"><i
-                                        class="fa fa-edit"></i></a>
+                            <td><a class="btn btn-primary btn-sm" href="/api/candidate/edit/<%= row._id %>"
+                                    target="_blank"><i class="fa fa-edit"></i></a>
                                 <a class="btn btn-danger btn-sm" data-toggle="modal"
                                     data-target="#confirmModal<%= row._id %>"><i class="fa fa-trash"></i></a>
                                 <!-- Confirm Delete Modal, id  is made with row_id -->
@@ -257,14 +275,15 @@
                             <td><%= row.skills %></td>
 
                             <td width="15%">
-                                <button type="button" class="btn" data-toggle="collapse" data-target="#demo<%= row._id %>">Expand...</button>
+                                <button type="button" class="btn" data-toggle="collapse"
+                                    data-target="#demo<%= row._id %>">Expand...</button>
                                 <div id="demo<%= row._id %>" class="collapse"><%= row.interviewFeedback %></div>
                             </td>
                             <td><a class="btn btn-success btn-sm" href="<%= row.resumeURL %>">
                                     <i class="fa fa-file-pdf-o" aria-hidden="true"></i></a></td>
 
-                            <td><a class="btn btn-primary btn-sm" href="/api/candidate/edit/<%= row._id %>" target="_blank"><i
-                                        class="fa fa-edit"></i></a>
+                            <td><a class="btn btn-primary btn-sm" href="/api/candidate/edit/<%= row._id %>"
+                                    target="_blank"><i class="fa fa-edit"></i></a>
                                 <a class="btn btn-danger btn-sm" data-toggle="modal"
                                     data-target="#confirmModal<%= row._id %>"><i class="fa fa-trash"></i></a>
                                 <!-- Confirm Delete Modal, id  is made with row_id -->

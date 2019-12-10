@@ -38,6 +38,10 @@ app.use('/api/candidate', updateCandidate);
 const autocompleteCandidate = require('./routes/autocomplete');
 app.use('/api/candidate', autocompleteCandidate);
 
+app.get('/', (req, res) => {
+  res.render('admin.ejs');
+});
+
 // Start server to listen to the port
 app.listen(config.get('server.port'), () => {
   console.log(
