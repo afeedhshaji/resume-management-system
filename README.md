@@ -10,11 +10,13 @@ The first thing you need to do to get this app working is to install the Node mo
 
 It will start the Node back end server at http://localhost:3035, with Nodemon, so that updates happen automatically on save. 
 
-### Candidate registration form
+
+### API end points
+
+To register users : 
 
     http://localhost:3035/api/candidate/
     
-### Other api end points
 
 To view all the users : 
 
