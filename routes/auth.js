@@ -39,7 +39,7 @@ router.get('/sort/:x', function(req, res, next) {
     .sort(sortParameter)
     .exec(function(err, data) {
       if (err) throw err;
-      Candidate.countDocuments({}).exec((err, count) => {
+      Candidate.estimatedDocumentCount({}).exec((err, count) => {
         res.render('list', {
           records: data,
           error: '',
@@ -203,7 +203,7 @@ router.get('/list', (req, res) => {
     .sort(sortParameter)
     .exec(function(err, data) {
       if (err) throw err;
-      Candidate.countDocuments({}).exec((err, count) => {
+      Candidate.estimatedDocumentCount({}).exec((err, count) => {
         res.render('list', {
           records: data,
           error: '',
@@ -338,7 +338,7 @@ router.post('/search', function(req, res, next) {
 
         .exec(function(err, data) {
           if (err) throw err;
-          Candidate.countDocuments({}).exec((err, count) => {
+          Candidate.estimatedDocumentCount({}).exec((err, count) => {
             res.render('list', {
               records: data,
               error: '',
@@ -359,7 +359,7 @@ router.post('/search', function(req, res, next) {
           .limit(perPage)
           .exec(function(err, data) {
             if (err) throw err;
-            Candidate.countDocuments({}).exec((err, count) => {
+            Candidate.estimatedDocumentCount({}).exec((err, count) => {
               res.render('list', {
                 records: data,
                 error: '',
