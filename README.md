@@ -24,3 +24,27 @@ To view all the users :
 `mongo`<br />
 `use resume-system`<br />
 `show tables`<br />
+
+### Docker
+
+```bash
+# Run in Docker
+docker-compose up
+# use -d flag to run in background
+```
+
+```bash
+# Tear down
+docker-compose down
+```
+
+```bash
+# To be able to edit files, add volume to compose file
+volumes: ['./:/usr/src/app']
+```
+
+```bash
+# To re-build
+docker-compose build
+```
+
