@@ -20,6 +20,11 @@ To view all the users :
 
     http://localhost:3035/api/candidate/list [GET]
 
+
+To edit the user : 
+
+    http://localhost:3035/api/candidate/edit/:id [GET]
+   
 ### Mongodb (Bash):
 `mongo`<br />
 `use resume-system`<br />
