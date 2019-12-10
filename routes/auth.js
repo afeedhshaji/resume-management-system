@@ -216,7 +216,6 @@ router.get('/list', (req, res) => {
 
 router.get('/list/:page', function(req, res, next) {
   console.log(filterParameter);
-  sortParameter = {};
 
   const perPage = 3;
   const page = req.params.page || 1;
@@ -225,7 +224,6 @@ router.get('/list/:page', function(req, res, next) {
     .skip(perPage * page - perPage)
     .limit(perPage)
     .sort(sortParameter)
-
     .exec(function(err, data) {
       if (err) throw err;
       Candidate.countDocuments(filterParameter).exec((err, count) => {
