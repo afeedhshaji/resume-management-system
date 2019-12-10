@@ -7,12 +7,29 @@ const { registerValidation } = require('../validation/validation');
 
 let filterParameter = {};
 let sortParameter = {};
+let ascFlag = 0;
+let descFlag = 0;
 
 router.get('/sort/:x', function(req, res, next) {
-  sortParameter = {};
   const { x } = req.params;
+  if (sortParameter[x] === 1) {
+    descFlag = 1;
+    ascFlag = 0;
+    // console.log('previously set as 1');
+  } else if (sortParameter[x] === undefined || sortParameter[x] === -1) {
+    ascFlag = 1;
+    descFlag = 0;
+    // console.log('previously not set as 1');
+  }
+  sortParameter = {};
   // console.log(x);
-  sortParameter[x] = 1;
+  if (ascFlag === 1) {
+    sortParameter[x] = 1;
+    // console.log('ascending');
+  } else if (descFlag === 1) {
+    sortParameter[x] = -1;
+    // console.log('descending');
+  }
   console.log(sortParameter);
   const perPage = 3;
   const page = req.params.page || 1;
@@ -304,7 +321,7 @@ router.post('/search', function(req, res, next) {
   if (req.body.filtername !== '') filterParameter.name = filterName;
   if (req.body.filterqualification !== '')
     filterParameter.qualification = filterQualification;
-  console.log(req.body)
+  console.log(req.body);
   if (req.body.selectStatus == 1 || req.body.selectStatus == 0)
     filterParameter.status = req.body.selectStatus;
 
