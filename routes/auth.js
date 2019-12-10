@@ -31,6 +31,7 @@ if (typeof localStorage === 'undefined' || localStorage === null) {
 }
 
 router.post('/adminreg', async (req, res) => {
+  console.log(req.body);
   const { error } = adminRegisterValidation(req.body);
   if (error) {
     return res.status(400).send(error.details[0].message);
@@ -59,6 +60,7 @@ router.post('/adminreg', async (req, res) => {
 });
 
 router.post('/adminlogin', async (req, res) => {
+  console.log(req.body);
   const { error } = adminLoginValidation(req.body);
   if (error) {
     return res.status(400).send(error.details[0].message);
@@ -75,7 +77,7 @@ router.post('/adminlogin', async (req, res) => {
   // Create and assign a token
   const token = jwt.sign({ _id: admin._id }, process.env.TOKEN_SECRET);
   localStorage.setItem('myToken', token);
-  res.send('Login Successfully');
+  res.redirect('/api/candidate/list');
 });
 
 function checkLogin(req, res, next) {
@@ -83,14 +85,14 @@ function checkLogin(req, res, next) {
   try {
     jwt.verify(myToken, process.env.TOKEN_SECRET);
   } catch (err) {
-    res.send('you need login to access this page');
+    res.render('loginerror');
   }
   next();
 }
 
 router.get('/adminlogout', function(req, res, next) {
   localStorage.removeItem('myToken');
-  res.send('Logout Successfully');
+  res.redirect('/');
 });
 
 router.get('/sort/:x', function(req, res, next) {
@@ -424,10 +426,9 @@ router.post('/search', checkLogin, function(req, res, next) {
     .sort(sortParameter)
     .exec(function(err, data) {
       if (err) throw err;
-      if (data.length!=0){
-          res.redirect('../candidate/list/1');
-      }
-      else {
+      if (data.length != 0) {
+        res.redirect('../candidate/list/1');
+      } else {
         console.log('Data is empty');
         res.render('list', {
           records: [],

@@ -1,0 +1,169 @@
+body {
+  background-color: #282828;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  background: url(https://raw.github.com/subtlepatterns/SubtlePatterns/gh-pages/dark_leather.png);
+  /* background:url('http://uppix.net/InVoQc.jpg'); */
+}
+
+.wrapper {
+  width: 100vw !important;
+  height: 100vh !important;
+  overflow: hidden !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+p {
+  font-family: 'Press Start 2P', cursive;
+  font-size: 80px;
+  text-align: center;
+  color: #4ec7ff;
+  text-shadow: 0px 0px 1000px #38d1ff;
+  filter: dropshadow(color=#38d1ff, offx=0, offy=0);
+}
+
+.flickering {
+  animation: flickering 0.7s;
+  -webkit-animation: flickering 0.88s;
+  color: white;
+  animation-iteration-count: infinite;
+}
+
+.bigger {
+  font-size: 135px;
+}
+
+@keyframes flickering {
+  0% {
+    text-shadow: 0px 0px 15px #38d1ff;
+    filter: dropshadow(color=#38d1ff, offx=0, offy=0);
+    color: white;
+  }
+  10% {
+    text-shadow: 0px 0px 0px #38d1ff;
+    filter: dropshadow(color=#38d1ff, offx=0, offy=0);
+    color: black;
+  }
+  20% {
+    text-shadow: 0px 0px 8px #38d1ff;
+    filter: dropshadow(color=#38d1ff, offx=0, offy=0);
+    color: #4ec7ff;
+  }
+  30% {
+    text-shadow: 0px 0px 10px #38d1ff;
+    filter: dropshadow(color=#38d1ff, offx=0, offy=0);
+    color: white;
+  }
+  40% {
+    text-shadow: 0px 0px 0px #38d1ff;
+    filter: dropshadow(color=#38d1ff, offx=0, offy=0);
+    color: black;
+  }
+  50% {
+    text-shadow: 0px 0px 10px #38d1ff;
+    filter: dropshadow(color=#38d1ff, offx=0, offy=0);
+    color: white;
+  }
+  52% {
+    text-shadow: 0px 0px 20px #38d1ff;
+    filter: dropshadow(color=#38d1ff, offx=0, offy=0);
+    color: white;
+  }
+  55% {
+    text-shadow: 0px 0px 5px #38d1ff;
+    filter: dropshadow(color=#38d1ff, offx=0, offy=0);
+    color: #4ec7ff;
+  }
+  60% {
+    text-shadow: 0px 0px 5px #38d1ff;
+    filter: dropshadow(color=#38d1ff, offx=0, offy=0);
+    color: white;
+  }
+  75% {
+    text-shadow: 0px 0px 0px #38d1ff;
+    filter: dropshadow(color=#38d1ff, offx=0, offy=0);
+    color: black;
+  }
+  85% {
+    text-shadow: 0px 0px 5px #38d1ff;
+    filter: dropshadow(color=#38d1ff, offx=0, offy=0);
+    color: #4ec7ff;
+  }
+  100% {
+    text-shadow: 0px 0px 10px #38d1ff;
+    filter: dropshadow(color=#38d1ff, offx=0, offy=0);
+    color: white;
+  }
+}
+
+@-webkit-keyframes flickering {
+  0% {
+    text-shadow: 0px 0px 15px #38d1ff;
+    filter: dropshadow(color=#38d1ff, offx=0, offy=0);
+    color: white;
+  }
+  10% {
+    text-shadow: 0px 0px 0px #38d1ff;
+    filter: dropshadow(color=#38d1ff, offx=0, offy=0);
+    color: black;
+  }
+  20% {
+    text-shadow: 0px 0px 8px #38d1ff;
+    filter: dropshadow(color=#38d1ff, offx=0, offy=0);
+    color: #4ec7ff;
+  }
+  30% {
+    text-shadow: 0px 0px 10px #38d1ff;
+    filter: dropshadow(color=#38d1ff, offx=0, offy=0);
+    color: white;
+  }
+  40% {
+    text-shadow: 0px 0px 0px #38d1ff;
+    filter: dropshadow(color=#38d1ff, offx=0, offy=0);
+    color: black;
+  }
+  50% {
+    text-shadow: 0px 0px 10px #38d1ff;
+    filter: dropshadow(color=#38d1ff, offx=0, offy=0);
+    color: white;
+  }
+  52% {
+    text-shadow: 0px 0px 20px #38d1ff;
+    filter: dropshadow(color=#38d1ff, offx=0, offy=0);
+    color: white;
+  }
+  55% {
+    text-shadow: 0px 0px 5px #38d1ff;
+    filter: dropshadow(color=#38d1ff, offx=0, offy=0);
+    color: #4ec7ff;
+  }
+  60% {
+    text-shadow: 0px 0px 5px #38d1ff;
+    filter: dropshadow(color=#38d1ff, offx=0, offy=0);
+    color: white;
+  }
+  75% {
+    text-shadow: 0px 0px 0px #38d1ff;
+    filter: dropshadow(color=#38d1ff, offx=0, offy=0);
+    color: black;
+  }
+  85% {
+    text-shadow: 0px 0px 5px #38d1ff;
+    filter: dropshadow(color=#38d1ff, offx=0, offy=0);
+    color: #4ec7ff;
+  }
+  100% {
+    text-shadow: 0px 0px 10px #38d1ff;
+    filter: dropshadow(color=#38d1ff, offx=0, offy=0);
+    color: white;
+  }
+}
+
+#info {
+  color: #4ec7ff;
+  font-size: 14px;
+}
