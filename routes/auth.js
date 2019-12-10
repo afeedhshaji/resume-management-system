@@ -247,7 +247,6 @@ router.get('/edit/:id', async (req, res) => {
 router.post('/search', function(req, res, next) {
   filterParameter = {};
   sortParameter = {};
-  // console.log(req.body.selectStatus);
   const filterPosition = req.body.filterposition;
   const filterName = new RegExp(req.body.filtername, 'i');
   const filterQualification = new RegExp(req.body.filterqualification, 'i');
@@ -305,11 +304,9 @@ router.post('/search', function(req, res, next) {
   if (req.body.filtername !== '') filterParameter.name = filterName;
   if (req.body.filterqualification !== '')
     filterParameter.qualification = filterQualification;
-  if (
-    req.body.selectStatus === 'Verified' ||
-    req.body.selectStatus === 'Not Verified'
-  )
-    filterParameter.status = req.body.selectStatus === 'Verified' ? 1 : 0;
+  console.log(req.body)
+  if (req.body.selectStatus == 1 || req.body.selectStatus == 0)
+    filterParameter.status = req.body.selectStatus;
 
   console.log(filterParameter);
   const candidateFilter = Candidate.find(filterParameter).limit(5);
