@@ -1,14 +1,74 @@
+// Import libraries
 const router = require('express').Router();
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+
+// Import Models
 const Candidate = require('../models/candidate');
 const Position = require('../models/position');
 const Skills = require('../models/skills');
 const Qualification = require('../models/qualification');
-const { registerValidation } = require('../validation/validation');
+const Admin = require('../models/admin');
 
+// Import Validation
+const {
+  registerValidation,
+  adminRegisterValidation,
+  adminLoginValidation
+} = require('../validation/validation');
+
+// Global Variables
 let filterParameter = {};
 let sortParameter = {};
 let ascFlag = 0;
 let descFlag = 0;
+
+router.post('/adminreg', async (req, res) => {
+  const { error } = adminRegisterValidation(req.body);
+  if (error) {
+    return res.status(400).send(error.details[0].message);
+  }
+
+  const emailExist = await Admin.findOne({ email: req.body.email });
+  if (emailExist) {
+    return res.status(400).send('Email already exits');
+  }
+
+  // Hash Passwords
+  const salt = await bcrypt.genSalt(10);
+  const hashPassword = await bcrypt.hash(req.body.password, salt);
+
+  const admin = new Admin({
+    name: req.body.name,
+    email: req.body.email,
+    password: hashPassword
+  });
+  try {
+    const savedAdmin = await admin.save();
+    res.send({ admin: admin._id });
+  } catch (err) {
+    res.status(400).send(err);
+  }
+});
+
+router.post('/adminlogin', async (req, res) => {
+  const { error } = adminLoginValidation(req.body);
+  if (error) {
+    return res.status(400).send(error.details[0].message);
+  }
+  const admin = await Admin.findOne({ email: req.body.email });
+  if (!admin) {
+    return res.status(400).send('Email or password is wrong');
+  }
+  const validPass = await bcrypt.compare(req.body.password, admin.password);
+  if (!validPass) {
+    return res.status(400).send('Invalid Error/Password');
+  }
+
+  // Create and assign a token
+  const token = jwt.sign({ _id: admin._id }, process.env.TOKEN_SECRET);
+  res.header('auth-token', token).send(token);
+});
 
 router.get('/sort/:x', function(req, res, next) {
   const { x } = req.params;
@@ -332,7 +392,7 @@ router.post('/search', function(req, res, next) {
     .sort(sortParameter)
     .exec(function(err, data) {
       if (err) throw err;
-      if (data.length!=0){
+      if (data.length != 0) {
         Candidate.countDocuments(filterParameter).exec((err, count) => {
           res.render('list', {
             records: data,
@@ -341,8 +401,7 @@ router.post('/search', function(req, res, next) {
             pages: Math.ceil(count / perPage)
           });
         });
-      }
-      else {
+      } else {
         console.log('Data is empty');
         res.render('list', {
           records: [],
@@ -351,7 +410,7 @@ router.post('/search', function(req, res, next) {
           pages: 0
         });
       }
-  });
+    });
 });
 
 module.exports = router;
