@@ -20,6 +20,7 @@ const {
 // Global Variables
 let filterParameter = {};
 let sortParameter = {};
+let set_status = 0;
 let ascFlag = 0;
 let descFlag = 0;
 
@@ -126,6 +127,7 @@ router.get('/sort/:x', function(req, res, next) {
       Candidate.countDocuments(filterParameter).exec((err, count) => {
         res.render('list', {
           records: data,
+          select_status: set_status,
           error: '',
           current: page,
           pages: Math.ceil(count / perPage)
@@ -277,9 +279,11 @@ router.post('/register', checkLogin, async (req, res) => {
 // View candidates
 router.get('/list', checkLogin, (req, res) => {
   filterParameter = {};
+  filterParameter.status = set_status;
   sortParameter = {};
   const perPage = 3;
   const page = req.params.page || 1;
+
 
   Candidate.find(filterParameter)
     .skip(perPage * page - perPage)
@@ -290,6 +294,7 @@ router.get('/list', checkLogin, (req, res) => {
       Candidate.estimatedDocumentCount({}).exec((err, count) => {
         res.render('list', {
           records: data,
+          select_status: set_status,
           error: '',
           current: page,
           pages: Math.ceil(count / perPage)
@@ -314,6 +319,7 @@ router.get('/list/:page', checkLogin, function(req, res, next) {
         // console.log(Math.ceil(count / perPage));
         res.render('list', {
           records: data,
+          select_status: set_status,
           error: '',
           current: page,
           pages: Math.ceil(count / perPage)
@@ -404,8 +410,12 @@ router.post('/search', checkLogin, function(req, res, next) {
   if (req.body.filterqualification !== '')
     filterParameter.qualification = filterQualification;
   console.log(req.body);
-  if (req.body.selectStatus == 1 || req.body.selectStatus == 0)
+  if (req.body.selectStatus == 1 || req.body.selectStatus == 0){
     filterParameter.status = req.body.selectStatus;
+    set_status = req.body.selectStatus;
+  }
+  else
+    filterParameter.status = set_status;
 
   console.log(filterParameter);
   const perPage = 3;
@@ -422,6 +432,7 @@ router.post('/search', checkLogin, function(req, res, next) {
         console.log('Data is empty');
         res.render('list', {
           records: [],
+          select_status: set_status,
           error: '',
           current: 0,
           pages: 0

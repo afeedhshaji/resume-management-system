@@ -141,9 +141,8 @@
                                 <label for="sel1">Select status:</label>
                                 <div class="companies-entry col-md-8">
                                     <select class="form-control" id="sel1" name="selectStatus">
-                                        <option disabled selected value> -- select an option -- </option>
-                                        <option value="0">Not Verified</option>
-                                        <option value="1">Verified</option>
+                                        <option value="0" <% if(select_status == 0){%>selected<%}%> >Not Verified</option>
+                                        <option value="1" <% if(select_status == 1){%>selected<%}%> >Verified</option>
                                     </select>
                                 </div>
                             </div>
