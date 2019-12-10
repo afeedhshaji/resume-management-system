@@ -12,12 +12,15 @@
   "license": "ISC",
   "dependencies": {
     "@hapi/joi": "^15.0.3",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "config": "^3.2.4",
     "dotenv": "^8.2.0",
     "ejs": "^3.0.1",
     "express": "^4.17.1",
-    "mongoose": "^5.7.13"
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.7.13",
+    "node-localstorage": "^2.1.5"
   },
   "devDependencies": {
     "eslint": "^6.1.0",
