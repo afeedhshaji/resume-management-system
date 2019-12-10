@@ -414,16 +414,10 @@ router.post('/search', checkLogin, function(req, res, next) {
     .sort(sortParameter)
     .exec(function(err, data) {
       if (err) throw err;
-      if (data.length != 0) {
-        Candidate.countDocuments(filterParameter).exec((err, count) => {
-          res.render('list', {
-            records: data,
-            error: '',
-            current: page,
-            pages: Math.ceil(count / perPage)
-          });
-        });
-      } else {
+      if (data.length!=0){
+          res.redirect('../candidate/list/1');
+      }
+      else {
         console.log('Data is empty');
         res.render('list', {
           records: [],
