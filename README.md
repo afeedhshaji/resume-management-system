@@ -25,7 +25,7 @@ To view all the users :
 `use resume-system`<br />
 `show tables`<br />
 
-### Docker
+### Docker Run
 
 ```bash
 # Run in Docker
