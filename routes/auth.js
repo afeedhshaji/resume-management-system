@@ -1,7 +1,6 @@
 // Import libraries
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 
 // Import Models
 const Candidate = require('../models/candidate');
@@ -23,12 +22,6 @@ let sortParameter = {};
 let set_status = 0;
 let ascFlag = 0;
 let descFlag = 0;
-
-// Local Storage
-if (typeof localStorage === 'undefined' || localStorage === null) {
-  const { LocalStorage } = require('node-localstorage');
-  localStorage = new LocalStorage('./scratch');
-}
 
 router.post('/adminreg', async (req, res) => {
   console.log(req.body);
@@ -66,7 +59,7 @@ router.post('/adminreg', async (req, res) => {
 });
 
 router.post('/adminlogin', async (req, res) => {
-  console.log(req.body);
+  console.log(req.session);
   const { error } = adminLoginValidation(req.body);
   if (error) {
     return res.render('admin', { adError: error, adSuccess: '' });
@@ -83,25 +76,26 @@ router.post('/adminlogin', async (req, res) => {
     return res.render('admin', { adError: 'Password Invalid', adSuccess: '' });
   }
 
-  // Create and assign a token
-  const token = jwt.sign({ _id: admin._id }, process.env.TOKEN_SECRET);
-  localStorage.setItem('myToken', token);
+  req.session.userId = req.body.email;
   res.redirect('/api/candidate/list');
 });
 
 function checkLogin(req, res, next) {
-  const myToken = localStorage.getItem('myToken');
-  try {
-    jwt.verify(myToken, process.env.TOKEN_SECRET);
-  } catch (err) {
-    res.render('loginerror');
+  if (!req.session.userId){
+    res.redirect('/');
   }
   next();
 }
 
-router.get('/adminlogout', function(req, res, next) {
-  localStorage.removeItem('myToken');
-  res.render('admin', { adError: '', adSuccess: 'Logout successful' });
+router.get('/adminlogout', function(req, res) {
+  console.log(req.session)
+  req.session.destroy(err =>{
+    if (err){
+      return res.send(err) //Check immmminent problem
+    }
+    res.clearCookie('sid')
+    res.render('admin', { adError: '', adSuccess: 'Logout successful' });
+  })
 });
 
 router.get('/sort/:x', function(req, res, next) {

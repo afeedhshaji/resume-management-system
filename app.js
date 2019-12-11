@@ -1,5 +1,36 @@
 const express = require('express');
+const session = require('express-session');
+
+LIFE = 1000*60*60*2
+const {
+  PORT = 3050,
+  NODE_ENV = "development",
+
+  SESSION_NAME = 'sid',
+  SESSION_SECRET = 'belehbelhbel4ehsjafy',
+  SESSION_LIFETIME = LIFE
+} = process.env
+
+const IN_PROD = NODE_ENV === 'production'
+
 const app = express();
+
+app.use(session({
+    name: SESSION_NAME,
+    resave: false,
+    saveUninitialized: false,
+    secret: SESSION_SECRET,
+    cookie:{
+      maxAge: SESSION_LIFETIME,
+      sameSite: true,
+      secure: IN_PROD,
+      filterParameter : JSON.stringify({}),
+      sortParameter : JSON.stringify({}),
+      set_status : 0,
+      ascFlag : 0,
+      descFlag : 0
+    }
+}))
 
 const config = require('config');
 
