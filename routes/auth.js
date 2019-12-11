@@ -281,7 +281,7 @@ router.post('/register', checkLogin, async (req, res) => {
         error: ''
       });
     })
-    .catch(err => res.status(400).json(`Error:${err}`));
+    .catch(err => res.render('insert_users', {success:"",error:err}) );
 });
 
 // View candidates
