@@ -433,10 +433,7 @@ router.post('/search', checkLogin, function(req, res, next) {
     filterParameter.name = name_obj;
   }
   if (req.body.filterqualification !== '') {
-    qualification_obj = {}
-    qualification_obj.$regex = req.body.filterqualification;
-    qualification_obj.$options = "i";
-    filterParameter.qualification = qualification_obj;
+    filterParameter.qualification = filterQualification
   }
   console.log(req.body);
   if (req.body.selectStatus == 1 || req.body.selectStatus == 0) {
