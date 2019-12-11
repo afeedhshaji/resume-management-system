@@ -42,7 +42,7 @@ show tables
 ```
 ### Authenticate mongoose connection
 
-Change the environment varible DB_CONNECT with your username, password and host name in the appropriae places.
+Change the environment varible DB_CONNECT with your username, password and host name in the appropriate places.
 
 
 ## Docker Run
