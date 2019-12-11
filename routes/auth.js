@@ -76,12 +76,12 @@ router.post('/adminlogin', async (req, res) => {
 
 function checkLogin(req, res, next) {
   if (!req.session.userId){
-    res.render('loginerror');
+    return res.render('loginerror');
   }
   next();
 }
 
-router.get('/adminlogout', function(req, res) {
+router.get('/adminlogout', checkLogin, function(req, res) {
   console.log(req.session)
   req.session.destroy(err =>{
     if (err){
@@ -92,7 +92,7 @@ router.get('/adminlogout', function(req, res) {
   })
 });
 
-router.get('/sort/:x', function(req, res, next) {
+router.get('/sort/:x', checkLogin, function(req, res, next) {
   //Getting data from session cookie
   let filterParameter = JSON.parse(req.session.filterParameter)
   let sortParameter = JSON.parse(req.session.sortParameter)
