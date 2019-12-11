@@ -76,7 +76,7 @@ router.post('/adminlogin', async (req, res) => {
 
 function checkLogin(req, res, next) {
   if (!req.session.userId){
-    res.redirect('/');
+    res.render('loginerror');
   }
   next();
 }
