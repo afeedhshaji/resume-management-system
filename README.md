@@ -4,11 +4,11 @@ The first thing you need to do to get this app working is to install the Node mo
 
     npm install
     
-### Authenticate mongoose connection
+### Step 2 - Authenticate mongoose connection
 
-Change the environment varible DB_CONNECT with your username, password and host name in the appropriate places.
+Change the environment varible ```DB_CONNECT``` with your username, password and host name in the appropriate places.
 
-### Step 2 - Running the App
+### Step 3 - Running the App
 
     npm start
 
