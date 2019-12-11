@@ -87,7 +87,7 @@ router.get('/adminlogout', function(req, res) {
     if (err){
       return res.send(err) //Check immmminent problem
     }
-    res.clearCookie('sid')
+    res.clearCookie(process.env.SESSION_NAME)
     res.render('admin', { adError: '', adSuccess: 'Logout successful' });
   })
 });
@@ -389,13 +389,15 @@ router.post('/search', checkLogin, function(req, res, next) {
   if (
     req.body.filterExpMin !== null &&
     req.body.filterExpMin !== '' &&
-    req.body.filterExpMin !== undefined
+    req.body.filterExpMin !== undefined &&
+    !isNaN(req.body.filterExpMin)
   )
     filterExp.$gte = req.body.filterExpMin;
   if (
     req.body.filterExpMax !== null &&
     req.body.filterExpMax !== '' &&
-    req.body.filterExpMax !== undefined
+    req.body.filterExpMax !== undefined &&
+    !isNaN(req.body.filterExpMax)
   )
     filterExp.$lte = req.body.filterExpMax;
 
@@ -404,13 +406,15 @@ router.post('/search', checkLogin, function(req, res, next) {
   if (
     req.body.filterSalMin !== null &&
     req.body.filterSalMin !== '' &&
-    req.body.filterSalMin !== undefined
+    req.body.filterSalMin !== undefined &&
+    !isNaN(req.body.filterSalMin)
   )
     filterSal.$gte = req.body.filterSalMin;
   if (
     req.body.filterSalMax !== null &&
     req.body.filterSalMax !== '' &&
-    req.body.filterSalMax !== undefined
+    req.body.filterSalMax !== undefined &&
+    !isNaN(req.body.filterSalMax)
   )
     filterSal.$lte = req.body.filterSalMax;
 
