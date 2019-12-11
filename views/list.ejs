@@ -205,7 +205,7 @@
                             <td><%= row.experience %></td>
                             <td width="4%"><%= row.qualification %></td>
                             <td width="2%"><%= row.candidateRating %></td>
-                            <td width="8%"><%= row.salary.toLocaleString('en-IN') %></td>
+                            <td width="8%"><% if(row.salary){%><%= row.salary.toLocaleString('en-IN') %><% } %></td>
                             <td width="9%"><%= row.phone %></td>
                             <td style="word-break:normal;" width="10%">
                                 <% for(comp of row.companiesWorked) {%>
@@ -264,7 +264,7 @@
                             <td><%= row.experience %></td>
                             <td width="4%"><%= row.qualification %></td>
                             <td width="2%"><%= row.candidateRating %></td>
-                            <td width="8%"><%= row.salary.toLocaleString('en-IN') %></td>
+                            <td width="8%"><% if(row.salary){%><%= row.salary.toLocaleString('en-IN') %><% } %></td>
                             <td width="9%"><%= row.phone %></td>
                             <td style="word-break:normal;" width="10%">
                                 <% for(comp of row.companiesWorked) {%>
