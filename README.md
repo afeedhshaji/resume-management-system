@@ -50,7 +50,7 @@ show tables
 
 ### Setting mongo authentication in docker mongo
 
-Change the mongo container environment variables```bash MONGO_INITDB_ROOT_USERNAME```,```bash MONGO_INITDB_ROOT_PASSWORD``` to your mongodb username, password respectively in the docker-compose.yml file.
+Change the mongo container environment variables```MONGO_INITDB_ROOT_USERNAME```,```MONGO_INITDB_ROOT_PASSWORD``` to your mongodb username, password respectively in the docker-compose.yml file.
 
 ```bash
 # Run in Docker
