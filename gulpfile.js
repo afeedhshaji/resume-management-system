@@ -15,12 +15,13 @@ gulp.task('browser-sync', ['nodemon'], function() {
   });
 });
 gulp.task('nodemon', function(cb) {
-  const started = false;
+  let started = false;
 
   return nodemon({
     script: 'app.js'
   }).on('start', function() {
     // to avoid nodemon being started multiple times
+    // thanks @matthisk
     if (!started) {
       cb();
       started = true;
