@@ -287,9 +287,8 @@ router.post('/register', checkLogin, async (req, res) => {
 // View candidates
 router.get('/list', checkLogin, (req, res) => {
   let set_status = req.session.set_status
-  filterParameter = {};
-  filterParameter.status = set_status;
-  sortParameter = {};
+  let filterParameter = {};
+  let sortParameter = {};
   const perPage = 3;
   const page = req.params.page || 1;
 
@@ -297,6 +296,7 @@ router.get('/list', checkLogin, (req, res) => {
   req.session.filterParameter = JSON.stringify(filterParameter)
   req.session.sortParameter = JSON.stringify(sortParameter)
 
+  console.log(filterParameter)
   Candidate.find(filterParameter)
     .skip(perPage * page - perPage)
     .limit(perPage)

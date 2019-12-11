@@ -1,7 +1,7 @@
 const express = require('express');
 const session = require('express-session');
 
-LIFE = 1000*60*60*2
+LIFE = 1000*60*60*8 //8 Hours
 const {
   PORT = 3050,
   NODE_ENV = "development",
