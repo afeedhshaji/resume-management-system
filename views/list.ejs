@@ -165,22 +165,19 @@
                 <table class="table table-responsive-sm mx-auto" id="list-candidates">
                     <thead class="thead-dark">
                         <tr>
-                            <th>Name <a class="ml-5 sort-symbol" href="/api/candidate/sort/name"><i
-                                        class="fa fa-sort"></i></a></th>
-                            <th>Email<a class="ml-5 sort-symbol" href="/api/candidate/sort/email"><i
-                                        class="fa fa-sort"></i></a>
-                            </th>
                             <th>Date<a class="ml-5 sort-symbol" href="/api/candidate/sort/email"><i
+                                      class="fa fa-sort"></i></a></th>
+                            <th>Name <a class="ml-5 sort-symbol" href="/api/candidate/sort/name"><i
                                         class="fa fa-sort"></i></a></th>
                             <th>Position<a class="ml-5 sort-symbol" href="/api/candidate/sort/position"><i
                                         class="fa fa-sort"></i></a></th>
                             <th>Experience<a class="ml-5 sort-symbol" href="/api/candidate/sort/experience"><i
                                         class="fa fa-sort"></i></a>
                             </th>
-                            <th>Qualification<a class="ml-5 sort-symbol" href="/api/candidate/sort/qualification"><i
+                            <th>Qlfn.<a class="ml-5 sort-symbol" href="/api/candidate/sort/qualification"><i
                                         class="fa fa-sort"></i></a>
                             </th>
-                            <th>Candidate Rating<a class="ml-5 sort-symbol"
+                            <th>Rating<a class="ml-5 sort-symbol"
                                     href="/api/candidate/sort/candidateRating"><i class="fa fa-sort"></i></a></th>
                             <th>Salary<a class="ml-5 sort-symbol" href="/api/candidate/sort/salary"><i
                                         class="fa fa-sort"></i></a>
@@ -188,16 +185,11 @@
                             <th>Phone<a class="ml-5 sort-symbol" href="/api/candidate/sort/phone"><i
                                         class="fa fa-sort"></i></a>
                             </th>
-                            <th>Companies Worked<a class="ml-5 sort-symbol"
-                                    href="/api/candidate/sort/companiesWorked"><i class="fa fa-sort"></i></a></th>
-                            <th>Skills<a class="ml-5 sort-symbol" href="/api/candidate/sort/skills"><i
-                                        class="fa fa-sort"></i></a>
-                            </th>
-                            <th>Interview Feedback<a class="ml-5 sort-symbol"
-                                    href="/api/candidate/sort/interviewFeedback"><i class="fa fa-sort"></i></a></th>
-                            <th>Resume URL<a class="ml-5 sort-symbol" href="/api/candidate/sort/resumeURL"><i
-                                        class="fa fa-sort"></i></a>
-                            </th>
+                            <th>Companies Worked</th>
+                            <th>Skills</th>
+                            <th>Interview Feedback</th>
+                            <th>Email</th>
+                            <th>Resume</th>
                             <th>Edit/Delete
                             </th>
                         </tr>
@@ -207,23 +199,28 @@
                         <% records.forEach(function(row){ %>
                         <% if(row.status == 1){%>
                         <tr style="background-color: #ccffcc">
-                            <td><%= row.name %></td>
-                            <td><%= row.email %></td>
-                            <td><%= row.date %></td>
-                            <td><%= row.position %></td>
+                            <td width="6%"><%= row.date.toLocaleString('en-IN',{year: 'numeric', month: 'numeric', day: 'numeric' }) %></td>
+                            <td style="word-break:normal;" width="8%"><%= row.name %></td>
+                            <td style="word-break:normal;" width="5%"><%= row.position.replace(/\b\w+/g,function(s){return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase();}); %></td>
                             <td><%= row.experience %></td>
-                            <td><%= row.qualification %></td>
-                            <td><%= row.candidateRating %></td>
-                            <td><%= row.salary %></td>
-                            <td><%= row.phone %></td>
-                            <td><%= row.companiesWorked %></td>
-                            <td><%= row.skills %></td>
-
+                            <td width="4%"><%= row.qualification %></td>
+                            <td width="2%"><%= row.candidateRating %></td>
+                            <td width="8%"><%= row.salary.toLocaleString('en-IN') %></td>
+                            <td width="9%"><%= row.phone %></td>
+                            <td style="word-break:normal;" width="10%">
+                                <% for(comp of row.companiesWorked) {%>
+                                  *<%=comp%><br>
+                                <% } %>
+                            </td>
+                            <td width="8%"><% for(sk of row.skills) {%>
+                              *<%=sk%><br>
+                            <% } %></td>
                             <td width="15%">
                                 <button type="button" class="btn" data-toggle="collapse"
                                     data-target="#demo<%= row._id %>">Expand...</button>
                                 <div id="demo<%= row._id %>" class="collapse"><%= row.interviewFeedback %></div>
                             </td>
+                            <td><%= row.email %></td>
                             <td><a class="btn btn-success btn-sm" href="<%= row.resumeURL %>">
                                     <i class="fa fa-file-pdf-o" aria-hidden="true"></i></a></td>
 
@@ -261,23 +258,30 @@
                         </tr>
                         <% } else {%>
                         <tr>
-                            <td><%= row.name %></td>
-                            <td><%= row.email %></td>
-                            <td><%= row.date %></td>
-                            <td><%= row.position %></td>
+                            <td width="6%"><%= row.date.toLocaleString('en-IN',{year: 'numeric', month: 'numeric', day: 'numeric' }) %></td>
+                            <td  style="word-break:normal;" width="8%"><%= row.name %></td>
+                            <td style="word-break:normal;" width="5%"><%= row.position.replace(/\b\w+/g,function(s){return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase();}); %></td>
                             <td><%= row.experience %></td>
-                            <td><%= row.qualification %></td>
-                            <td><%= row.candidateRating %></td>
-                            <td><%= row.salary %></td>
-                            <td><%= row.phone %></td>
-                            <td><%= row.companiesWorked %></td>
-                            <td><%= row.skills %></td>
-
+                            <td width="4%"><%= row.qualification %></td>
+                            <td width="2%"><%= row.candidateRating %></td>
+                            <td width="8%"><%= row.salary.toLocaleString('en-IN') %></td>
+                            <td width="9%"><%= row.phone %></td>
+                            <td style="word-break:normal;" width="10%">
+                                <% for(comp of row.companiesWorked) {%>
+                                  *<%=comp%><br>
+                                <% } %>
+                            </td>
+                            <td width="8%">
+                                <% for(sk of row.skills) {%>
+                                  *<%=sk%><br>
+                                <% } %>
+                            </td>
                             <td width="15%">
                                 <button type="button" class="btn" data-toggle="collapse"
                                     data-target="#demo<%= row._id %>">Expand...</button>
                                 <div id="demo<%= row._id %>" class="collapse"><%= row.interviewFeedback %></div>
                             </td>
+                            <td><%= row.email %></td>
                             <td><a class="btn btn-success btn-sm" href="<%= row.resumeURL %>">
                                     <i class="fa fa-file-pdf-o" aria-hidden="true"></i></a></td>
 
