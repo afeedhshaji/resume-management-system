@@ -3,13 +3,16 @@
 The first thing you need to do to get this app working is to install the Node modules with the following command:
 
     npm install
+    
+### Authenticate mongoose connection
+
+Change the environment varible DB_CONNECT with your username, password and host name in the appropriate places.
 
 ### Step 2 - Running the App
 
     npm start
 
 It will start the Node back end server at http://localhost:3035, with Nodemon, so that updates happen automatically on save. 
-
 
 ### API end points
 
@@ -40,16 +43,14 @@ use resume-system
 ```bash
 show tables
 ```
-### Authenticate mongoose connection
 
-Change the environment varible DB_CONNECT with your username, password and host name in the appropriate places.
 
 
 ## Docker Run
 
 ### Setting mongo authentication in docker mongo
 
-Change the mongo container environment variables MONGO_INITDB_ROOT_USERNAME, MONGO_INITDB_ROOT_PASSWORD to your mongodb username, password respectively in the docker-compose.yml file.
+Change the mongo container environment variables```bash MONGO_INITDB_ROOT_USERNAME```,```bash MONGO_INITDB_ROOT_PASSWORD``` to your mongodb username, password respectively in the docker-compose.yml file.
 
 ```bash
 # Run in Docker
