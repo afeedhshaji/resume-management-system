@@ -1,7 +1,6 @@
 // Import libraries
 const router = require('express').Router();
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
 
 // Import Models
 const Candidate = require('../models/candidate');
@@ -17,18 +16,6 @@ const {
   adminLoginValidation
 } = require('../validation/validation');
 
-// Global Variables
-let filterParameter = {};
-let sortParameter = {};
-let set_status = 0;
-let ascFlag = 0;
-let descFlag = 0;
-
-// Local Storage
-if (typeof localStorage === 'undefined' || localStorage === null) {
-  const { LocalStorage } = require('node-localstorage');
-  localStorage = new LocalStorage('./scratch');
-}
 
 router.post('/adminreg', async (req, res) => {
   console.log(req.body);
@@ -66,7 +53,7 @@ router.post('/adminreg', async (req, res) => {
 });
 
 router.post('/adminlogin', async (req, res) => {
-  console.log(req.body);
+  console.log(req.session);
   const { error } = adminLoginValidation(req.body);
   if (error) {
     return res.render('admin', { adError: error, adSuccess: '' });
@@ -83,28 +70,36 @@ router.post('/adminlogin', async (req, res) => {
     return res.render('admin', { adError: 'Password Invalid', adSuccess: '' });
   }
 
-  // Create and assign a token
-  const token = jwt.sign({ _id: admin._id }, process.env.TOKEN_SECRET);
-  localStorage.setItem('myToken', token);
+  req.session.userId = req.body.email;
   res.redirect('/api/candidate/list');
 });
 
 function checkLogin(req, res, next) {
-  const myToken = localStorage.getItem('myToken');
-  try {
-    jwt.verify(myToken, process.env.TOKEN_SECRET);
-  } catch (err) {
-    res.render('loginerror');
+  if (!req.session.userId){
+    res.redirect('/');
   }
   next();
 }
 
-router.get('/adminlogout', function(req, res, next) {
-  localStorage.removeItem('myToken');
-  res.render('admin', { adError: '', adSuccess: 'Logout successful' });
+router.get('/adminlogout', function(req, res) {
+  console.log(req.session)
+  req.session.destroy(err =>{
+    if (err){
+      return res.send(err) //Check immmminent problem
+    }
+    res.clearCookie('sid')
+    res.render('admin', { adError: '', adSuccess: 'Logout successful' });
+  })
 });
 
 router.get('/sort/:x', function(req, res, next) {
+  //Getting data from session cookie
+  let filterParameter = JSON.parse(req.session.filterParameter)
+  let sortParameter = JSON.parse(req.session.sortParameter)
+  let set_status = req.session.set_status
+  let ascFlag = req.session.ascFlag
+  let descFlag = req.session.descFlag
+
   const { x } = req.params;
   if (sortParameter[x] === 1) {
     descFlag = 1;
@@ -113,7 +108,6 @@ router.get('/sort/:x', function(req, res, next) {
   } else if (sortParameter[x] === undefined || sortParameter[x] === -1) {
     ascFlag = 1;
     descFlag = 0;
-    // console.log('previously not set as 1');
   }
   sortParameter = {};
   // console.log(x);
@@ -124,7 +118,12 @@ router.get('/sort/:x', function(req, res, next) {
     sortParameter[x] = -1;
     // console.log('descending');
   }
+  //Updating session cookie
   console.log(sortParameter);
+  req.session.ascFlag = ascFlag;
+  req.session.descFlag = descFlag;
+  req.session.sortParameter = JSON.stringify(sortParameter)
+
   const perPage = 3;
   const page = req.params.page || 1;
   Candidate.find(filterParameter)
@@ -287,11 +286,16 @@ router.post('/register', checkLogin, async (req, res) => {
 
 // View candidates
 router.get('/list', checkLogin, (req, res) => {
+  let set_status = req.session.set_status
   filterParameter = {};
   filterParameter.status = set_status;
   sortParameter = {};
   const perPage = 3;
   const page = req.params.page || 1;
+
+  //Update session cookie here
+  req.session.filterParameter = JSON.stringify(filterParameter)
+  req.session.sortParameter = JSON.stringify(sortParameter)
 
   Candidate.find(filterParameter)
     .skip(perPage * page - perPage)
@@ -312,7 +316,9 @@ router.get('/list', checkLogin, (req, res) => {
 });
 
 router.get('/list/:page', checkLogin, function(req, res, next) {
-  console.log(filterParameter);
+  let filterParameter = JSON.parse(req.session.filterParameter)
+  let sortParameter = JSON.parse(req.session.sortParameter)
+  let set_status = req.session.set_status
 
   const perPage = 3;
   const page = req.params.page || 1;
@@ -324,7 +330,6 @@ router.get('/list/:page', checkLogin, function(req, res, next) {
     .exec(function(err, data) {
       if (err) throw err;
       Candidate.countDocuments(filterParameter).exec((err, count) => {
-        // console.log(Math.ceil(count / perPage));
         res.render('list', {
           records: data,
           select_status: set_status,
@@ -360,6 +365,8 @@ router.get('/edit/:id', checkLogin, async (req, res) => {
 router.post('/search', checkLogin, function(req, res, next) {
   filterParameter = {};
   sortParameter = {};
+  let set_status = req.session.set_status
+
   const filterPosition = req.body.filterposition;
   const filterName = new RegExp(req.body.filtername, 'i');
   const filterQualification = new RegExp(req.body.filterqualification, 'i');
@@ -422,6 +429,11 @@ router.post('/search', checkLogin, function(req, res, next) {
     filterParameter.status = req.body.selectStatus;
     set_status = req.body.selectStatus;
   } else filterParameter.status = set_status;
+
+  //Update session cookie here
+  req.session.filterParameter = JSON.stringify(filterParameter)
+  req.session.sortParameter = JSON.stringify(sortParameter)
+  req.session.set_status = set_status
 
   console.log(filterParameter);
   const perPage = 3;
