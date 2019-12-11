@@ -8,8 +8,8 @@ gulp.task('default', ['browser-sync'], function() {});
 
 gulp.task('browser-sync', ['nodemon'], function() {
   browserSync.init(null, {
-    proxy: 'http://localhost:3035',
-    files: ['public/**/*.*'],
+    proxy: 'http://localhost:3035/',
+    files: ['public/**/*.*', 'views/*'],
     port: 7000
   });
 });

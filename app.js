@@ -39,7 +39,7 @@ const autocompleteCandidate = require('./routes/autocomplete');
 app.use('/api/candidate', autocompleteCandidate);
 
 app.get('/', (req, res) => {
-  res.render('admin.ejs');
+  res.render('admin.ejs', { adError: '', adSuccess: '' });
 });
 
 // Start server to listen to the port

@@ -34,12 +34,15 @@ router.post('/adminreg', async (req, res) => {
   console.log(req.body);
   const { error } = adminRegisterValidation(req.body);
   if (error) {
-    return res.status(400).send(error.details[0].message);
+    return res.render('admin', { adError: error, adSuccess: '' });
   }
 
   const emailExist = await Admin.findOne({ email: req.body.email });
   if (emailExist) {
-    return res.status(400).send('Email already exits');
+    return res.render('admin', {
+      adError: 'Email already exists',
+      adSuccess: ''
+    });
   }
 
   // Hash Passwords
@@ -53,7 +56,10 @@ router.post('/adminreg', async (req, res) => {
   });
   try {
     const savedAdmin = await admin.save();
-    res.send({ admin: admin._id });
+    return res.render('admin', {
+      adError: '',
+      adSuccess: 'Sucessfully Registered'
+    });
   } catch (err) {
     res.status(400).send(err);
   }
@@ -63,15 +69,18 @@ router.post('/adminlogin', async (req, res) => {
   console.log(req.body);
   const { error } = adminLoginValidation(req.body);
   if (error) {
-    return res.status(400).send(error.details[0].message);
+    return res.render('admin', { adError: error, adSuccess: '' });
   }
   const admin = await Admin.findOne({ email: req.body.email });
   if (!admin) {
-    return res.status(400).send('Email or password is wrong');
+    return res.render('admin', {
+      adError: 'No account is linked with the entered email',
+      adSuccess: ''
+    });
   }
   const validPass = await bcrypt.compare(req.body.password, admin.password);
   if (!validPass) {
-    return res.status(400).send('Invalid Error/Password');
+    return res.render('admin', { adError: 'Password Invalid', adSuccess: '' });
   }
 
   // Create and assign a token
@@ -92,7 +101,7 @@ function checkLogin(req, res, next) {
 
 router.get('/adminlogout', function(req, res, next) {
   localStorage.removeItem('myToken');
-  res.redirect('/');
+  res.render('admin', { adError: '', adSuccess: 'Logout successful' });
 });
 
 router.get('/sort/:x', function(req, res, next) {
@@ -284,7 +293,6 @@ router.get('/list', checkLogin, (req, res) => {
   const perPage = 3;
   const page = req.params.page || 1;
 
-
   Candidate.find(filterParameter)
     .skip(perPage * page - perPage)
     .limit(perPage)
@@ -410,12 +418,10 @@ router.post('/search', checkLogin, function(req, res, next) {
   if (req.body.filterqualification !== '')
     filterParameter.qualification = filterQualification;
   console.log(req.body);
-  if (req.body.selectStatus == 1 || req.body.selectStatus == 0){
+  if (req.body.selectStatus == 1 || req.body.selectStatus == 0) {
     filterParameter.status = req.body.selectStatus;
     set_status = req.body.selectStatus;
-  }
-  else
-    filterParameter.status = set_status;
+  } else filterParameter.status = set_status;
 
   console.log(filterParameter);
   const perPage = 3;
