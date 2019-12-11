@@ -12,31 +12,34 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 dotenv.config();
 
-const IN_PROD = process.env.NODE_ENV === 'production'
+const IN_PROD = process.env.NODE_ENV === 'production';
 
-SESSION_LIFETIME = 1000*60*60*8//8 Hours
+SESSION_LIFETIME = 1000 * 60 * 60 * 8; //8 Hours
 
-app.use(session({
+app.use(
+  session({
     name: process.env.SESSION_NAME,
     resave: false,
     saveUninitialized: false,
     secret: process.env.SESSION_SECRET,
-    cookie:{
+    cookie: {
       maxAge: SESSION_LIFETIME,
       sameSite: true,
       secure: IN_PROD,
-      filterParameter : JSON.stringify({}),
-      sortParameter : JSON.stringify({}),
-      set_status : 0,
-      ascFlag : 0,
-      descFlag : 0
+      filterParameter: JSON.stringify({}),
+      sortParameter: JSON.stringify({}),
+      set_status: 0,
+      ascFlag: 0,
+      descFlag: 0
     }
-}))
-
+  })
+);
 
 // connect to db
 mongoose
   .connect(process.env.DB_CONNECT, {
+    user: '',
+    pass: '',
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useCreateIndex: true
