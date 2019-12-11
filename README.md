@@ -44,6 +44,7 @@ show tables
 
 Change the environment varible DB_CONNECT with your username, password and host name in the appropriae places.
 
+
 ## Docker Run
 
 ### Setting mongo authentication in docker mongo
