@@ -44,9 +44,9 @@ show tables
 
 Change the environment varible DB_CONNECT with your username, password and host name in the appropriae places.
 
-### Docker Run
+## Docker Run
 
-## Setting mongo authentication in docker mongo
+### Setting mongo authentication in docker mongo
 
 Change the mongo container environment variables MONGO_INITDB_ROOT_USERNAME, MONGO_INITDB_ROOT_PASSWORD to your mongodb username, password respectively in the docker-compose.yml file.
 
