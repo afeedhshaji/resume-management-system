@@ -2,6 +2,7 @@ const router = require('express').Router();
 const Candidate = require('../models/candidate');
 const Position = require('../models/position');
 const Skills = require('../models/skills');
+const Qualification = require('../models/qualification');
 const { registerValidation } = require('../validation/validation');
 
 
@@ -57,6 +58,25 @@ router.post('/update', function (req, res) {
       }
     }
 
+    // Checking and inserting into qualification collection
+    let candidate_qualification_present = candidate.qualification;
+    let candidate_qualification_new = req.body.qualification;
+    if (candidate_qualification_new) {
+      candidate_qualification_new = candidate_qualification_new.toLowerCase();
+      if (candidate_qualification_present != candidate_qualification_new){
+        const qualificationExist = await Qualification.findOne({
+          qualification: candidate_qualification_new
+        });
+        if (!qualificationExist) {
+          const new_qualification = new Qualification({
+            qualification: candidate_qualification_new
+          });
+          new_qualification.save();
+        }
+      }
+    }
+
+
     // Checking and inserting into skills collection --only if skills array has been modified
     let candidate_skills_present = candidate.skills;
     let candidate_skills_new = req.body.skills;
@@ -109,7 +129,7 @@ router.post('/update', function (req, res) {
     candidate.email = req.body.email;
     candidate.position = candidate_position_new;
     candidate.experience = req.body.experience;
-    candidate.qualification = req.body.qualification;
+    candidate.qualification = candidate_qualification_new;
     candidate.candidateRating = req.body.candidateRating;
     candidate.salary = req.body.salary;
     candidate.phone = req.body.phone;

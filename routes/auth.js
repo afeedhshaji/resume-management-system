@@ -323,6 +323,7 @@ router.get('/list/:page', checkLogin, function(req, res, next) {
   const perPage = 3;
   const page = req.params.page || 1;
 
+  console.log(filterParameter)
   Candidate.find(filterParameter)
     .skip(perPage * page - perPage)
     .limit(perPage)
@@ -368,8 +369,8 @@ router.post('/search', checkLogin, function(req, res, next) {
   let set_status = req.session.set_status
 
   const filterPosition = req.body.filterposition;
-  const filterName = new RegExp(req.body.filtername, 'i');
-  const filterQualification = new RegExp(req.body.filterqualification, 'i');
+  const filterName = req.body.filtername;
+  const filterQualification = req.body.filterqualification;
 
   // Taking skill as array
   let filterSkill = req.body.filterskill;
@@ -425,9 +426,18 @@ router.post('/search', checkLogin, function(req, res, next) {
     filterParameter.experience = filterExp;
   if (Object.entries(filterSal).length !== 0)
     filterParameter.salary = filterSal;
-  if (req.body.filtername !== '') filterParameter.name = filterName;
-  if (req.body.filterqualification !== '')
-    filterParameter.qualification = filterQualification;
+  if (req.body.filtername !== '') {
+    name_obj = {}
+    name_obj.$regex = req.body.filtername;
+    name_obj.$options = "i";
+    filterParameter.name = name_obj;
+  }
+  if (req.body.filterqualification !== '') {
+    qualification_obj = {}
+    qualification_obj.$regex = req.body.filterqualification;
+    qualification_obj.$options = "i";
+    filterParameter.qualification = qualification_obj;
+  }
   console.log(req.body);
   if (req.body.selectStatus == 1 || req.body.selectStatus == 0) {
     filterParameter.status = req.body.selectStatus;
@@ -439,7 +449,7 @@ router.post('/search', checkLogin, function(req, res, next) {
   req.session.sortParameter = JSON.stringify(sortParameter)
   req.session.set_status = set_status
 
-  console.log(filterParameter);
+  console.log(filterParameter)
   const perPage = 3;
   const page = req.params.page || 1;
   const candidateFilter = Candidate.find(filterParameter)
