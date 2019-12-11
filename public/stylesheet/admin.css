@@ -172,6 +172,10 @@ textarea {
   width: 100%;
 }
 
+.button-block:hover {
+  cursor: pointer;
+}
+
 .forgot {
   margin-top: -20px;
   text-align: right;
