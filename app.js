@@ -38,8 +38,6 @@ app.use(
 // connect to db
 mongoose
   .connect(process.env.DB_CONNECT, {
-    user: '',
-    pass: '',
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useCreateIndex: true
