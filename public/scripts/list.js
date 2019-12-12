@@ -67,6 +67,9 @@ $(document).ready(function() {
         type: 'GET',
         data: req,
         success: function(data) {
+          for (var i = 0; i<data.length; i=i+1){
+            data[i]['label'] = data[i]['label'].replace(/\b\w+/g,function(s){return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase();});
+          }
           res(data);
         },
         error: function(err) {
@@ -107,6 +110,8 @@ $(document).ready(function() {
       }
     }
   });
+
+  //Qualification autocomplete
   $('#search-qualification').autocomplete({
     source: function(req, res) {
       $.ajax({
