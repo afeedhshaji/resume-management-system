@@ -200,7 +200,7 @@
                         <tr style="background-color: #ccffcc">
                             <td width="6%"><%= row.date.toLocaleString('en-IN',{year: 'numeric', month: 'numeric', day: 'numeric' }) %></td>
                             <td style="word-break:normal;" width="8%"><%= row.name %></td>
-                            <td style="word-break:normal;" width="5%"><%= row.position.replace(/\b\w+/g,function(s){return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase();}); %></td>
+                            <td style="word-break:normal;" width="5%"><% if(row.position){%><%= row.position.replace(/\b\w+/g,function(s){return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase();}); %><% } %></td>
                             <td><%= row.experience %></td>
                             <td width="4%"><%= row.qualification %></td>
                             <td width="2%"><%= row.candidateRating %></td>
@@ -259,7 +259,7 @@
                         <tr>
                             <td width="6%"><%= row.date.toLocaleString('en-IN',{year: 'numeric', month: 'numeric', day: 'numeric' }) %></td>
                             <td  style="word-break:normal;" width="8%"><%= row.name %></td>
-                            <td style="word-break:normal;" width="5%"><%= row.position.replace(/\b\w+/g,function(s){return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase();}); %></td>
+                            <td style="word-break:normal;" width="5%"><% if(row.position){%><%= row.position.replace(/\b\w+/g,function(s){return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase();}); %><% } %></td>
                             <td><%= row.experience %></td>
                             <td width="4%"><%= row.qualification %></td>
                             <td width="2%"><%= row.candidateRating %></td>
