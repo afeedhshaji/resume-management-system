@@ -223,4 +223,36 @@ $(document).ready(function() {
       }
     }
   });
+
+  //Input filter function
+  function setInputFilter(textbox, inputFilter) {
+    ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
+      textbox.addEventListener(event, function() {
+        if (inputFilter(this.value)) {
+          this.oldValue = this.value;
+          this.oldSelectionStart = this.selectionStart;
+          this.oldSelectionEnd = this.selectionEnd;
+        } else if (this.hasOwnProperty("oldValue")) {
+          this.value = this.oldValue;
+          this.setSelectionRange(this.oldSelectionStart, this.oldSelectionEnd);
+        } else {
+          this.value = "";
+        }
+      });
+    });
+  }
+  //Filter for salary - Integer -- >=0
+  setInputFilter(document.getElementById("salary"), function(value) {
+  return /^\d*$/.test(value); });
+  //Filter for experience - Float -- >=0
+  setInputFilter(document.getElementById("experience"), function(value) {
+  return /^\d*[.]?\d*$/.test(value); });
+  //Filter for candidate rating - Float -->=0
+  setInputFilter(document.getElementById("candidateRating"), function(value) {
+  return /^\d*[.]?\d*$/.test(value); });
+
+
+
+
+
 });
