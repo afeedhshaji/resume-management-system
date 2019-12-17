@@ -6,9 +6,15 @@ const Qualification = require('../models/qualification');
 const Location = require('../models/location');
 const { registerValidation } = require('../validation/validation');
 
+function checkLogin(req, res, next) {
+  if (!req.session.userId){
+    return res.render('loginerror');
+  }
+  next();
+}
 
 //Update API
-router.post('/update', function (req, res) {
+router.post('/update', checkLogin, function (req, res) {
   Candidate.findById(req.body.candidate_id, async function(err, candidate) {
     id = req.body.candidate_id;
     let current_record = await Candidate.findById(id);
@@ -146,10 +152,16 @@ router.post('/update', function (req, res) {
     candidate.name = req.body.name;
     candidate.email = req.body.email;
     candidate.position = candidate_position_new;
-    candidate.experience = req.body.experience;
+    if(req.body.experience)
+      candidate.experience = req.body.experience;
+    else
+      candidate.experience = 0;
     candidate.qualification = candidate_qualification_new;
     candidate.candidateRating = req.body.candidateRating;
-    candidate.salary = req.body.salary;
+    if(req.body.salary)
+      candidate.salary = req.body.salary;
+    else
+      candidate.salary = 0;
     candidate.phone = req.body.phone;
     candidate.companiesWorked = companiesWorkedArray;
     candidate.skills = candidate_skills_new;

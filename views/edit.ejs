@@ -93,7 +93,7 @@
                         <div class="form-group">
                             <label for="dob">DOB</label>
                             <input type="date" id="dob" name="dob" class="form-control"
-                                value="<%= records.dob %>">
+                                value="<% if(records.dob){%><%= records.dob.toISOString().substr(0, 10); %><% } %>">
                         </div>
                         <div class="form-group">
                             <label for="candidateRating">Candidate Rating</label>

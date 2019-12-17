@@ -221,7 +221,7 @@
                             <td style="word-break:normal;" width="5%"><% if(row.position){%><%= row.position.replace(/\b\w+/g,function(s){return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase();}); %><% } %></td>
                             <td><%= row.experience %></td>
                             <td width="4%"><%= row.qualification %></td>
-                            <td width="6%"><%= row.location %></td>
+                            <td style="word-break:normal;" width="6%"><% if(row.location){%><%= row.location.replace(/\b\w+/g,function(s){return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase();}); %><% } %></td>
                             <td width="7%"><% if(row.dob){%><%= row.dob.toLocaleString('en-IN',{year: 'numeric', month: 'numeric', day: 'numeric' }) %><% } %></td>
                             <td width="2%"><%= row.candidateRating %></td>
                             <td width="8%"><% if(row.salary){%><%= row.salary.toLocaleString('en-IN') %><% } %></td>
@@ -282,7 +282,7 @@
                             <td style="word-break:normal;" width="5%"><% if(row.position){%><%= row.position.replace(/\b\w+/g,function(s){return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase();}); %><% } %></td>
                             <td><%= row.experience %></td>
                             <td width="4%"><%= row.qualification %></td>
-                            <td width="6%"><%= row.location %></td>
+                            <td style="word-break:normal;" width="6%"><% if(row.location){%><%= row.location.replace(/\b\w+/g,function(s){return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase();}); %><% } %></td>
                             <td width="7%"><% if(row.dob){%><%= row.dob.toLocaleString('en-IN',{year: 'numeric', month: 'numeric', day: 'numeric' }) %><% } %></td>
                             <td width="2%"><%= row.candidateRating %></td>
                             <td width="8%"><% if(row.salary){%><%= row.salary.toLocaleString('en-IN') %><% } %></td>

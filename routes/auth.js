@@ -223,14 +223,22 @@ router.post('/register', checkLogin, async (req, res) => {
   let { location } = req.body;
   if (location) location = location.toLowerCase();
 
+  //Setting default experience, salary to 0 if not specified
+  let { salary } = req.body;
+  let { experience } = req.body;
+  if (salary=='')
+    salary = 0;
+  if (experience=='')
+    experience = 0;
+
   const candidate = new Candidate({
     name: req.body.name,
     email: req.body.email,
     position: position,
-    experience: req.body.experience,
+    experience: experience,
     qualification: qualification,
     candidateRating: req.body.candidateRating,
-    salary: req.body.salary,
+    salary: salary,
     phone: req.body.phone,
     companiesWorked: companiesWorkedArray,
     skills: skillsArray,
