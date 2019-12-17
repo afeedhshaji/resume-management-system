@@ -59,6 +59,9 @@ const candidateSchema = new mongoose.Schema(
       type: Number,
       required: true,
       default: 0
+    },
+    location: {
+      type: String
     }
   },
   { versionKey: false }

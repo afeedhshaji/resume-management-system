@@ -142,6 +142,32 @@ $(document).ready(function() {
     }
   });
 
+  //Location autocomplete
+  $('#location').autocomplete({
+    source: function(req, res) {
+      $.ajax({
+        url: '/api/candidate/list/autocomplete/location',
+        dataType: 'jsonp',
+        type: 'GET',
+        data: req,
+        success: function(data) {
+          res(data);
+        },
+        error: function(err) {
+          console.log(err.status);
+        }
+      });
+    },
+
+    minLength: 1,
+    select: function(event, ui) {
+      if (ui.items) {
+        $('#search-location').text(ui.item.label);
+      }
+    }
+  });
+
+  //Qualification autocomplete
   $('#qualification').autocomplete({
     source: function(req, res) {
       $.ajax({

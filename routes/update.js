@@ -3,6 +3,7 @@ const Candidate = require('../models/candidate');
 const Position = require('../models/position');
 const Skills = require('../models/skills');
 const Qualification = require('../models/qualification');
+const Location = require('../models/location');
 const { registerValidation } = require('../validation/validation');
 
 
@@ -76,6 +77,23 @@ router.post('/update', function (req, res) {
       }
     }
 
+    // Checking and inserting into location collection
+    let candidate_location_present = candidate.location;
+    let candidate_location_new = req.body.location;
+    if (candidate_location_new) {
+      candidate_location_new = candidate_location_new.toLowerCase();
+      if (candidate_location_present != candidate_location_new){
+        const locationExist = await Location.findOne({
+          location: candidate_location_new
+        });
+        if (!locationExist) {
+          const new_location = new Location({
+            location: candidate_location_new
+          });
+          new_location.save();
+        }
+      }
+    }
 
     // Checking and inserting into skills collection --only if skills array has been modified
     let candidate_skills_present = candidate.skills;
@@ -137,6 +155,7 @@ router.post('/update', function (req, res) {
     candidate.skills = candidate_skills_new;
     candidate.interviewFeedback = req.body.interviewFeedback;
     candidate.status = req.body.status;
+    candidate.location = candidate_location_new;
 
     // save the candidate
     candidate.save(function(err) {

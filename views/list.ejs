@@ -119,6 +119,17 @@
                     <div class="row justify-content-center mx-auto mt-3">
                         <div class="col-lg-2">
                             <div class="form-group">
+                                <label for="search-location" class="col-md-12 control-label">By
+                                    Location</label>
+                                <div class="companies-entry col-md-12">
+                                    <input type="text" id="search-location" class="form-control"
+                                        name="filterlocation" placeholder="Location">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2">
+                            <div class="form-group">
                                 <label for="search-name" class="col-md-12 control-label">By Name</label>
                                 <div class="companies-entry col-md-12">
                                     <input type="text" id="search-name" class="form-control" name="filtername"
@@ -178,6 +189,9 @@
                             <th>Qlfn.<a class="ml-5 sort-symbol" href="/api/candidate/sort/qualification"><i
                                         class="fa fa-sort"></i></a>
                             </th>
+                            <th>Locn.<a class="ml-5 sort-symbol" href="/api/candidate/sort/location"><i
+                                        class="fa fa-sort"></i></a>
+                            </th>
                             <th>Rating<a class="ml-5 sort-symbol"
                                     href="/api/candidate/sort/candidateRating"><i class="fa fa-sort"></i></a></th>
                             <th>Salary<a class="ml-5 sort-symbol" href="/api/candidate/sort/salary"><i
@@ -205,6 +219,7 @@
                             <td style="word-break:normal;" width="5%"><% if(row.position){%><%= row.position.replace(/\b\w+/g,function(s){return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase();}); %><% } %></td>
                             <td><%= row.experience %></td>
                             <td width="4%"><%= row.qualification %></td>
+                            <td width="6%"><%= row.location %></td>
                             <td width="2%"><%= row.candidateRating %></td>
                             <td width="8%"><% if(row.salary){%><%= row.salary.toLocaleString('en-IN') %><% } %></td>
                             <td width="9%"><%= row.phone %></td>
@@ -264,6 +279,7 @@
                             <td style="word-break:normal;" width="5%"><% if(row.position){%><%= row.position.replace(/\b\w+/g,function(s){return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase();}); %><% } %></td>
                             <td><%= row.experience %></td>
                             <td width="4%"><%= row.qualification %></td>
+                            <td width="6%"><%= row.location %></td>
                             <td width="2%"><%= row.candidateRating %></td>
                             <td width="8%"><% if(row.salary){%><%= row.salary.toLocaleString('en-IN') %><% } %></td>
                             <td width="9%"><%= row.phone %></td>

@@ -7,6 +7,7 @@ const Candidate = require('../models/candidate');
 const Position = require('../models/position');
 const Skills = require('../models/skills');
 const Qualification = require('../models/qualification');
+const Location = require('../models/location')
 const Admin = require('../models/admin');
 
 // Import Validation
@@ -218,6 +219,10 @@ router.post('/register', checkLogin, async (req, res) => {
   let { qualification } = req.body;
   if (qualification) qualification = qualification.toLowerCase();
 
+  //For Location
+  let { location } = req.body;
+  if (location) location = location.toLowerCase();
+
   const candidate = new Candidate({
     name: req.body.name,
     email: req.body.email,
@@ -230,7 +235,8 @@ router.post('/register', checkLogin, async (req, res) => {
     companiesWorked: companiesWorkedArray,
     skills: skillsArray,
     interviewFeedback: req.body.interviewFeedback,
-    resumeURL: req.body.resumeURL
+    resumeURL: req.body.resumeURL,
+    location: location
   });
 
   await candidate
@@ -275,6 +281,20 @@ router.post('/register', checkLogin, async (req, res) => {
             qualification: candidate_qualification
           });
           new_qualification.save();
+        }
+      }
+
+      // Checking and inserting into location collection
+      const candidate_location = candidate['location'];
+      if (candidate_location) {
+        const locationExist = await Location.findOne({
+          location: candidate_location
+        });
+        if (!locationExist) {
+          const new_location = new Location({
+            location: candidate_location
+          });
+          new_location.save();
         }
       }
 
@@ -373,6 +393,7 @@ router.post('/search', checkLogin, function(req, res, next) {
   const filterPosition = req.body.filterposition;
   const filterName = req.body.filtername;
   const filterQualification = req.body.filterqualification;
+  const filterLocation = req.body.filterlocation;
 
   // Taking skill as array
   let filterSkill = req.body.filterskill;
@@ -436,6 +457,9 @@ router.post('/search', checkLogin, function(req, res, next) {
   }
   if (req.body.filterqualification !== '') {
     filterParameter.qualification = filterQualification
+  }
+  if (req.body.filterlocation !== '') {
+    filterParameter.location = filterLocation
   }
   console.log(req.body);
   if (req.body.selectStatus == 1 || req.body.selectStatus == 0) {
