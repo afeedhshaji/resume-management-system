@@ -27,7 +27,7 @@ app.use(
       sameSite: true,
       secure: IN_PROD,
       filterParameter: JSON.stringify({}),
-      sortParameter: JSON.stringify({}),
+      sortParameter: JSON.stringify({'date':-1}),
       set_status: 0,
       ascFlag: 0,
       descFlag: 0

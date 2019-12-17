@@ -16,6 +16,8 @@ const {
   adminLoginValidation
 } = require('../validation/validation');
 
+//Constant
+const PER_PAGE = 40;
 
 router.post('/adminreg', async (req, res) => {
   console.log(req.body);
@@ -124,7 +126,7 @@ router.get('/sort/:x', checkLogin, function(req, res, next) {
   req.session.descFlag = descFlag;
   req.session.sortParameter = JSON.stringify(sortParameter)
 
-  const perPage = 3;
+  const perPage = PER_PAGE;
   const page = req.params.page || 1;
   Candidate.find(filterParameter)
     .skip(perPage * page - perPage)
@@ -288,8 +290,8 @@ router.post('/register', checkLogin, async (req, res) => {
 router.get('/list', checkLogin, (req, res) => {
   let set_status = req.session.set_status
   let filterParameter = {};
-  let sortParameter = {};
-  const perPage = 3;
+  let sortParameter = {'date':-1};
+  const perPage = PER_PAGE;
   const page = req.params.page || 1;
 
   //Update session cookie here
@@ -320,7 +322,7 @@ router.get('/list/:page', checkLogin, function(req, res, next) {
   let sortParameter = JSON.parse(req.session.sortParameter)
   let set_status = req.session.set_status
 
-  const perPage = 3;
+  const perPage = PER_PAGE;
   const page = req.params.page || 1;
 
   console.log(filterParameter)
@@ -348,7 +350,7 @@ router.get('/delete/:id', checkLogin, async (req, res) => {
   const del = Candidate.findByIdAndDelete(id);
   del.exec(err => {
     if (err) throw err;
-    res.redirect('/api/candidate/list');
+    res.redirect('back');
   });
 });
 
@@ -447,7 +449,7 @@ router.post('/search', checkLogin, function(req, res, next) {
   req.session.set_status = set_status
 
   console.log(filterParameter)
-  const perPage = 3;
+  const perPage = PER_PAGE;
   const page = req.params.page || 1;
   const candidateFilter = Candidate.find(filterParameter)
     .skip(perPage * page - perPage)

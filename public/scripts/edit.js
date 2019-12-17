@@ -224,7 +224,7 @@ $(document).ready(function() {
     }
   });
 
-  //Input filter function
+  //Input filter function -- https://jsfiddle.net/emkey08/zgvtjc51
   function setInputFilter(textbox, inputFilter) {
     ["input", "keydown", "keyup", "mousedown", "mouseup", "select", "contextmenu", "drop"].forEach(function(event) {
       textbox.addEventListener(event, function() {
@@ -250,9 +250,5 @@ $(document).ready(function() {
   //Filter for candidate rating - Float -->=0
   setInputFilter(document.getElementById("candidateRating"), function(value) {
   return /^\d*[.]?\d*$/.test(value); });
-
-
-
-
 
 });

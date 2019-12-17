@@ -1,4 +1,13 @@
+$(window).scroll(function() {
+  sessionStorage.scrollTop = $(this).scrollTop();
+});
+
 $(document).ready(function() {
+  //For keeping scroll position
+  if (sessionStorage.scrollTop != "undefined") {
+    $(window).scrollTop(sessionStorage.scrollTop);
+  }
+
   const skillsAddDynamic = function() {
     var skills_max_fields = 10; //maximum input boxes allowed
     var skills_wrapper = $('.skills_input_fields_wrap'); //Fields wrapper
@@ -135,4 +144,22 @@ $(document).ready(function() {
       }
     }
   });
+
+  //Back to top button
+  var btn = $('#top-button');
+
+  $(window).scroll(function() {
+    if ($(window).scrollTop() > 300) {
+      btn.addClass('show');
+    } else {
+      btn.removeClass('show');
+    }
+  });
+
+  btn.on('click', function(e) {
+    e.preventDefault();
+    $('html, body').animate({scrollTop:0}, '300');
+  });
+
+
 });
