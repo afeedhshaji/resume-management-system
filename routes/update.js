@@ -155,6 +155,7 @@ router.post('/update', function (req, res) {
     candidate.skills = candidate_skills_new;
     candidate.interviewFeedback = req.body.interviewFeedback;
     candidate.status = req.body.status;
+    candidate.dob = req.body.dob;
     candidate.location = candidate_location_new;
 
     // save the candidate

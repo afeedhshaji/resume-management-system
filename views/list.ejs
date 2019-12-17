@@ -192,6 +192,8 @@
                             <th>Locn.<a class="ml-5 sort-symbol" href="/api/candidate/sort/location"><i
                                         class="fa fa-sort"></i></a>
                             </th>
+                            <th>Dob<a class="ml-5 sort-symbol" href="/api/candidate/sort/dob"><i
+                                      class="fa fa-sort"></i></a></th>
                             <th>Rating<a class="ml-5 sort-symbol"
                                     href="/api/candidate/sort/candidateRating"><i class="fa fa-sort"></i></a></th>
                             <th>Salary<a class="ml-5 sort-symbol" href="/api/candidate/sort/salary"><i
@@ -214,12 +216,13 @@
                         <% records.forEach(function(row){ %>
                         <% if(row.status == 1){%>
                         <tr style="background-color: #ccffcc">
-                            <td width="6%"><%= row.date.toLocaleString('en-IN',{year: 'numeric', month: 'numeric', day: 'numeric' }) %></td>
+                            <td width="7%"><%= row.date.toLocaleString('en-IN',{year: 'numeric', month: 'numeric', day: 'numeric' }) %></td>
                             <td style="word-break:normal;" width="8%"><%= row.name %></td>
                             <td style="word-break:normal;" width="5%"><% if(row.position){%><%= row.position.replace(/\b\w+/g,function(s){return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase();}); %><% } %></td>
                             <td><%= row.experience %></td>
                             <td width="4%"><%= row.qualification %></td>
                             <td width="6%"><%= row.location %></td>
+                            <td width="7%"><% if(row.dob){%><%= row.dob.toLocaleString('en-IN',{year: 'numeric', month: 'numeric', day: 'numeric' }) %><% } %></td>
                             <td width="2%"><%= row.candidateRating %></td>
                             <td width="8%"><% if(row.salary){%><%= row.salary.toLocaleString('en-IN') %><% } %></td>
                             <td width="9%"><%= row.phone %></td>
@@ -280,6 +283,7 @@
                             <td><%= row.experience %></td>
                             <td width="4%"><%= row.qualification %></td>
                             <td width="6%"><%= row.location %></td>
+                            <td width="7%"><% if(row.dob){%><%= row.dob.toLocaleString('en-IN',{year: 'numeric', month: 'numeric', day: 'numeric' }) %><% } %></td>
                             <td width="2%"><%= row.candidateRating %></td>
                             <td width="8%"><% if(row.salary){%><%= row.salary.toLocaleString('en-IN') %><% } %></td>
                             <td width="9%"><%= row.phone %></td>

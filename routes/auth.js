@@ -236,6 +236,7 @@ router.post('/register', checkLogin, async (req, res) => {
     skills: skillsArray,
     interviewFeedback: req.body.interviewFeedback,
     resumeURL: req.body.resumeURL,
+    dob: req.body.dob,
     location: location
   });
 

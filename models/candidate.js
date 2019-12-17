@@ -60,6 +60,9 @@ const candidateSchema = new mongoose.Schema(
       required: true,
       default: 0
     },
+    dob: {
+      type: Date
+    },
     location: {
       type: String
     }
