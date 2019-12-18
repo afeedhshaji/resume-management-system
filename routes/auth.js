@@ -112,7 +112,7 @@ router.get('/sort/:x', checkLogin, function(req, res, next) {
     ascFlag = 1;
     descFlag = 0;
   }
-  sortParameter = {'date':-1};
+  sortParameter = {};
   // console.log(x);
   if (ascFlag === 1) {
     sortParameter[x] = 1;
