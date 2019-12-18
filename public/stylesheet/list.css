@@ -1,3 +1,8 @@
+td{
+  border-left: 0.5px dotted black;
+  border-right: 0.5px dotted black
+}
+
 #top-button {
   display: inline-block;
   background-color: #FF9800;
