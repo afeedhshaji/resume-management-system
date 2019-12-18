@@ -112,7 +112,7 @@ router.get('/sort/:x', checkLogin, function(req, res, next) {
     ascFlag = 1;
     descFlag = 0;
   }
-  sortParameter = {};
+  sortParameter = {'date':-1};
   // console.log(x);
   if (ascFlag === 1) {
     sortParameter[x] = 1;
@@ -396,7 +396,7 @@ router.get('/edit/:id', checkLogin, async (req, res) => {
 // Search-Filter API
 router.post('/search', checkLogin, function(req, res, next) {
   filterParameter = {};
-  sortParameter = {};
+  sortParameter = {'date':-1};
   let set_status = req.session.set_status
 
   const filterPosition = req.body.filterposition;
