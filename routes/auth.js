@@ -468,7 +468,7 @@ router.post('/search', checkLogin, function(req, res, next) {
     filterParameter.qualification = filterQualification
   }
   if (req.body.filterlocation !== '') {
-    filterParameter.location = filterLocation
+    filterParameter.location = filterLocation.toLowerCase()
   }
   console.log(req.body);
   if (req.body.selectStatus == 1 || req.body.selectStatus == 0) {
