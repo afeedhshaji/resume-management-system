@@ -234,12 +234,12 @@
                             <td width="10%"><% for(sk of row.skills) {%>
                               *<%=sk%><br>
                             <% } %></td>
-                            <td width="20%">
+                            <td width="40%">
                                 <button type="button" class="btn" data-toggle="collapse"
                                     data-target="#demo<%= row._id %>">Expand...</button>
                                 <div id="demo<%= row._id %>" class="collapse"><%= row.interviewFeedback %></div>
                             </td>
-                            <td style="white-space: nowrap;"><%= row.email %></td>
+                            <td><%= row.email %></td>
                             <td><a class="btn btn-success btn-sm" href="<%= row.resumeURL %>">
                                     <i class="fa fa-file-pdf-o" aria-hidden="true"></i></a></td>
 
@@ -297,12 +297,12 @@
                                   *<%=sk%><br>
                                 <% } %>
                             </td>
-                            <td width="20%">
+                            <td width="40%">
                                 <button type="button" class="btn" data-toggle="collapse"
                                     data-target="#demo<%= row._id %>">Expand...</button>
                                 <div id="demo<%= row._id %>" class="collapse"><%= row.interviewFeedback %></div>
                             </td>
-                            <td style="white-space: nowrap;"><%= row.email %></td>
+                            <td><%= row.email %></td>
                             <td><a class="btn btn-success btn-sm" href="<%= row.resumeURL %>">
                                     <i class="fa fa-file-pdf-o" aria-hidden="true"></i></a></td>
 
