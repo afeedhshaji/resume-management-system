@@ -171,12 +171,14 @@
         <div class="row heading-row">
             <h1>Candidate Details</h1>
         </div>
+        <input type="button" class="btn btn-outline-secondary" value="Get Emails" onclick="GetSelectedEmails()" />
         <div class="row row-list mx-auto">
             <div class="container flex-column col-lg-12">
 
                 <table class="table table-responsive-sm mx-auto" id="list-candidates">
                     <thead class="thead-dark">
                         <tr>
+                            <th><input id="select-all" type="checkbox"></th>
                             <th>Date<a class="ml-5 sort-symbol" href="/api/candidate/sort/date"><i
                                       class="fa fa-sort"></i></a></th>
                             <th>Name <a class="ml-5 sort-symbol" href="/api/candidate/sort/name"><i
@@ -216,6 +218,7 @@
                         <% records.forEach(function(row){ %>
                         <% if(row.status == 1){%>
                         <tr style="background-color: #ccffcc">
+                            <td><input class="row-checkbox" type="checkbox"></td>
                             <td style="white-space: nowrap;"><%= row.date.toLocaleString('en-IN',{year: 'numeric', month: 'numeric', day: 'numeric' }) %></td>
                             <td style="word-break:normal;" width="6%"><%= row.name %></td>
                             <td style="word-break:normal;" width="5%"><% if(row.position){%><%= row.position.replace(/\b\w+/g,function(s){return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase();}); %><% } %></td>
@@ -277,6 +280,7 @@
                         </tr>
                         <% } else {%>
                         <tr>
+                            <td><input class="row-checkbox" type="checkbox"></td>
                             <td style="white-space: nowrap;"><%= row.date.toLocaleString('en-IN',{year: 'numeric', month: 'numeric', day: 'numeric' }) %></td>
                             <td style="word-break:normal;" width="6%"><%= row.name %></td>
                             <td style="word-break:normal;" width="5%"><% if(row.position){%><%= row.position.replace(/\b\w+/g,function(s){return s.charAt(0).toUpperCase() + s.substr(1).toLowerCase();}); %><% } %></td>
